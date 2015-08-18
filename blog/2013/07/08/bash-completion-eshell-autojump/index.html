@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Bash-completion eshell-autojump - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="bash-completion, 补全, eshell-autojump" />
+    <meta name="keywords" content="bash-completion, 补全, eshell-autojump" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Bash-completion eshell-autojump</h1>
+<p>
+今天又给Emacs添加了两个新的ELisp包，Bash-Completion与Eshell-Autojump。
+</p>
+
+<ul class="org-ul">
+<li>Bash-Completion
+</li>
+</ul>
+
+<p>
+常用Linux的都应该晓得Bash-Completion，是Linux下相当强大的Bash补全软件。安装Bash-Completion后可以在Bash中用TAB键补全任何命令，甚至可以补全软件参数。而Emacs-Bash-Completion就是将这一强大的补全软件带给Emacs中的Shell。Bash-Completion一般在GUN/Linux的发行版都是自带，在MacOS X下可以用Homebrew进行安装。
+</p>
+
+<p>
+安装完成后修改 ~/.bashrc文件，加入以下：
+</p>
+
+<pre class="example">
+if [[ ( -z "$INSIDE_EMACS" || "$EMACS_BASH_COMPLETE" = "t" ) &amp;&amp;\
+     -f /usr/local/Cellar/bash-completion/1.3/bash_completion ]]; then
+  . /usr/local/Cellar/bash-completion/1.3/etc/bash_completion
+fi
+</pre>
+
+<p>
+接着在去  <a href="https://github.com/szermatt/emacs-bash-completion">https://github.com/szermatt/emacs-bash-completion</a> 下载bash-completion.el。然后添加bash-completion配置，以下是我的配置：
+</p>
+
+<pre class="example">
+;;----------------------------------------------------------------------------
+;; Venom's Emacs24 Configuration
+;; Website : http://venmos.com
+;; Contact : me[at]venmos.com
+;;----------------------------------------------------------------------------
+
+;;----------------------------------------------------------------------------
+;; Enable bash-completion ~/.emacs.d/plugin/emacs-bash-completion
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/plugin/emacs-bash-completion")
+(require 'bash-completion)
+(bash-completion-setup)
+
+(autoload 'bash-completion-dynamic-complete 
+  "bash-completion"
+  "BASH completion hook")
+(add-hook 'shell-dynamic-complete-functions
+  'bash-completion-dynamic-complete)
+(add-hook 'shell-command-complete-functions
+  'bash-completion-dynamic-complete)
+
+(provide 'init-bash-completion)
+</pre>
+
+<ul class="org-ul">
+<li>Eshell-Autojump
+</li>
+</ul>
+
+<p>
+Eshell-Autojump是一个用来增强Eshell的ELisp包，通过使用它可以在EShell中快速切换目录。它会跟踪你最近切换到的目录与你的Buffer里打开的文件目录，使用cd =命令就会列出跟踪的目录列表，并以数字表示，然后使用cd -4就可以快速的进入编号为4的目录。
+</p>
+
+<p>
+安装Eshell-Autojump非常简单，可以使用el-get一键安装，配置也非常简单，只需两行：
+</p>
+
+<pre class="example">
+(eval-after-load 'eshell
+  '(require 'eshell-autojump nil t))
+</pre>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2013-07-08</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2013/07/08/bash-completion-eshell-autojump";
+          var disqus_url = "http://venmos.com/blog/2013/07/08/bash-completion-eshell-autojump";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>使用 Gollum 游览编辑本地 Org-Mode Wiki - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="使用 gollum 游览 编辑 本地 Org-Mode Wiki" />
+    <meta name="keywords" content="org-mode, wiki, 游览" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>使用 Gollum 游览编辑本地 Org-Mode Wiki</h1>
+<p>
+使用 Org-Mode 就可以很方便的管理大量笔记，形成一个个人 Wiki 系统。在 Emacs 里也可以调用各种方便强大的工具对 Wiki 进行搜索与编辑。
+但有的时候需要将 Wiki 内容分享给朋友观看，或者想从局域网其他的机器上访问自己的 Wiki，而他/机器上没有 Emacs 该怎么办？
+</p>
+
+<p>
+这个时候就需要使用 Gollum 了，Gollum 可以在本地创建一个 Webserver，同时将 Org 格式的笔记转换为漂亮的 HTML 页面(支持代码高亮)在游览器中进行游览。
+</p>
+
+<p>
+Gollum Github <a href="https://github.com/gollum/gollum">https://github.com/gollum/gollum</a>
+</p>
+
+<p>
+Gollum 是由 Github 开发使用的一个基于 Markdown 的 Wiki 管理系统，除了 Markdown 之外还支持：
+</p>
+
+<p>
+默认支持
+</p>
+
+<ul class="org-ul">
+<li>Markdown
+</li>
+<li>RDoc
+</li>
+</ul>
+
+<p>
+插件支持
+</p>
+
+<ul class="org-ul">
+<li>AsciiDoc -- [sudo] gem install asciidoctor
+</li>
+<li>Creole -- [sudo] gem install creole
+</li>
+<li>GitHub Flavored Markdown -- [sudo] gem install github-markdown
+</li>
+<li>MediaWiki -- [sudo] gem install wikicloth
+</li>
+<li>Org -- [sudo] gem install org-ruby
+</li>
+<li>Pod -- requires Perl &gt;= 5.10 (the perl command must be available on your command line)
+</li>
+<li>ReStructuredText -- requires python &gt;= 2 (the python2 command must be available on your command line)
+</li>
+<li>Textile -- [sudo] gem install RedCloth
+</li>
+</ul>
+
+<p>
+可以使用 <a href="https://rvm.io/">RVM</a> 或 <a href="http://rbenv.org/">Rbenv</a> 来进行 Ruby 版本与 Gem 管理。
+</p>
+
+<p>
+进入 <b>Org-Mode</b> 的 <b>Wiki</b> 目录，新建一个 Gemfile：
+</p>
+
+<pre class="example">
+source 'https://rubygems.org/'
+
+ruby "2.0.0"
+gem "gollum", "4.0.0"
+gem "org-ruby", "0.9.12"
+</pre>
+
+<p>
+然后运行 <b>bundle install</b> ，之后就可以访问 <a href="http://127.0.0.1:4567/index">http://127.0.0.1:4567/index</a> 进行游览了（需要有 index.org）。
+</p>
+
+<p>
+预览图：
+</p>
+
+
+<div class="figure">
+<p><img src="https://s3.amazonaws.com/f.cl.ly/items/1F190S3F323C2O1k392k/Screen%20Shot%202015-08-17%20at%2002.06.52.png" alt="Screen%20Shot%202015-08-17%20at%2002.06.52.png" />
+</p>
+</div>
+
+
+<div class="figure">
+<p><img src="https://s3.amazonaws.com/f.cl.ly/items/081h0f0X0Z3N0g2j3A0x/Screen%20Shot%202015-08-17%20at%2002.07.01.png" alt="Screen%20Shot%202015-08-17%20at%2002.07.01.png" />
+</p>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-08-17</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a> <a href="/tags/ruby/">ruby</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2015/08/17/use-gollum-browse-org-mode-wiki";
+          var disqus_url = "http://venmos.com/blog/2015/08/17/use-gollum-browse-org-mode-wiki";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

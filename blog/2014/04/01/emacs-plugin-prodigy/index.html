@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>使用 Prodigy 在 Emacs 中管理外部服务 - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="emacs, 外部服务, 管理, prodigy" />
+    <meta name="keywords" content="emacs, 外部服务, 管理, prodigy" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>使用 Prodigy 在 Emacs 中管理外部服务</h1>
+<ul class="org-ul">
+<li>Manage external services from within Emacs
+</li>
+
+<li>I came up with the idea when I got to work one Monday morning and before I could start working I had to manually start ten or so services.
+</li>
+
+<li>To get rid of this tedious work, I started working on this Emacs plugin, which provides a nice and simple GUI to manage services.
+</li>
+
+<li>Github <a href="https://github.com/rejeep/prodigy.el">https://github.com/rejeep/prodigy.el</a>
+</li>
+</ul>
+
+<p>
+简而言之, Prodigy可以让你在Emacs中直接管理外部服务, 方便快捷, 无需多次切换. 比如: Python Simple HTTP Server, Nodemon Server, Sinatra Server 或 Octopress Preview.
+</p>
+
+<p>
+Prodigy的配置也相当简单, 比如针对Sinatra的配置:
+</p>
+
+<pre class="example">
+(prodigy-define-service
+  :name "Sinatra"
+  :command "server"
+  :cwd "/path/to/my/project"
+  :path '("/path/to/my/project/bin")
+  :port 6003
+  :tags '(work ruby)
+  :init-async (lambda (done)
+                (rvm-activate-ruby-for "/path/to/my/project" done)))
+</pre>
+
+<p>
+比如针对Octopress Preview的配置:
+</p>
+
+<pre class="example">
+(prodigy-define-service
+    :name "Octopress preview"
+    :command "rake"
+    :args '("preview")
+    :cwd '("/path/to/my/octopress")
+    :tags '(octopress)
+    :kill-signal 'sigkill)
+</pre>
+
+<p>
+甚至Octopress Generate:
+</p>
+
+<pre class="example">
+(prodigy-define-service
+    :name "Octopress generate"
+    :command "rake"
+    :args '("generate")
+    :cwd '("/path/to/my/octopress")
+    :tags '(octopress)
+    :kill-signal 'sigkill)
+</pre>
+
+<p>
+Octopress Preview的效果预览:
+</p>
+
+<p>
+<a href="http://segmentfault.com/img/bVb3Lf">http://segmentfault.com/img/bVb3Lf</a>
+</p>
+
+<p>
+<a href="http://segmentfault.com/img/bVb3Lg">http://segmentfault.com/img/bVb3Lg</a>
+</p>
+
+<p>
+在Prodigy选择列表里的基本快捷键:
+</p>
+
+<ul class="org-ul">
+<li>n 下一个
+</li>
+<li>p 上一个
+</li>
+<li>M 第一个
+</li>
+<li>M-&gt; 最后一个
+</li>
+<li>m 标记
+</li>
+<li>M 标记全部
+</li>
+<li>u 取消标记
+</li>
+<li>U 取消全部标记
+</li>
+<li>s 开启服务
+</li>
+<li>S 关闭服务
+</li>
+<li>r 重启服务
+</li>
+<li>$ 显示 Process
+</li>
+<li>o 显示 Browse
+</li>
+</ul>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2014-04-01</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2014/04/01/emacs-plugin-prodigy";
+          var disqus_url = "http://venmos.com/blog/2014/04/01/emacs-plugin-prodigy";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

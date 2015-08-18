@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Emacs Elisp 01 - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="emacs, elisp, 编程," />
+    <meta name="keywords" content="emacs, elisp, 编程," />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Emacs Elisp 01</h1>
+<p>
+最近捣鼓了很多Emacs的Lisp扩展包，稍微弄懂了一点ELisp的语言代码方式，比如我今天刚刚自定义了一条命令用于快速使用Ack在Emacs目录下搜索笔记。
+</p>
+
+<p>
+有关Ack的介绍，<a href="http://happycasts.net/episodes/26">http://happycasts.net/episodes/26</a> Ack.el的Github，<a href="https://github.com/leoliu/ack-el">https://github.com/leoliu/ack-el</a>
+</p>
+
+<p>
+这是我的Org-Mode的配置：
+</p>
+
+<ul class="org-ul">
+<li>My_Org-Mode_Config
+</li>
+</ul>
+
+<pre class="example">
+;;----------------------------------------------------------------------------
+;; Venom's Emacs24 Configuration
+;; Website : http://venmos.com
+;; Contact : me[at]venmos.com
+;;----------------------------------------------------------------------------
+(require 'ack)
+;;----------------------------------------------------------------------------
+;; Enable org-mode mode ~/.emacs.d/init-org-mode.el
+;;----------------------------------------------------------------------------
+
+;;----------------------------------------------------------------------------
+;; org-mode configure
+;;----------------------------------------------------------------------------
+(add-hook 'org-mode-hook
+          '(lambda ()
+              (define-key org-mode-map [(tab)] 'yas-expand)
+             ))
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(setq org-log-done t)
+(setq org-startup-indented t
+      org-agenda-include-diary nil
+      org-agenda-start-on-weekday nil
+      org-agenda-include-all-todo t
+      org-agenda-include-all-deadline t
+        )
+      
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cr" 'org-capture)
+;(org-remember-insinuate)
+;;----------------------------------------------------------------------------
+;; org-mode directory url
+;;----------------------------------------------------------------------------
+(setq org-directory "~/Copy/Org-Mode/")
+(setq org-agenda-files (list "~/Copy/Org-Mode/todo.org"))
+;;----------------------------------------------------------------------------
+;; Org-Mode notes url
+;;----------------------------------------------------------------------------
+(setq org-default-notes-file "~/Copy/Org-Mode/note.org")
+;;----------------------------------------------------------------------------
+;; Org-Mode remember templates
+;;----------------------------------------------------------------------------
+(setq org-capture-templates
+      `(("i" "Index" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Index")
+       "* TODO %?\n  %i\n  %a")
+      ("t" "Task" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Task")
+       "* TODO %?\n  %i\n  %a")
+      ("b" "Blog" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Blog")
+       "* TODO %?\n  %i\n  %a")
+      ("s" "Study" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Study")
+       "* TODO %?\n  %i\n  %a")
+      ("n" "Note" entry (file+headline ,"~/Copy/Org-Mode/note.org" "Note")
+       "* Note %?\n  %i\n  %a")))
+;;----------------------------------------------------------------------------
+;; org-mobile config
+;;----------------------------------------------------------------------------
+(custom-set-variables
+ '(org-mobile-directory "~/Copy/Org-Mode/Mobile")
+ '(org-mobile-files (quote (org-agenda-files)))
+ '(org-mobile-inbox-for-pull "~/Copy/Org-Mode/note.org")
+ '(org-mobile-use-encryption nil))
+(custom-set-faces)
+;;----------------------------------------------------------------------------
+;; search org-mode
+;;----------------------------------------------------------------------------
+(defun org-mode-dired ()
+  (interactive)
+  (org-mode-dired (find-file "~/Copy/Org-Mode/")))
+
+(defun org-mode-ack ()
+  (interactive)
+  (org-mode-ack (ack-find-file "~/Copy/Org-Mode/")))
+;;----------------------------------------------------------------------------
+;; Provide
+;;----------------------------------------------------------------------------
+(provide 'init-org-mode)
+</pre>
+
+<p>
+这是我在其中加入的关于使用Ack的实现方法：
+</p>
+
+<ul class="org-ul">
+<li>Ack_Org-Mode
+</li>
+</ul>
+
+<pre class="example">
+(require 'ack)
+(defun org-mode-dired ()
+  (interactive)
+  (org-mode-dired (find-file "~/Copy/Org-Mode/")))
+
+(defun org-mode-ack ()
+  (interactive)
+  (org-mode-ack (ack-find-file "~/Copy/Org-Mode/")))
+</pre>
+
+<p>
+之后不管我处于哪个Buffer之中，我只要使用org-mode-ack或就可快速打开或搜索我的Org-Mode。
+</p>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2013-07-07</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a> <a href="/tags/elisp/">elisp</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2013/07/07/emacs-elisp-01";
+          var disqus_url = "http://venmos.com/blog/2013/07/07/emacs-elisp-01";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

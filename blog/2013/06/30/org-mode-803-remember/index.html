@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Org-mode 8.0.3 中的 Remember - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="org-mode, 8.0.3, remember" />
+    <meta name="keywords" content="org-mode, 8.0.3, remember" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Org-mode 8.0.3 中的 Remember</h1>
+<p>
+这几天闲的没事干，把Emacs的配置重新搞了一下，现在直接依赖于el-get，让这项工作轻松了不少。用el-get安装了最新的org-mode之后发现org-mode 8.0.3版的参数发生了一些变化，org-remember.el被剔除了，这也就一意味着以前所用的org-remember-templates都失效了，而且会在Emacs启动时报错。
+</p>
+
+<p>
+通过阅读Org-Mode的官方文档发现可以使用org-cpture来替代org-remember，而以前对org-remember自定义的快捷模板参数也可以直接拿给org-cpture来使用，只需要修改几个参数即可。
+</p>
+
+<p>
+比如新的org-cpture快捷模板可以这样写：
+</p>
+
+<pre class="example">
+(setq org-capture-templates
+
+      `(("i" "Index" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Index")
+       "* TODO %?\n  %i\n  %a")
+      ("t" "Task" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Task")
+       "* TODO %?\n  %i\n  %a")
+      ("b" "Blog" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Blog")
+       "* TODO %?\n  %i\n  %a")
+      ("s" "Study" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Study")
+       "* TODO %?\n  %i\n  %a")
+      ("n" "Note" entry (file+headline ,"~/Documents/Project/org-mode/note.org" "Index")
+       "* Note %?\n  %i\n  %a")))
+</pre>
+
+<p>
+如果你跟我一样以前使用一套快捷键来唤出org-remember来进行快速录入，现在你还需要更改快捷键的设置，变成(global-set-key "\C-cr" 'org-capture)。
+</p>
+
+<p>
+通过以上修改就能把以前的org-remember修改为现在的org-cpture，使用方法也相同。大体上org-cpture-templates跟以前的org-remember-templates差不多，只是对于快捷键和名称的写法稍有修改而已。org-apture比org-remember更加强大，有更多新的参数和方法可以自定义，不过我这人比较懒，而且我的老一套Org-Mode配置工作的很好，所以就没在深入研究。
+</p>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2013-06-30</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2013/06/30/org-mode-803-remember";
+          var disqus_url = "http://venmos.com/blog/2013/06/30/org-mode-803-remember";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Parenquote.vim - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="vim, parenquote," />
+    <meta name="keywords" content="vim, parenquote," />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Parenquote.vim</h1>
+<p>
+寻了好久终于找到Parenquote这个Vim插件,具体作用是给各种划选块快捷添加包裹符号.
+</p>
+
+
+<ul class="org-ul">
+<li>parenquote.vim
+</li>
+</ul>
+
+<div class="org-src-container">
+
+<pre class="src src-vimscrpit">" Vim plugin to create parenthesizing, bracketing, and quoting operators
+" Maintainer:   Tim Pope &lt;vimNOSPAM@tpope.info&gt;
+" GetLatestVimScripts: 1545 1 :AutoInstall: parenquote.vim
+" $Id: parenquote.vim,v 1.4 2006/08/18 20:11:58 tpope Exp $
+
+" This plugin uses Vim 7's new |:map-operator| feature to create mappings for
+" enquoting and parenthesizing text.  Pick your desired operation and follow
+" it with any motion of your choosing.  For example, to parenthesize from the
+" cursor to the end of the line, use \($ .  To quote the word under the
+" cursor, you can do \"iw .
+"
+" There are also visual mode mappings: V\{ puts the whole line in { }.  It
+" works by entering visual line mode (thus selecting the entire line), and
+" then activating the mapping.  These visual mode mappings are available in
+" older versions of Vim, too.
+"
+" The default mappings are as follows (&lt;Leader&gt; is typically backslash):
+"
+"  &lt;Leader&gt;( =&gt; (text)
+"  &lt;Leader&gt;{ =&gt; {text}
+"  &lt;Leader&gt;[ =&gt; [text]
+"  &lt;Leader&gt;&lt; =&gt; &lt;text&gt;
+"  &lt;Leader&gt;' =&gt; 'text'
+"  &lt;Leader&gt;" =&gt; "text"
+"  &lt;Leader&gt;` =&gt; `text`
+"
+" To disable the built-in mappings, put the following in your .vimrc:
+"
+"  let g:parenquote_no_mappings = 1
+"
+" Creating your own mappings is simple.  Create a new file called
+" ~/.vim/after/plugins/parenquote.vim and put your mappings in it.  To create
+" a g&lt; mapping to enclose text &lt;like this&gt;, you add something like the
+" following:
+"
+"  ParenquoteMap g&lt; &lt; &gt;
+"
+" Of course, g&lt; could actually become a a built-in vim command sometime in the
+" future, so you might not want to use that.  Instead, you can start your
+" mappings with &lt;Leader&gt;.  A handy shortcut for this is provided.  Both of the
+" following produce a &lt;Leader&gt;/ mapping for creating regexes:
+"
+"  ParenquoteMap &lt;Leader&gt;/ / /
+"  ParenquoteMap!        / / /
+"
+" You can also create mappings local to a buffer.  This is most useful in
+" autocmds.
+"
+"  autocmd FileType perl,ruby ParenquoteMapLocal &lt;LocalLeader&gt;/ / /
+"  autocmd FileType perl,ruby ParenquoteMapLocal!             / / /
+"
+" Remember, this plugin is still in development and the interface is subject
+" to change.  Good luck and enjoy parenquote!
+
+" Exit quickly when:
+" - this plugin was already loaded (or disabled)
+" - when 'compatible' is set
+if exists("g:loaded_parenquote") || &amp;cp
+  finish
+endif
+let g:loaded_parenquote = 1
+let s:keepcpo = &amp;cpo
+set cpo&amp;vim
+
+function! &lt;SID&gt;DoSurround(type,beg,end)
+  let sel_save = &amp;selection
+  let &amp;selection = "inclusive"
+  let reg_save = @@
+  let common_end = "`&gt;a" . a:end . "\&lt;Esc&gt;`&lt;i" . a:beg . "\&lt;Esc&gt;`["
+  if strlen(a:type) == 1  " Invoked from Visual mode
+    silent exe "normal! " . common_end
+  elseif a:type == 'line'
+    silent exe "normal! '[V']V" . common_end
+  elseif a:type == 'block'
+    silent exe "normal! `[\&lt;C-V&gt;`]\&lt;C-V&gt;" . common_end
+  else
+    silent exe "normal! `[v`]v" . common_end
+  endif
+  let &amp;selection = sel_save
+  let @@ = reg_save
+endfunction
+
+function! s:escstr(str)
+  return substitute(a:str,"[\\\"]","\\\\\\0","g")
+endfunction
+
+
+if version &gt;= 700
+  function! ParenQuoteDoSurround(type) dict
+    return s:DoSurround(a:type,self.begin,self.end)
+  endfunction
+endif
+
+if version &gt;= 700
+  if !exists("s:ID")
+    let s:ID = 0
+  endif
+  function! s:FunctionFactory(beg,end)
+    let s:ID = s:ID + 1
+    let s:ParenBegin{s:ID} = a:beg
+    let s:ParenEnd{s:ID}   = a:end
+    function! s:ParenFunc{s:ID}(type)
+      try
+        ^ " raise error
+      catch
+        let throwpoint = v:throwpoint
+      endtry
+      let id = matchstr(throwpoint,'\C_ParenFunc\zs\d\+')
+      return s:DoSurround(a:type,s:ParenBegin{id},s:ParenEnd{id})
+    endfunction
+    return "&lt;SID&gt;ParenFunc".s:ID
+  endfunction
+endif
+
+function! s:ParenquoteMap(bang,map,beg,end)
+  if a:bang
+    let amap = "&lt;Leader&gt;" . a:map
+  else
+    let amap = a:map
+  endif
+  if version &gt;= 700
+    let funcname = s:FunctionFactory(a:beg,a:end)
+    exe "nnoremap &lt;silent&gt; ".amap." :set opfunc=".funcname."&lt;CR&gt;g@"
+  endif
+  exe "vnoremap &lt;silent&gt; ".amap." :&lt;C-U&gt;call &lt;SID&gt;DoSurround(visualmode(),\"".s:escstr(a:beg)."\",\"".s:escstr(a:end)."\")&lt;CR&gt;"
+endfunction
+
+function! s:ParenquoteMapLocal(bang,map,beg,end)
+  if a:bang
+    let amap = "&lt;LocalLeader&gt;" . a:map
+  else
+    let amap = a:map
+  endif
+  if version &gt;= 700
+    let funcname = s:FunctionFactory(a:beg,a:end)
+    exe "nnoremap &lt;silent&gt; &lt;buffer&gt; ".amap." :set opfunc=".funcname."&lt;CR&gt;g@"
+  endif
+  exe "vnoremap &lt;silent&gt; &lt;buffer&gt; ".amap." :&lt;C-U&gt;call &lt;SID&gt;DoSurround(visualmode(),\"".s:escstr(a:beg)."\",\"".s:escstr(a:end)."\")\&lt;CR&gt;"
+endfunction
+
+command! -bang -nargs=+ ParenquoteMap      call s:ParenquoteMap(&lt;bang&gt;0,&lt;f-args&gt;)
+command! -bang -nargs=+ ParenquoteMapLocal call s:ParenquoteMapLocal(&lt;bang&gt;0,&lt;f-args&gt;)
+
+function! s:Init()
+  if !exists("g:parenquote_no_mappings")
+    ParenquoteMap! ( ( )
+    ParenquoteMap! { { }
+    " } "&lt;-- Syntax highlighting fix, for older versions of Vim
+    ParenquoteMap! [ [ ]
+    ParenquoteMap! &lt; &lt; &gt;
+    ParenquoteMap! ' ' '
+    ParenquoteMap! " " "
+    ParenquoteMap! ` ` `
+  ParenquoteMap! = = =
+  endif
+endfunction
+
+let &amp;cpo = s:keepcpo
+unlet s:keepcpo
+
+call s:Init()
+</pre>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2012-04-15</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/vim/">vim</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2012/04/15/vim-parenquote-plugin";
+          var disqus_url = "http://venmos.com/blog/2012/04/15/vim-parenquote-plugin";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

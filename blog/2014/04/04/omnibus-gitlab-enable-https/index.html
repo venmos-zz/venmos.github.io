@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Omnibus-GitLab 配置 HTTPS - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="gitlab, 开启, https, 配置" />
+    <meta name="keywords" content="gitlab, 开启, https, 配置" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Omnibus-GitLab 配置 HTTPS</h1>
+<p>
+有一台空闲的服务器, 于是想着搭建一台GitLab玩一玩, 结果一看GitLab的官方安装步骤, 我和我的小伙伴们都惊呆了! 正准备放弃的时候, 结果从一个隐蔽的小角落里发现了一键安装包. 靠, 有一键你就早说!
+</p>
+
+<p>
+GitLab Community Edition (CE) 俗称一键安装包:  <a href="https://www.gitlab.com/downloads/">下载页面</a>
+GitLab Community Edition (CE) 俗称一键安装包:  <a href="https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md">官方文档</a>
+</p>
+
+<p>
+这个文档已经写的非常简单了, 大体意思是你首先得有一台Linux服务器, Debian/Ubuntu or CenterOS. CenterOS我没用过, 这里只讲Debian/Ubuntu.
+</p>
+
+<ul class="org-ul">
+<li>apt-get update &amp; apt-get upgrade 首先升级系统到最新.
+</li>
+<li>apt-get install openssh-server postfix postfix是用来Email给用户用的, 安装时选择默认选项, 之后输入你服务器绑定的域名.
+</li>
+<li>下载安装包并拷贝到服务器.
+</li>
+<li>dpkg -i gitlab_6.7.2-omnibus-1.ubuntu.12.04_amd64.deb 进行安装.
+</li>
+</ul>
+
+<p>
+创建配置文件:
+</p>
+
+<pre class="example">
+sudo mkdir -p /etc/gitlab
+sudo touch /etc/gitlab/gitlab.rb
+sudo chmod 600 /etc/gitlab/gitlab.rb
+</pre>
+
+<ul class="org-ul">
+<li>编辑配置文件, 加入一条域名配置external_url "<a href="http://hostname.com">http://hostname.com</a>"
+</li>
+<li>使用gitlab-ctl reconfigure命令载入&amp;重新配置GitLab.
+</li>
+<li>之后输入域名即可访问了, 真的只要6步, So easy. 默认用户名是root, 密码是5iveL!fe.
+</li>
+</ul>
+
+<p>
+这个一键安装虽然很多部分都不是自定义配置, 但是作为自用玩儿来说是足够了. 但是虽然是自用玩儿, 咋也得来个HTTPS才能显得高端大气上档次! 前面的安装步骤我都是按照官方文档来的, 一点问题都没有, 顺利的都可以用HTTP访问使用了. 但是在开启HTTPS的时候官方文档就坑了, 按照官方文档开启HTTPS的步骤我在Debian 7, Ubuntu 12, Ubuntu 13全试过了, 都不行, 压根无法开启Nginx的HTTPS.
+</p>
+
+<p>
+最后无奈之下我只能修改Nginx的配置了, 结果一下就行了, 坑爹阿.
+</p>
+
+<p>
+建立SSL目录, 然后拷贝你的证书到SSL目录:
+</p>
+
+<ul class="org-ul">
+<li>mkdir /etc/gitlab/ssl &amp; chmod 700 /etc/gitlab/ssl
+</li>
+<li>cp gitlab.hostname.com.crt gitlab.hostname.com.key <i>etc/gitlab/ssl</i>
+</li>
+</ul>
+
+<p>
+编辑/etc/gitlab/gitlab.rb文件, 修改成:
+</p>
+
+<pre class="example">
+external_url "https://hostname.com"
+nginx['redirect_http_to_https'] = true
+nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.hostname.com.crt"
+nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.hostname.com.key"
+</pre>
+
+<p>
+之后使用gitlab-ctl reconfigure重建配置, 再修改Nginx配置文件/var/opt/gitlab/nginx/etc/gitlab-http.conf里的默认设置:
+</p>
+
+<pre class="example">
+listen *:443 default_server;                                                                                  
+  ssl on;
+  ssl_certificate /etc/gitlab/ssl/gitlab.hostname.com.crt;
+  ssl_certificate_key /etc/gitlab/ssl/gitlab.hostname.com.key;
+  ssl_protocols SSLv3 TLSv1;
+  ssl_ciphers ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;
+</pre>
+
+<p>
+接着再创建一个/var/opt/gitlab/nginx/etc/index.conf文件用来HTTP跳转HTTPS:
+</p>
+
+<pre class="example">
+server {
+    listen *:80;
+    server_name hostname.com;
+
+    rewrite ^(.*)$  https://$host$1 permanent;
+}
+</pre>
+
+<p>
+最后修改/var/opt/gitlab/nginx/etc/nginx.conf配置文件, 在其中加入以下内容, 来载入index.conf:
+</p>
+
+<pre class="example">
+include /var/opt/gitlab/nginx/etc/index.conf;
+include /var/opt/gitlab/nginx/etc/gitlab-http.conf;
+</pre>
+
+<p>
+以上全部完成之后, 使用gitlab-ctl restart来重启所有服务, 即可使用HTTPS访问GitLab了.
+</p>
+
+<p>
+PS: 注意在防火墙中开启SSH HTTP HTTPS and SMTP端口.
+</p>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2014-04-04</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/gitlab/">gitlab</a> <a href="/tags/linux/">linux</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2014/04/04/omnibus-gitlab-enable-https";
+          var disqus_url = "http://venmos.com/blog/2014/04/04/omnibus-gitlab-enable-https";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

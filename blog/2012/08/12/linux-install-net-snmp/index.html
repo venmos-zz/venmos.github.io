@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Linux安装配置 Net-Snmp - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="linux, 安装, 配置, net-snmp" />
+    <meta name="keywords" content="linux, 安装, 配置, net-snmp" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Linux安装配置 Net-Snmp</h1>
+<p>
+最近用上了监控宝,一下子生活就惬意了许多.为了让生活更加惬意,我决定将我的所有服务器开启snmp v3,统一用监控宝来监控服务器资源使用情况.
+</p>
+
+<p>
+我所喜用的Ubuntu内的源并无net-snmp软件,所以使用从源代码安装的古老方式:
+</p>
+
+<p>
+前往 <a href="http://sourceforge.net/projects/net-snmp/files/net-snmp/5.7.1/">http://sourceforge.net/projects/net-snmp/files/net-snmp/5.7.1/</a> 下载net-snmp 5.7.1版本;
+</p>
+
+<p>
+#+begin_src 
+</p>
+<div id="outline-container-sec-1" class="outline-2">
+<h2 id="sec-1">解压缩net-snmp</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+#tar -xvf net-snmp-5.7.1.tar.gz
+#cd net-snmp-5.7.1
+</p>
+</div>
+</div>
+<div id="outline-container-sec-2" class="outline-2">
+<h2 id="sec-2">安装依赖环境</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+#apt-get install libperl-dev
+#apt-get install make
+</p>
+</div>
+</div>
+<div id="outline-container-sec-3" class="outline-2">
+<h2 id="sec-3">配置net-snmp</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+#./configure --prefix=/usr/local/snmp --with-mib-modules=ucd-snmp/diskio
+</p>
+</div>
+</div>
+<div id="outline-container-sec-4" class="outline-2">
+<h2 id="sec-4">编译并安装</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+#make
+#make install
+</p>
+</div>
+</div>
+<div id="outline-container-sec-5" class="outline-2">
+<h2 id="sec-5">安装过程中会询问使用snmp版本(建议使用v3)与系统管理员联系方式和服务器所在地</h2>
+</div>
+<div id="outline-container-sec-6" class="outline-2">
+<h2 id="sec-6">至此,net-snmp就安装完成了</h2>
+<div class="outline-text-2" id="text-6">
+<p>
+#+end_src
+</p>
+
+
+<p>
+安装完成后,我们还需创建一个配置文件,安装包里已自带默认配置模版,我们只需复制:
+</p>
+
+<pre class="example">
+#cd net-snmp-5.7.1
+#cp EXAMPLE.conf /usr/local/snmp/share/snmp/snmpd.conf
+</pre>
+
+<p>
+然后编辑此配置文件,加入一个只读账户:
+</p>
+
+<p>
+#+begin_src 
+#vim /usr/local/snmp/share/snmp/snmpd.conf
+</p>
+</div>
+</div>
+<div id="outline-container-sec-7" class="outline-2">
+<h2 id="sec-7">在其中加入以下</h2>
+<div class="outline-text-2" id="text-7">
+<p>
+rouser username auth
+</p>
+</div>
+</div>
+<div id="outline-container-sec-8" class="outline-2">
+<h2 id="sec-8">username为你要创建的用户名</h2>
+</div>
+<div id="outline-container-sec-9" class="outline-2">
+<h2 id="sec-9">auth 为此账户访问时需要验证</h2>
+</div>
+<div id="outline-container-sec-10" class="outline-2">
+<h2 id="sec-10">然后修改本机监听地址与端口,在以下部分</h2>
+<div class="outline-text-2" id="text-10">
+<p>
+agentAddress udp:127.0.0.1:161
+#+end_src
+</p>
+
+<p>
+然后我们还需要在创建一个同名账户,并附加密码:
+</p>
+
+<p>
+#+begin_src 
+#vim /var/net-snmp/snmpd.conf
+</p>
+</div>
+</div>
+<div id="outline-container-sec-11" class="outline-2">
+<h2 id="sec-11">注意此文件夹需管理员权限才可访问</h2>
+</div>
+<div id="outline-container-sec-12" class="outline-2">
+<h2 id="sec-12">注意此文件在某些系统下可以需要先运行一下/usr/local/net-snmp/sbin/snmpd后才会出现</h2>
+</div>
+<div id="outline-container-sec-13" class="outline-2">
+<h2 id="sec-13">在其中加入以下</h2>
+<div class="outline-text-2" id="text-13">
+<p>
+createUser username MD5 password
+</p>
+</div>
+</div>
+<div id="outline-container-sec-14" class="outline-2">
+<h2 id="sec-14">username需同先前建立的账户名相同</h2>
+</div>
+<div id="outline-container-sec-15" class="outline-2">
+<h2 id="sec-15">password为你所设定的密码</h2>
+</div>
+<div id="outline-container-sec-16" class="outline-2">
+<h2 id="sec-16">MD5为此密码使用MD5方式加密</h2>
+<div class="outline-text-2" id="text-16">
+<p>
+#+end_src
+</p>
+
+<p>
+最后我们启动服务并测试是否配置成功:
+</p>
+
+<p>
+#+begin_src 
+#/usr/local/snmp/sbin/snmpd -d
+</p>
+</div>
+</div>
+<div id="outline-container-sec-17" class="outline-2">
+<h2 id="sec-17">然后使用以下命令检测配置是否成功</h2>
+<div class="outline-text-2" id="text-17">
+<p>
+#/usr/local/snmp/bin/snmpwalk -v 3 -l authNoPriv -a MD5 -u username -A password 127.0.0.1:161 sysDescr
+</p>
+</div>
+</div>
+<div id="outline-container-sec-18" class="outline-2">
+<h2 id="sec-18">username与password需替换成你所设置的账户名和密码</h2>
+</div>
+<div id="outline-container-sec-19" class="outline-2">
+<h2 id="sec-19">如返回类似以下信息,则表示配置已经成功</h2>
+<div class="outline-text-2" id="text-19">
+<p>
+SNMPv2-MIB::sysDescr.0 = STRING: Linux host1 2.6.27.19-5-default #1 SMP 2009-02-28 04:40:21 +0100 x86_64
+#+end_src
+</p>
+
+<p>
+如果需要启动服务器时自动加载net-snmp,则需将启动命令写入Ubuntu的启动设置中:
+</p>
+
+<p>
+#+begin_src 
+#vim /usr/local/rc.local
+</p>
+</div>
+</div>
+<div id="outline-container-sec-20" class="outline-2">
+<h2 id="sec-20">在exit 0前加入以下</h2>
+<div class="outline-text-2" id="text-20">
+<p>
+/usr/local/snmp/sbin/snmpd -d
+#+end_src 
+</p>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2012-08-12</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/linux/">linux</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2012/08/12/linux-install-net-snmp";
+          var disqus_url = "http://venmos.com/blog/2012/08/12/linux-install-net-snmp";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

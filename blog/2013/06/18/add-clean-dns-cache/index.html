@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>搭建无污染的快速缓存 DNS - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="搭建, 无, 污染, 缓存, dns" />
+    <meta name="keywords" content="搭建, 无, 污染, 缓存, dns" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>搭建无污染的快速缓存 DNS</h1>
+<p>
+以前经常为DNS缓存的问题苦恼，比如有的时候早上起来刚上网的时候忘记开OpenVPN了，这时就会被DNS污染，而在开了OpenVPN之后由于有DNS缓存的存在，要经过相当一段漫长的时间才能够清理掉被污染的DNS。所幸后来发现了Tcp-DNS-proxy，这个问题迎刃而解了。但后来时间长了，又觉得每次都要索引DNS太慢了，为了加速网络，我决定在给Tcp-DNS-proxy配一个缓存软件。
+</p>
+
+<p>
+在网上搜索一番之后决定使用Dnsmasq，配置简单，功能强大。
+</p>
+
+<p>
+MacOS X
+</p>
+
+<p>
+安装Tcp-DNS-Proxy
+</p>
+
+<p>
+Tcp-DNS-proxy的安装方法见 <a href="https://venmos.com/blog/2012/08/17/mac-tcpdns">https://venmos.com/blog/2012/08/17/mac-tcpdns</a>
+</p>
+
+<p>
+配置Tcp-DNS-Proxy
+</p>
+
+<p>
+编辑tcpdns.py文件，将ThreadedUDPServer后的53修改为55; =&gt; 修改为55是因为Dnsmasq默认为53端口，这样也便于系统使用，为了防止端口冲突，所以需要修改Tcp-DNS-proxy的端口为55。
+</p>
+
+<p>
+安装Homebrew
+</p>
+
+<p>
+Homebrew的安装方法见 <a href="http://mxcl.github.io/homebrew">http://mxcl.github.io/homebrew</a>
+</p>
+
+<p>
+安装Dnsmasq
+</p>
+
+<pre class="example">
+$brew install dnsmasq #安装dnsmasq
+$sudo cp /usr/local/Cellar/dnsmasq/x.xx/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf 
+&lt;=从配置文件模板拷贝新建配置文件
+$sudo cp /usr/local/Cellar/dnsmasq/x.xx/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons/ 
+&lt;=从启动文件模板拷贝到启动文件配置目录
+$sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist 
+&lt;=加载启动文件
+</pre>
+
+<p>
+配置Dnsmasq
+</p>
+
+<p>
+编辑/usr/local/etc/dnsmasq.conf，修改server=后为127.0.0.1#55；
+</p>
+
+<p>
+结尾
+</p>
+
+<p>
+最后保存所有配置，重启计算机，如果配置一切无误的话，在Terminal中输入nslookup twitter.com 127.0.0.1就会返回正确无污染的解析，而解析会被Dnsmasq保存在缓存之中，以加速下次解析。现在你就可以将计算机的网络设置里的DNS服务器地址修改为127.0.0.1，开始享受快速而无污染的DNS服务了。
+</p>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2013-06-18</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/osx/">osx</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2013/06/18/add-clean-dns-cache";
+          var disqus_url = "http://venmos.com/blog/2013/06/18/add-clean-dns-cache";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

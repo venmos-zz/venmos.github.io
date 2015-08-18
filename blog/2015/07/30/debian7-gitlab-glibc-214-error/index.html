@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Debian7 Gitlab &quot;GLIBC_2.14 not found&quot; - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="debian, gitlab, glibc, 错误" />
+    <meta name="keywords" content="debian, gitlab, glibc, 错误" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Debian7 Gitlab &quot;GLIBC_2.14 not found&quot;</h1>
+<p>
+Debian 7 wheezy安装GitLab 7.6.0后执行gitlab-ctl reconfigure出现错误提示versionGLIBC_2.14' not found`.
+</p>
+
+<p>
+查看当前系统libc6版本:
+</p>
+
+<pre class="example">
+# sudo aptitude show libc6
+
+Package: libc6                           
+State: installed
+Automatically installed: no
+Multi-Arch: same
+Version: 2.13-38+deb7u1
+Priority: required
+Section: libs
+Maintainer: GNU Libc Maintainers 
+Architecture: amd64
+Uncompressed Size: 9,751 k
+Depends: libc-bin (= 2.13-38+deb7u1), libgcc1
+Suggests: glibc-doc, debconf | debconf-2.0, locales
+Conflicts: prelink (&lt;= 0.0.20090311-1), tzdata (&lt; 2007k-1), tzdata-etch
+Breaks: locales (&lt; 2.13), locales-all (&lt; 2.13), lsb-core (&lt;= 3.2-27), nscd (&lt; 2.13)
+Replaces: libc6-amd64
+Provides: glibc-2.13-1
+Description: Embedded GNU C Library: Shared libraries
+ Contains the standard libraries that are used by nearly all programs on the system. This package includes shared versions of the standard C library and the standard math library, as
+ well as many others.
+Homepage: http://www.eglibc.org
+</pre>
+
+<p>
+版本过老，添加Unstable源，deb <a href="http://mirrors.kernel.org/debian/">http://mirrors.kernel.org/debian/</a> unstable main contrib non-free，再次安装libc6，之后查看版本：
+</p>
+
+<pre class="example">
+# sudo aptitude show libc6
+
+Package: libc6                           
+State: installed
+Automatically installed: no
+Multi-Arch: same
+Version: 2.19-19
+Priority: required
+Section: libs
+Maintainer: GNU Libc Maintainers &lt;debian-glibc@lists.debian.org&gt;
+Architecture: amd64
+Uncompressed Size: 10.8 M
+Depends: libgcc1
+Suggests: glibc-doc, debconf | debconf-2.0, locales
+Conflicts: prelink (&lt;= 0.0.20090311-1), tzdata (&lt; 2007k-1), tzdata-etch
+Breaks: hurd (&lt; 1:0.5.git20140203-1), libtirpc1 (&lt; 0.2.3), locales (&lt; 2.19),
+        locales-all (&lt; 2.19), lsb-core (&lt;= 3.2-27), nscd (&lt; 2.19)
+Replaces: libc6-amd64
+Description: GNU C Library: Shared libraries
+ Contains the standard libraries that are used by nearly all programs on the
+ system. This package includes shared versions of the standard C library and the
+ standard math library, as well as many others.
+Homepage: http://www.gnu.org/software/libc/libc.html
+</pre>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-07-30</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/gitlab/">gitlab</a> <a href="/tags/linux/">linux</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2015/07/30/debian7-gitlab-glibc-214-error";
+          var disqus_url = "http://venmos.com/blog/2015/07/30/debian7-gitlab-glibc-214-error";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

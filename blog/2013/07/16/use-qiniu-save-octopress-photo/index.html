@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>使用七牛储存 Octopress 图片 - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="使用, 七牛, 储存, octopress, 图片" />
+    <meta name="keywords" content="使用, 七牛, 储存, octopress, 图片" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>使用七牛储存 Octopress 图片</h1>
+<p>
+刚才捣鼓完了用七牛来备份服务器,觉得七牛的 CLI 工具实在好用,然后想干脆也用七牛来储存 Blog 的图片算了.我用Octopress来搭建 Blog,并用Octopress-Emacs来控制 Octopress.以前都是要将图片上传到各种图床,微博神马的,然后在抓取 URL,然后在写 Blog 的时候在进行插入,各种麻烦的不得了,所以这次打算实现自动化.
+</p>
+
+<p>
+想实现自动化主要思考了两种办法,一是直接修改 Octopress,在rake gen_deploy/deploy时顺带执行qrsync,二是修改 Octopress-Emacs.想来想去,虽然直接修改 Octopress 会比较省事,这样在 Shell 与 Emacs 中都可执行qrsync,但是修改 Octopress 源码后在将来升级神马的时候可能会造成一点麻烦.所以最终还是选择了修改 Octopress-Emacs 来实现.
+</p>
+
+<p>
+首先,确认几点:
+</p>
+
+<ul class="org-ul">
+<li>新建一个七牛公开空间,我的是 venmos-com
+</li>
+<li>在 Octopress 目录建立一个 photos 文件夹来放图片
+</li>
+<li>使用 qrsync 工具来同步图片
+</li>
+<li>七牛公开空间的 url,我的是 <a href="http://venmos-com.qiniudn.com/">http://venmos-com.qiniudn.com/</a>
+</li>
+</ul>
+
+<p>
+然后开始:
+</p>
+
+<ul class="org-ul">
+<li>新建一个 qrsync 的配置文件,指向七牛工作空间,指向本地图片目录:
+</li>
+
+<li>venmos-com.json
+</li>
+</ul>
+
+<pre class="example">
+{
+    "access_key": "you key",
+    "secret_key": "you secret_key",
+    "bucket": "venmos-com",
+    "sync_dir": "/Users/venmos/Blog/photos",
+    "async_ops": "fop1;fop2;fopN",
+    "debug_level": 1
+}
+</pre>
+
+<ul class="org-ul">
+<li>使用 qrsync venmos-com.json 来进行测试,测试成功后开始编辑octopress-emacs.el,插入以下:
+</li>
+</ul>
+
+<pre class="example">
+(defun octopress-qrsync (command)
+  (let ((command-str (format "/usr/local/bin/qrsync %s" command)))
+    (shell-command-to-string command-str)))
+</pre>
+
+<ul class="org-ul">
+<li>创建octopress-upimg:
+</li>
+</ul>
+
+<pre class="example">
+(defun octopress-upimg ()
+  (interactive)
+  (octopress-qrsync "/Users/venmos/venmos-com.json")
+  (message "Up OK"))
+</pre>
+
+<p>
+修改octopress-deploy:
+</p>
+
+<pre class="example">
+(defun octopress-deploy ()
+  "default deploy task"
+  (interactive)
+  (octopress-rake "deploy")
+  (octopress-qrsync "/Users/venmos/venmos-com.json")
+  (message "Deploy site OK"))
+</pre>
+
+<ul class="org-ul">
+<li>修改octopress-gen-deploy:
+</li>
+</ul>
+
+<pre class="example">
+(defun octopress-gen-deploy ()
+  "generate website and deploy"
+  (interactive)
+  (octopress-rake "gen_deploy")
+  (octopress-qrsync "/Users/venmos/venmos-com.json")
+  (message "Generate and Deploy OK"))
+</pre>
+
+<ul class="org-ul">
+<li>之后使用octopress-upimg命令就可将图片上传到七牛,或执行octopress-deploy/gen-deploy命令时也会附带上传图片到七牛.
+</li>
+
+<li>最后我建立了一个 yasnippet =&gt; qimg:
+</li>
+</ul>
+
+<pre class="example">
+# name: Qiniu Img
+# contributor: venmos
+# key: qimg
+# --
+&lt;img src="http://venmos-com.qiniudn.com/${1:name}" title="${2:imgname} ${3:altname}" &gt;$4
+</pre>
+
+<ul class="org-ul">
+<li>之后我只需要将图片放入图片目录,然后使用 yasnippet 快速插入 qimg,然后 octopress-gen-deploy 就全部 OK 了!
+</li>
+</ul>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2013-07-16</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/cloud/">cloud</a> <a href="/tags/emacs/">emacs</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2013/07/16/use-qiniu-save-octopress-photo";
+          var disqus_url = "http://venmos.com/blog/2013/07/16/use-qiniu-save-octopress-photo";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

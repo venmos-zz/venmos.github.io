@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Mew Gmail 配置 - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="emacs mew gmail" />
+    <meta name="keywords" content="emacs mew gmail" />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Mew Gmail 配置</h1>
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(setq mew-name <span style="color: #b5bd68;">"Kuroi Mato"</span>)
+(setq mew-from <span style="color: #b5bd68;">"venmos@google.com"</span>)
+(setq mew-mail-path <span style="color: #b5bd68;">"~/.emacs.d/email"</span>)
+(setq mew-conf-path mew-mail-path)
+(setq mew-addrbook-file <span style="color: #b5bd68;">"~/.emacs.d/mew.addrbook"</span>)
+(setq mew-prog-ssl <span style="color: #b5bd68;">"/usr/local/bin/stunnel"</span>)
+(setq mew-ssl-verify-level 0)
+<span style="color: #666666;">;; </span><span style="color: #969896;">GPG</span>
+(setq mew-prog-pgp <span style="color: #b5bd68;">"gpg"</span>)
+(setq mew-prog-gpg <span style="color: #b5bd68;">"gpg-emacs"</span>)
+<span style="color: #666666;">;; </span><span style="color: #969896;">IMAP for Gmail</span>
+(setq mew-use-cached-passwd t)
+(setq mew-use-master-passwd t)
+(setq mew-proto <span style="color: #b5bd68;">"%"</span>)
+(setq mew-imap-server <span style="color: #b5bd68;">"imap.gmail.com"</span>)
+(setq mew-imap-user <span style="color: #b5bd68;">"venmos@google.com"</span>)
+(setq mew-imap-auth  t)
+(setq mew-imap-ssl t)
+(setq mew-imap-ssl-port <span style="color: #b5bd68;">"993"</span>)
+(setq mew-smtp-auth t)
+(setq mew-smtp-ssl t)
+(setq mew-smtp-ssl-port <span style="color: #b5bd68;">"465"</span>)
+(setq mew-smtp-user <span style="color: #b5bd68;">"venmos@google.com"</span>)
+(setq mew-smtp-server <span style="color: #b5bd68;">"smtp.gmail.com"</span>)
+(setq mew-fcc <span style="color: #b5bd68;">"%Sent"</span>) <span style="color: #666666;">; </span>
+(setq mew-imap-trash-folder <span style="color: #b5bd68;">"%[Gmail]/&#24050;&#21024;&#38500;&#37038;&#20214;"</span>)
+(setq mew-use-cached-passwd t)
+(setq mew-ssl-verify-level 0)
+<span style="color: #666666;">;; </span><span style="color: #969896;">Code</span>
+(setq mew-charset-m17n <span style="color: #b5bd68;">"utf-8"</span>)
+(setq mew-internal-utf-8p)
+</pre>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-08-16</span>
+        <span title="last modification date" class="post-info">2015-08-19</span>
+        <span title="tags" class="post-info"><a href="/tags/emacs/">emacs</a> <a href="/tags/mew/">mew</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/emacs-mew-gmail-configure";
+          var disqus_url = "http://venmos.com/blog/emacs-mew-gmail-configure";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>
