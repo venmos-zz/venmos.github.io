@@ -1,0 +1,39 @@
+#+TITLE:       不慎删除 Apache2 目录
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-07
+#+URI:         /blog/%y/%m/%d/rm-apache2-url-error
+#+KEYWORDS:    不慎 删除 apache2 目录
+#+TAGS:        ampp,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 不慎 删除 apache2 目录
+
+
+自认为自己很NB,在配置Apache2的时候没有备份虚拟网站配置文件就开始修改,囧. 结果立刻就得到了惩罚,囧.莫名其妙的在保存的时候,虚拟网站配置文件被清空了,我靠!
+
+凭着记忆中的印象重写了一份虚拟网站配置文件,结果Apache2华丽的告诉我,不行!
+
+又从另外一台正常的服务器上拷贝了虚拟网站配置文件,结果Apache2仍然华丽的告诉我,不行!
+
+没招了,也懒得仔细审查配置文件看看到底是哪里出现了错误,直接卸载了Apache2,重装算球.
+
+熟练的输入sudo apt-get --purge autoremove apache2,然后又熟练的输入sudo apt-get install apache2,结果Apache2依然华丽的显示配置文件有错误…
+
+一怒之下,直接删除了/etc/apache2目录,然后在sudo apt-get install apache2,结果傻眼了,并没有生成新的Apache2目录,囧. 这下傻眼了,点了根烟,想来想去,按理说重装软件肯定会自动生成默认的配置文件.如果没有自动生成,那问题可能就出现在压根就没完全卸载掉软件?
+
+赶紧尝试:
+
+#+begin_src 
+sudo apt-get --purge apache2.2-common
+#+end_src
+
+然后在:
+
+#+begin_src 
+sudo apt-get -f install apache2 apache2.2-common
+#+end_src
+
+果然,这回重新生成了/etc/apache2目录,抓紧修改虚拟网站配置文件,之后重启Apache2,终于恢复了.
+
+话说学习的越来越深入之后,干活却越来越急躁了,不按程序来会遭报应的=(,这回就是…以后干活还是严格按照程序步骤来吧,还好这次虚拟网站配置文件还不复杂,要不就头大了…

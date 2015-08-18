@@ -1,0 +1,32 @@
+#+TITLE:       Org-Mode Todo 归档
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-03
+#+URI:         /blog/%y/%m/%d/emacs-plugin-org-mode-todo-archive
+#+KEYWORDS:    emacs, org-mode, todo,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, org-mode, todo,
+
+这几天大部分的时间管理都是尝试着使用Org-Mode的TODO功能来进行.几天过去了,我的Todo ORG文件之中越来越杂乱了,在各种任务之间穿插着许多已经DONE的任务,难以快速查阅.由于我每个月还有游览已完成任务的习惯,所以也不能简单的将已DONE的任务直接删除.于是打开Org-Mode自带的说明文档,翻阅出一个功能叫做Achived(归档).
+
+介绍:
+
+归档简单的来说就是可以将已经DONE的任务转出目前所属的子树,而转到一个专门的Achived子树去.Achived子树默认会排列在所有子树之后,打开时也是默认折叠的.这样就极大的提高了阅读自己TODO ORG文件的效率.在自己自定义的一个工作周结束后,如:一天或一个月,可以游览一下Achived子树,查阅自己这个工作周完成的所有TODO,以便加深印象,增强自己对自己工作任务进度的掌握,同时也能自我激发一下自豪感.在结束自己工作周Achived阅览之后,可以更进一步,对Achived进行外部归档.即将自己一个工作周所有已Achived的TODO转移到另外一个与当前文件名一致,但末尾增加了一个_archived标记的文件之中,以便长期保持自己TODO ORG文件的整洁.
+
+使用:
+
+- C-c C-x a
+将任意节点打上Archive标签;
+- C-c C-x A
+将当前节点归入Archive子树,如无Archive子树,则默认会在所有子树最下方自动新建一个;
+- C-c C-x C-s
+将当前节点转移到外部_archived之中去,如无_archived文件,则默认会自动新建一个;
+
+经验:
+
+我自己的习惯是在Org目录下有三个TODO文件,分别是我自己的和我所共事的两家公司的.由于我要经常在家、两家公司的办公室之间流动工作,所以我的Org与工作目录都是通过Dropbox进行同步的.每当我在一个地点工作,有同事过来与我交换任务时我都会直接使用快捷键C-c r来唤出Org-Remember来快速分别录入指定的TODO文件之中,代手头工作结束后,我会分别打开之前快速录入的TODO文件,在进行细致的整理,比如给任务加入TAG和时间戳.之后的每天清晨、中文、晚上回到家时,我会使用C-c a a快捷键唤出Org-Agenda进行快速游览.
+
+与此同时,由于我的Org-Remember的TODO模板之中加入了自动添加唤出Org-Remember时正在编辑的文件的链接地址.在我编辑代码或文档时,如果突然有紧急任务需要立刻去做,又或者我一个文档今天写了一半,明天还需要完成另外一半时,我会在这个文件里唤出Org-Remember快速录入一个TODO,保存时,这个TODO里会自动添加这个文件的链接地址,在紧急任务完成后,或者第二天开始工作时,我会调出这个TODO,然后快速打开之前未完成的文件.再与Org-Agenda的计时功能相互结合,我得已精确的统计出我所完成一个文档或代码所使用的时间.
+

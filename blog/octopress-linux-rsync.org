@@ -1,0 +1,42 @@
+#+TITLE:       Octopress Rsync
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-07-13
+#+URI:         /blog/%y/%m/%d/octopress-linux-rsync
+#+KEYWORDS:    octopress, rsync
+#+TAGS:        octopress, rsync
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: octopress, rsync
+
+虽然Octopress可以使用Github免费托管Blog,但是我已经有了VPS,而且Github不支持PHP等语言,所以我决定依旧使用我的VPS作为Blog服务器,使用Rsync来更新.
+
+Octopress里已内建好Rsync支持,只需要简单的几步即可使用Rsync自动更新.
+
+首先需要无密码登陆SSH服务器;
+
+#+begin_src
+ssh-keygen
+#+end_src
+
+SSH 秘匙会保存在 ~/.ssh/ 目录中,需要将它写入服务器;
+
+#+begin_src 
+scp ~/.ssh/id_rsa.pub root@root.com:/root
+将 SSH 秘匙 写入 authorized_keys 之中;
+#+end_src
+
+#+begin_src 
+cat id_rsa.pub >> ~/.ssh/authorized_keys
+此时通过SSH登陆服务器则已经不需要输入密码了,接下来需要配置Octopress;
+#+end_src 
+
+#+begin_src 
+vim ~/octopress/Rakefile
+修改其中的字段为你的服务器设置即可,然后 Rsync Octopress 到你的服务器;
+#+end_src
+
+#+begin_src 
+rake generate
+rake deploy
+#+end_src

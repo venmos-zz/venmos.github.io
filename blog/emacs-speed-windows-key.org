@@ -1,0 +1,17 @@
+#+TITLE:       Emacs 快速分割窗口
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-20
+#+URI:         /blog/%y/%m/%d/emacs-speed-windows-key
+#+KEYWORDS:    emacs, 快速, 分割窗口
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 快速, 分割窗口
+
+- $emacs ~/.emacs.d/init.el
+#+begin_src
+(windmove-default-keybindings 'M)
+#+end_src
+
+- 使用M-up/down/left/right组合键来快速切换分割窗口.

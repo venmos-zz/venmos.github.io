@@ -1,0 +1,76 @@
+#+TITLE:       Bitlbee => 用 Emacs 上 Gtalk
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-11
+#+URI:         /blog/%y/%m/%d/bitlbee-emacs-gtalk
+#+KEYWORDS:    bitlbee, emacs, 登录, gtalk
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: bitlbee, emacs, 登录, gtalk
+
+最近在Emacs的ERC里聊的火热，被一网友告知Emacs还能上Gtalk，实现方法就是通过Bitlbee进行转发Gtalk，然后在Emacs中通过IRC的形式进行接收处理。
+
+Bitlbee是什么？
+
+Bitlbee是一款服务软件，支持多种社交网络，如：Facebook、Gtalk、Twitter等，并将多种社交网络转发为IRC服务，然后就可以通过各种IRC软件进行接收处理。Bitlbee还有许多公共服务器，通过公共服务器可以无需自己搭建本地服务器。当然你如果对个人隐私非常看重的话，还是自己搭建服务器为好。
+
+我这人比较懒，而且在Gtalk上只是跟各路网友胡吹八侃而已，所以就用的Bitlbee的公共服务器，但是由于咱肉身在天朝（你懂的），所以我选择的是使用TSL加密的Bitlbee公共服务器。
+
+以下过程使用Emacs的ERC，在Emacs 24+版本上都以内置：
+
+首先通过ERC登陆Bitlbee公共服务器，M-x => erc-ssl，服务器地址输入testing.bitlbee.org，TLS端口为6668，用户名看自己喜好，第一次登陆密码为空即可。登陆之后第一件事就是使用register your_password命令为自己创建一个账户并设置密码。然后使用acc add jabber yourgmail来添加第一个Gtalk账户，Bitlbee第一个账户默认编号为0。之后为Gtalk账户指定使用Oauth方式进行登陆认证acc 0 set oauth true，用account 0 set port 5223指定Gtalk端口号，用account 0 set ssl true使Gtalk用SSL方式登陆，然后用acc 0 on命令进行登陆Gtalk，回车之后第一次登陆会分割出一个窗口并显示一段Google的地址，将其复制粘贴到游览器之中进行授权，然后将返回的授权验证码粘贴到Oauth验证窗口之中就ok了，至此你的Gtalk账户已经配置成功了。
+
+你可以使用acc list命令来查看你所添加的账户列表或账户登陆状态，使用/join gtalk加入Gtalk，然后使用/who命令来查看在线好友，操作都与普通的IRC大同小异，就不再赘述了。
+
+** 一些Bitlbee命令：
+
+- acc add => 添加账户
+- acc 0 del => 删除账户0
+- acc list => 列出所有账户
+- acc 0 set command => 进行账户0的设置
+
+** 一些 ERC快捷键：
+
+- C-c C-n 列出频道里的用户
+- C-c C-b 切换频道
+- C-c C-j 加入频道
+- C-c C-p 退出频道
+
+** 一些ERC命令：
+
+- /msg nickserv help注冊 nickname
+- /nick 名字改名字
+- /names [频道]查看当前[频道]所有用户
+- /whois 名字常看某人資料/whoami自己
+- /who ip常看某IP登錄的所有用戶
+- /Who channel显示此频道的人
+- /Who *显示参加当前频道的人
+- /join #房間名加入這個房間，如果房間不存在，服務器可能會創建這個房間
+- /part #房間名 原因離開房間，并留下原因
+- /quit 退出的原因退出服務器，并留下原因
+- /away 原因暫時離開，并留下原因
+- /invite 昵稱 #房間名邀請某人到指定房間
+- /kick #房間名 昵稱 原因剔出某人，附上原因，需要權限
+- /topic #房間名’ 房間主題如果你是房間主持人，可以改變房間的主題
+- /me 您要作的動作向当前聊天室中发送一个动作 (动作使用第三人称陈述，例如 /me jumps)
+- /msg 昵稱(或#房間) 有要說的話向某人發信息
+- /query 昵稱 要說的話私聊
+- /notice 昵稱(或#房間名) 要說的話
+- /list查看服務器上所有房間及主題
+- /list #ubuntu-cn列出這個房間
+- /list -MIN a -MAX b查看人數大于a小于b的房間
+- /list * abc *所有行abc字符串的房間
+- /flush终止当前命令的输出操作
+- /help显示所有IRC命令
+- /join加入/建立聊天室
+- /leave channel离开某一频道
+- /mode +(–)i锁住聊天室
+- /mode +(–)o设定管理员权限
+- /knock要求进入私人聊天室
+- /invite邀请用户进入私人聊天室
+- /privmsg悄悄话
+- /ignore忽略
+- /topic更换聊天室主题
+- /kick把用户踢出聊天室
+- /quit退出聊天室

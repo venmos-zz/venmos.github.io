@@ -1,0 +1,14 @@
+#+TITLE:       Emacs MEW Creating an SSL/TLS connection...FAILED
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-17
+#+URI:         /blog/%y/%m/%d/emacs-mew-ssl-tls-error
+#+KEYWORDS:    emacs, mew, ssl/tls, error, 错误
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, mew, ssl/tls, error, 错误
+
+重装系统后用MEW收信出现错误提示：Creating an SSL/TLS connection...FAILED (cert verify failure)。
+
+翻了翻文档在mew.el中加入(setq mew-ssl-verify-level 0)，问题解决。

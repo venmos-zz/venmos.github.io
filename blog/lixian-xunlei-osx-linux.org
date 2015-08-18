@@ -1,0 +1,118 @@
+#+TITLE:       迅雷离线下载 for CLI
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-07-30
+#+URI:         /blog/%y/%m/%d/xunlei-lixian-cli
+#+KEYWORDS:    迅雷, 离线下载, cli
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 迅雷, 离线下载, cli
+
+众所周知，迅雷for Mac版本就是一个废渣，各种Bug，且使用离线下载还需打开Web页面，更别提虚无缥缈的Linux版本了。今天从GitHub闲逛，惊喜的发现了”iambus”达达用Python编写的迅雷离线下载程序，试用一番，觉得非常好用，友情推广。
+
+重要信息：
+
+迅雷离线下载为会员功能，非会员无法使用。
+
+本软件非官方软件，随时有被河蟹可能。
+
+本软件无图形界面，命令行恐惧症患者请勿尝试。
+
+我已事先录制一段演示视频上传到优酷上，尝试前务必先观看演示视频是否满足自己需求，在行折腾。 [[http://v.youku.com/v_show/id_XNDMzMzkyOTAw.html]] （PS：全屏观看效果更清晰）
+
+
+所需软件：
+
+wget – wget是一款强大的命令行下载软件，也是著名的自由软件之一。大部分的Linux发行版都有收录，可直接使用。Mac需用Homebrew自行安装，Homebew [[http://mxcl.github.com/homebrew/][见这里]] 。
+
+git – git是著名的开源版本控制管理系统。使用git可方便的更新与自行修补、提交本程序，当然，没有git一样可以使用本程序，懒得捣鼓的童鞋可以忽律。
+
+python – python是一种面向对象、直译式电脑编程语言。大部分的Linux发行版都有收录，Mac也集成了python，可直接使用，最好是python 2.7。
+
+安装步骤：
+
+git – 会用git的童鞋可以直接clone git://github.com/iambus/xunlei-lixian.git
+
+no git – 不用git的童鞋请移步 [[https://github.com/iambus/xunlei-lixian/downloads][这里下载]] 。
+
+将下载的压缩包解压到个人目录下任意你所喜爱的储存地点（本文以Documents文件夹为例），然后打开终端软件并进入储存目录：
+
+#+begin_src
+$cd ~/Documents/xunlei-lixian
+#+end_src
+
+然后配置迅雷VIP会员帐户和密码（PS：用户名及密码经过hash加密后储存）：
+
+#+begin_src
+$python lixian_cli.py login 你的迅雷账户名 你的密码
+#+end_src
+
+到此本软件的基本配置就结束了，为了减少键入次数和方便使用，我们还需要为本软件添加一个缩写的别名，如lx，以方便使用（以Documents文件夹为例）：
+
+首先赋予程序可执行权限
+
+#+begin_src
+$chmod +x lixian_cli.py
+#+end_src
+
+然后配置别名
+
+Mac OS
+
+#+begin_src
+$sudo ln -s /Users/venmos/Documents/GitHub/xunlei-lixian/lixian_cli.py /usr/bin/lx
+#+end_src
+
+Linux
+
+#+begin_src
+$ln -s /Users/venmos/Documents/GitHub/xunlei-lixian/lixian_cli.py ~/bin/lx
+#+end_src
+
+至此，安装就完成了，可以开始使用了。
+
+以下是一些命令演示：
+
+直接下载
+
+#+begin_src
+$lx download http://url
+#+end_src
+
+也可以直接下载ed2k连接
+
+#+begin_src
+$lx download ed2k://url
+#+end_src
+
+将下载连接添加到迅雷离线
+
+#+begin_src2
+$lx add http://url
+$lx add ed2k://url
+#+end_src
+
+查看迅雷离线下载完成情况
+
+#+begin_src
+$lx list
+#+end_src
+
+查看迅雷离线下载任务ID（每行开头的#0,#1就是任务ID）
+
+#+begin_src
+$lx list -n
+#+end_src
+
+下载完成的迅雷离线下载任务
+
+#+begin_src
+$lx download 任务ID
+#+end_src
+
+更多命令和完整使用指南请见作者GitHub的 [[https://github.com/iambus/xunlei-lixian/blob/master/README.md][官方说明]] 。
+
+PS1：常用命令行的童鞋就应该知道命令行软件的强大与便捷，我现在将家里的路由器绑了一个动态域名，并映射了Mac的SSH端口，现在在公司上班的时候发现新番出了，立刻就可以登陆家中的Mac开始下载，甚至在咖啡厅、公交车上也可以通过iPhone/iPad登陆家中的Mac开始下载，等到到家的时候就可以直接观看了…
+
+PS2：有刷openwrt或tomato固件的路由器，可以把这个装在路由器上使用…

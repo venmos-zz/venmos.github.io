@@ -1,0 +1,25 @@
+#+TITLE:       Multi-term Autopair 冲突
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-27
+#+URI:         /blog/%y/%m/%d/emacs-multi-term-autopair-error
+#+KEYWORDS:    multi-term, autopari, 冲突, error
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: multi-term, autopari, 冲突, error
+
+Multi-term是我最喜欢的Emacs Lisp扩展包之一,使用它我只要一个快捷键就可以在Emacs的窗口下方弹出一个Terminal,同时光标焦点会自动移入Terminal之中方便我快速输入调试代码,用完之后,同样一个快捷键就可以将其关闭.Autopair也是我最喜欢的Emacs Lisp扩展包之一,它的功能是智能补全括号,所谓的智能是:当我输入半边括号之一,它会自动补全另一边,当我删除半边括号之一,它会自动删除另一边.
+
+不幸的是我所喜欢的这两款插件有些冲突问题,而且比较严重,具体症状是当你开启一个Terminal窗口并同时加载了Autopair,那么这个Terminal里的回车键就会失效,不停的提示回车键为空,输入错误.稍微读了一下Muli-term与Autopair的代码,最后在Autopair代码里找到了解决办法:很简单,只要在Terminal的模式里禁用Autopair即可.
+
+在.emacs之中插入以下代码:
+
+#+begin_src
+(add-hook 'term-mode-hook
+    #'(lambda ()
+      (setq autopair-dont-activate t)
+      (autopair-mode -1)))
+#+end_src
+
+如果你想在其它模式里禁用Autopair,也可以以此类推:)

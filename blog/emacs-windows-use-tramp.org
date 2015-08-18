@@ -1,0 +1,30 @@
+#+TITLE:       Emacs for Windows use TRAMP
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-09
+#+URI:         /blog/%y/%m/%d/emacs-windows-use-tramp
+#+KEYWORDS:    emacs, windows, ssh, tramp
+#+TAGS:        emacs, windows,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, windows, ssh, tramp
+
+Emacs在Windows下可以使用Plink.exe来通过SSH访问编辑远程服务器上的文件。首先需要下载 [[http://www.putty.org/][PuTTY]] ，将PuTTY放在任意目录，然后在.emacs之中加入：
+
+#+begin_src 
+
+(require 'tramp)
+
+(setq exec-path (cons "E:/PuTTY" exec-path))
+
+(setq tramp-default-method "plink")
+(setq tramp-shell-prompt-pattern "^[ $]+")
+#+end_src
+
+
+之后就可以使用命令来打开远程服务器文件了，跟GNU/Linux下不太一样，少了SSH前缀：
+
+#+begin_src 
+
+/users@localhost:/folder/file
+#+end_src

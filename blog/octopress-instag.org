@@ -1,0 +1,32 @@
+#+TITLE:       instag.rb
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-03
+#+URI:         /blog/%y/%m/%d/instag.rb
+#+KEYWORDS:    octopress instagram
+#+TAGS:        octopress,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: octopress instagram
+
+从Github上发现Octopress的Instag插件一枚,具体功用就是可以使用Instagram的短地址直接贴照片,方便鸟Instagram Fans.
+
+** 安装方法很简单:
+
+#+begin_src 
+cd ~/Github
+git clone git://gist.github.com/2134897.git
+mv 2134897/instag.rb ~/octopress/plugins
+rm -rf 2134897/
+#+end_src
+
+** 使用方法也很简单:
+
+比如我要在Blog里贴一张我刚用Instagram拍的图片 http://instagr.am/p/IhC8vjMDWC/ ,只需要在Instagr短地址前插入instag标签就可以了.
+
+
+具体介绍可以看这里:
+
+Jekyll’s Blog: [[https://github.com/Instagram/instagram-ruby-gem]]
+
+Github: [[http://lukecod.es/blog/2011/11/27/instagram-liquid-tag-plugin-for-jekyll-and-octopress]]

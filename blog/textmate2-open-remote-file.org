@@ -1,0 +1,207 @@
+#+TITLE:       TextMate2 编辑远程文件
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-20
+#+URI:         /blog/%y/%m/%d/textmate2-open-remote-file
+#+KEYWORDS:    textmate2, 编辑, 远程文件
+#+TAGS:        
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: textmate2, 编辑, 远程文件
+
+TextMate 2加入了一个非常方便的功能(对TextMate控来说),那就是可以直接编辑远程服务器上的文件.
+
+要想使用这项功能,首先你需要确认打开了TextMate 2的接受rmate链接:
+
+[[http://f.cl.ly/items/3H0j3x2B431c1I0u0g2y/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202012-09-20%20%E4%B8%8A%E5%8D%882.43.50.png]]
+
+然后将rmate脚本保存为rmate,然后拷贝到远程服务器的/usr/local/bin目录之中,在编辑本机的~/.ssh/config文件写入以下:
+
+#+begin_src
+Host *
+  RemoteForward 52698 127.0.0.1:52698
+#+end_src
+
+全部保存之后,你就可以在服务器上使用rmate filename命令来使用TextMate 2来编辑远程服务器上的文件了:)
+
+附rmate脚本代码(PS:居然是用Ruby写的-:)
+
+#+begin_src 
+#!/usr/bin/env ruby
+# encoding: UTF-8
+
+$VERBOSE = true                         # -w
+$KCODE   = "U" if RUBY_VERSION < "1.9"  # -KU
+
+require 'optparse'
+require 'socket'
+require 'tempfile'
+require 'yaml'
+
+VERSION_STRING = 'rmate version 1.4 (2012-08-14)'
+
+class Settings
+  attr_accessor :host, :port, :wait, :force, :verbose
+
+  def initialize
+    @host, @port = 'auto', 52698
+
+    @host = ENV['RMATE_HOST'].to_s if ENV.has_key? 'RMATE_HOST'
+    @port = ENV['RMATE_PORT'].to_i if ENV.has_key? 'RMATE_PORT'
+
+    @wait    = false
+    @force   = false
+    @verbose = false
+
+    read_disk_settings
+    parse_cli_options
+
+    if @host == 'auto' and (conn = ENV['SSH_CONNECTION'])
+      @host = conn.split(' ').first
+    else
+      @host = 'localhost'
+    end
+  end
+
+  def read_disk_settings
+    [ "/etc/rmate.rc", "~/.rmate.rc"].each do |current_file|
+      file = File.expand_path current_file
+      if File.exist? file
+        params = YAML::load(File.open(file))
+        @host = params["host"] unless params["host"].nil?
+        @port = params["port"] unless params["port"].nil?
+      end
+    end
+  end
+
+  def parse_cli_options
+    OptionParser.new do |o|
+      o.on(           '--host=name',       "Connect to host.", "Use 'auto' to detect the host from SSH.", "Defaults to #{@host}.") { |v| @host    = v          }
+      o.on('-p',      '--port=#', Integer, "Port number to use for connection.", "Defaults to #{@port}.")                       { |v| @port    = v          }
+      o.on('-w',      '--[no-]wait',       'Wait for file to be closed by TextMate.')                                        { |v| @wait    = v          }
+      o.on('-f',      '--force',           'Open even if the file is not writable.')                                         { |v| @force   = v          }
+      o.on('-v',      '--verbose',         'Verbose logging messages.')                                                      { |v| @verbose = v          }
+      o.on_tail('-h', '--help',            'Show this message.')                                                             { puts o; exit              }
+      o.on_tail(      '--version',         'Show version.')                                                                  { puts VERSION_STRING; exit }
+      o.parse!
+    end
+  end
+end
+
+class Command
+   def initialize(name)
+     @command   = name
+     @variables = {}
+     @data      = nil
+     @size      = nil
+   end
+
+   def []=(name, value)
+     @variables[name] = value
+   end
+
+   def read_file(path)
+     @size = File.size(path)
+     @data = File.open(path, "rb") { |io| io.read(@size) }
+   end
+
+   def send(socket)
+     socket.puts @command
+     @variables.each_pair do |name, value|
+       value = 'yes' if value === true
+       socket.puts "#{name}: #{value}"
+     end
+     if @data
+       socket.puts "data: #{@size}"
+       socket.puts @data
+     end
+     socket.puts
+   end
+end
+
+def handle_save(socket, variables, data)
+  path = variables["token"]
+  $stderr.puts "Saving #{path}" if $settings.verbose
+  begin
+    File.link(path, "#{path}~") if File.exist? path
+    Tempfile.open("rmate", File.dirname(path)) do |temp|
+      temp.close(false)
+      File.chmod(File.stat(path).mode, temp.path) if File.exist? path
+      open(temp.path, 'wb') {|file| file << data }
+      File.rename(temp.path, path)
+    end
+    File.unlink("#{path}~") if File.exist? "#{path}~"
+  rescue
+    # TODO We probably want some way to notify the server app that the save failed
+    $stderr.puts "Save failed! #{$!}" if $settings.verbose
+  end
+end
+
+def handle_close(socket, variables, data)
+  path = variables["token"]
+  $stderr.puts "Closed #{path}" if $settings.verbose
+end
+
+def handle_cmd(socket)
+  cmd = socket.readline.chomp
+
+  variables = {}
+  data = ""
+
+  while line = socket.readline.chomp
+    break if line.empty?
+    name, value     = line.split(': ', 2)
+    variables[name] = value
+    data << socket.read(value.to_i) if name == "data"
+  end
+  variables.delete("data")
+
+  case cmd
+  when "save"   then handle_save(socket, variables, data)
+  when "close"  then handle_close(socket, variables, data)
+  else          abort "Received unknown command “#{cmd}”, exiting."
+  end
+end
+
+def connect_and_handle_cmds(host, port, cmds)
+  socket = TCPSocket.new(host, port)
+  server_info = socket.readline.chomp
+  $stderr.puts "Connect: ‘#{server_info}’" if $settings.verbose
+
+  cmds.each { |cmd| cmd.send(socket) }
+
+  socket.puts "."
+  handle_cmd(socket) while !socket.eof?
+  socket.close
+  $stderr.puts "Done" if $settings.verbose
+end
+
+## MAIN
+
+$settings = Settings.new
+
+## Parse arguments.
+cmds = []
+ARGV.each do |path|
+  abort "File #{path} is not writable! Use -f/--force to open anyway." unless $settings.force or File.writable? path or not File.exists? path
+  $stderr.puts "File #{path} is not writable. Opening anyway." if not File.writable? path and File.exists? path and $settings.verbose
+  cmd                 = Command.new("open")
+  cmd['display-name'] = "#{Socket.gethostname}:#{path}"
+  cmd['real-path']    = File.expand_path(path)
+  cmd['data-on-save'] = true
+  cmd['re-activate']  = true
+  cmd['token']        = path
+  cmd.read_file(path)               if File.exist? path
+  cmd['data']         = "0"     unless File.exist? path
+  cmds << cmd
+end
+
+unless $settings.wait
+  pid = fork do
+    connect_and_handle_cmds($settings.host, $settings.port, cmds)
+  end
+  Process.detach(pid)
+else
+  connect_and_handle_cmds($settings.host, $settings.port, cmds)
+end
+#+end_src

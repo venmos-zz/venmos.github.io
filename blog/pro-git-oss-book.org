@@ -1,0 +1,33 @@
+#+TITLE:       Pro Git 开源中文电子书
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-19
+#+URI:         /blog/%y/%m/%d/pro-git-oss-book-cn
+#+KEYWORDS:    progit, 电子书, 中文
+#+TAGS:        git,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: progit, 电子书, 中文
+
+最近加紧学习Git,从网上寻得一本开源的电子书Pro Git,看了一会发现还有电子版本,于是就下了下来.
+
+Clone下来之后发现附带的脚本只能转译为HTML格式版本,但是有发现其中有epub文件夹,于是又从网络上寻找,不一会就从Github上找到了专门转译中文版到epub格式的脚本.
+
+地址电击这里: [[http://github.com/chunzi/progit/tree/master/epub-zh][progit-zhepub]]
+
+Clone回来之后执行脚本,出现错误:
+
+#+begin_src 
+ERROR:  Error installing ruby-debug:
+ERROR: Failed to build gem native extension.
+#+end_src
+
+仔细阅读原来是少了Ruby Debug,抓紧安装:
+
+#+begin_src 
+sudo gem install ruby-debug -v 0.10.4
+#+end_src
+
+安装之后再次执行,这次又提示找不到Java,在终端执行java -version,MacOS会自动弹出提示窗口提示是否需要安装Java. 趁着系统下载Java的时候读了读转换脚本,发现还需要安装Calibrebook,电击这里下载 [[http://calibre-ebook.com/][Calibre]] .
+
+待MacOS自动安装完Java后,将下载完成的Calibre移动到程序文件夹内,再次执行转译脚本,这次成功了==)

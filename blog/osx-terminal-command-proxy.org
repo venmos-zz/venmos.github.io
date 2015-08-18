@@ -1,0 +1,34 @@
+#+TITLE:       OS X 给终端命令添加全局代理
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-18
+#+URI:         /blog/%y/%m/%d/osx-command-add-proxy
+#+KEYWORDS:    osx, 终端, 命令, 代理,
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, 终端, 命令, 代理,
+
+最近GFW是越来越厉害了阿，OpenVPN是越来越抽风了，拨上一会就断，拨上一会就断，烦的不得了。有时候有点急事，真TMD不想用OpenVPN了，直接该用代理算了。可是该用代理后，连接速度是快了，也不会断线了，Web，软件什么的走代理都很Easy了，但是唯独Terminal里的命令程序还是TMD无法用代理，而且大部分软件都压根没使用代理这个功能！
+
+没办法，之好又请出我Ubuntu时代的好朋友，Proxychains了！
+
+想在MacOS上使用Proxychains，比Ubuntu下稍微复杂了那么一点，不过也不是很复杂的。
+
+首先你需要Homebrew，它在这儿 [[http://mxcl.github.io/homebrew/]]  。然后你需要下载 [[https://gist.github.com/allenhuang/3792521/]] 这个文件，然后将它放到/usr/local/Library/Formula/里。然后在Terminal中运行brew install proxychains命令，就会开始自动安装proxychains了。
+
+PS: [[https://gist.github.com/allenhuang/3792521/]] 是一个homebrew的库文件，它告诉homebrew，proxychains在哪儿，该去哪里下载以及该如何配置安装proxychains。
+
+安装完成后我们还需要配置一下proxychains才能使用，进入/usr/local/Cellar/proxychains/HEAD/etc/目录之中，编辑proxychains.conf文件，然后在文件末尾添加你的代理服务器的类型以及地址和端口。比如我是用ssh搭建的socks4代理，地址是本地，端口是1080，那么我就在末尾加入socks4 127.0.0.1 1080即可。至此proxychains就配置完成了，现在就可使用，接下来我们来测试一下。
+
+再打开Terminal，然后输入$curl twitter.com，你会发现终端一直卡住不动，是因为curl命令无法访问twitter.com的服务器，如下图：
+
+[[http://farm3.staticflickr.com/2848/9070768104_7e833763bc.jpg]]
+
+然后我们在用proxychains试一下，输入命令$proxychains4 curl twitter.com，很快就会返回结果，访问OK：
+
+[[http://farm8.staticflickr.com/7330/9068543369_4d46e55c96.jpg]]
+
+此结果证明curl命令已经通过proxychains设置的代理进行链路了，之后你可以使用比如proxychains4 telnet或proxychains4 ssh来访问服务器，当然也可以通过proxychains ftp来访问FTP服务器，甚至可以用proxychains来启动图形软件，让图形软件也通过proxychains代理！
+
+当然proxychains也有其他强大的功能，如dynamic_chain模式啦，random_chain模式啦，这里就不一一讲解了，有兴趣的可以自行Google。

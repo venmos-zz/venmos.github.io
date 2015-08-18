@@ -1,0 +1,38 @@
+#+TITLE:       Emacs 启动日志
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-02-28
+#+URI:         /blog/%y/%m/%d/emacs-plugin-boot-log
+#+KEYWORDS:    emacs, 启动, 日志
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 启动, 日志
+
+[[http://segmentfault.com/img/bVbVGy]]
+
+如上图，在Emacs启动之后会新建一个名为Startup Log的缓冲区，在其中显示ELisp扩展包的启动状态。代码如下：
+
+#+begin_src
+(defmacro require-maybe (feature &optional file)
+  "*Try to require FEATURE, but don't signal an error if `require' fails."
+  `(let ((require-result (require ,feature ,file 'noerror)))
+     (with-current-buffer (get-buffer-create "*Startup Log*")
+       (let* ((startup-log-format-string-prefix "%-20s--------[")
+              (startup-log-format-string-postfix "%s")
+              (startup-status (if require-result "LOADED" "FAILED"))
+              (startup-status-face `(face (:foreground
+                                           ,(if require-result "green" "red")))))
+         (insert (format startup-log-format-string-prefix ,feature))
+         (let ((start-pos (point)))
+           (insert (format startup-log-format-string-postfix startup-status))
+           (add-text-properties start-pos (point) startup-status-face)
+           (insert "]\n"))))
+     require-result))
+
+(provide 'require-maybe)
+#+end_src
+
+在init.el中首先require 'require-maybe，然后其他包都以require-maybe 'name的方式启动即可，如下图所示：
+
+[[http://segmentfault.com/img/bVbVGz]]

@@ -1,0 +1,40 @@
+#+TITLE:       Tunnelblick 突破 2000 路由限制
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-01
+#+URI:         /blog/%y/%m/%d/tunnelblick-ko-2000-route
+#+KEYWORDS:    tunnelblick, 突破, 2000， 限制
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: tunnelblick, 突破, 2000， 限制
+
+进入Lion时代后,不知道为什么Tunnelblick的路由设置超过1500~2000条时就会发生连接错误. 曾经用逆向方式,即设置只有指定的网站才通过OpenVPN连接,不过这样也有很大的问题,即每次发现想上而上不去的网站时都得断开连接,添加进OpenVPN配置在重新拨号.
+
+今天发现一个更简便的办法,还是使用 [[http://code.google.com/p/chnroutes/][chnroutes]] .
+
+- 下载chnroutes.py
+
+- 打开终端,执行以下命令,以生成ip-up与ip-down:
+
+#+begin_src
+python chnroutes.py -p mac
+#+end_src
+
+- 将ip-up与ip-down拷贝到Tunnelblick的Configurations文件夹内;
+
+- 赋予ip-up与ip-down可执行权限:
+
+#+begin_src
+chmod a+x ip*
+#+end_src
+
+- 修改OpenVPN配置文件,在文件的末尾加入以下:
+
+#+begin_src
+up ip-up
+down ip-down
+#+end_src
+
+- 最后打开Tunnelblick的设置,取消VPN详情中的设置DNS/Wins为不选择域名服务器;
+如此设置后,在使用chnroutes时就不会出现连接错误了.

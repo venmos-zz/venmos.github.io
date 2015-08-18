@@ -1,0 +1,46 @@
+#+TITLE:       Owncloud
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-24
+#+URI:         /blog/%y/%m/%d/ubuntu-install-owncloud
+#+KEYWORDS:    owncloud, 私有云,
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: owncloud, 私有云,
+
+在国外云储存被河蟹,要不就是贼拉慢的今天,我们只能将就的使用国产云储存.可是无节操的国产云储存要么三天两头删你的文件,要么整天举报你的文件不合法,更甚的会私自分析你的文件内容用作不可告人的目的(在天朝,你懂的,亲).那么难道我们除了忍受国内无节操的云公司之外就没有其他任何办法了吗?
+
+答案是有的 => OwnCloud
+
+OwnCloud是一款由KDE社区开发的私有云系统,使用PHP语言开发,有着强大而完善的功能:文件储存与管理,音乐储存与在线播放,照片储存与在线游览,开放协议的日历与联系人关系,还支持使用WebDAV方式访问,甚至还具有版本控制与回复功能,最重要的是它也具有跨几乎所有主流平台(Mac::Linux::Windows)的客户端!
+
+OwnCloud现在已经开发到了OwnCloud 2版本,其实OwnCloud一推出的时候我就在关注了,只不过当时BUG,漏洞众多,且没有方便的桌面客户端软件,当时只能不了了之,望而兴叹.不过在今天,OwnCloud已经推出最新的4.0.7稳定版本,桌面客户端也全都到了1.0.5的稳定版本,已经比较成熟可靠,可以使用了.
+
+OwnCloud本质上为一套由PHP语言开发的程序网站,数据库使用MySQL或者SQLite,所以在任何主机上只要能安装Apache2,PHP5,MySQL或SQLite就可以运行.你可以将其部署在自己的VPS,在任意地点储存/同步你的数据.如果你没有VPS,也可以将OwnCloud安装在你家中的计算机上,然后在路由器上绑定动态域名和映射端口就可在外地进行储存/同步.
+
+OwnCloud 2默认需要众多PHP组件,如果你无法按照 [[http://owncloud.org/support/install/]] 进行安装它需要的PHP组件,可以按照以下办法安装:
+
+#+begin_src
+sudo apt-get install apache2 php5 php5-json php5-gd php5-sqlite curl libcurl3 libcurl3-dev php5-curl php5-common php-xml-parser sqlite
+#+end_src
+
+然后前往官方主页下载最新版本的安装包,以下以目前最新的4.0.7版本为例:
+
+#+begin_src
+$wget http://owncloud.org/releases/owncloud-latest.tar.bz2
+$tar -xvf owncloud-latest.tar.bz2 owncloud
+$sudo chown www-data:www-data -R owncloud
+#+end_src
+
+然后修改/etc/apache2/sites-available/000default,将其中的/var/www/路径都替换为你放置owncloud的路径,然后保存,再使用sudo /etc/init.d/apache2 restart命令重启Apache2服务器,你就可以输入你的VPS地址,打开就可以看到OwnCloud的页面了.(如果你想在你的VPS上长期部署使用OwnCloud,我强烈建议你使用HTTPS方式)
+
+第一次登录OwnCloud的时候会提示你设置管理员用户名和密码,你也可以再次选择使用MySQL数据库还是SQLite数据库,个人建议如果你的VPS上之前就没有在使用MySQL数据库且你只打算自己使用OwnCloud的话,用SQLite足以.OwnCloud初始默认会是英语界面的,如果你不习惯英语界面可以点击左下角的齿轮图标,在滑出的菜单栏里选择一项,将Language选项后方的菜单条滚动到简体中文点击即可.
+
+设置完OwnCloud云端之后就可以前往 [[http://owncloud.org/sync-clients/][下载桌面客户端]] 版本了,需要注意的是Windows7用户需要右键点击安装包以管理员权限运行才可顺利安装,之后在启动OwnCloud时也需要以管理员权限运行才可.OwnCloud Client的设置非常简单,只要在设置里输入你的VPS的地址与用户名和密码即可,OwnCloud Client会自动的在你的主目录之中建立一个OwnCloud文件夹用以自动同步文件,之后你往这个文件夹里扔的各种东西都会被自动的同步到你的VPS之上.
+
+PS1:我使用的是Linode日本机房,国内网通10M带宽,同步1G文件感觉速度很快,比Dropbox快许多.虽然比国内的一些云同步慢了一小点,不过也更加放心自己的资料储存.
+
+PS2:此种办法还是推荐给已有VPS的童鞋使用,可以最大化自己VPS的使用效率.虽然现在的VPS价格都极低,但是还是比传统的云储存厂商的商业报价要贵许多.不过最新网通全国都免费提速10M~100M了,如果确实有安全需求的童鞋,建议先用家中电脑搭建OwnCloud,然后在路由绑定动态域名与映射端口尝试使用,确实感到速度不给力,使用不方便,在租VPS也不迟:))
+
+PS3:追加一条注意事项,使用Ubuntu VPS搭建OwnCloud的童鞋如果在使用桌面客户端同步时出错,被提示服务器时间不同步,请同步NTP服务时.可登录你的Ubuntu VPS,使用sudo tzselect命令设置服务器时区为Shanghai然后在使用sudo ntpdate ntp.ubuntu.com命令强制更新服务器时间后,问题就会解决.

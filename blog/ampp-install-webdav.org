@@ -1,0 +1,97 @@
+#+TITLE:       在 Ubuntu 上配置 Apache2 的 WebDAV 并添加 SSL
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-08
+#+URI:         /blog/%y/%m/%d/ampp-install-webdav-ssl
+#+KEYWORDS:    apache2 安装 配置 webdav
+#+TAGS:        ampp,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: apache2 安装 配置 webdav
+
+
+之前由于无法忍受OmniGroup Sync死慢死慢的速度,自己在公司内网的服务器上搭建了WebDAV,并映射到公司的公网IP上使用. 现在几乎都是在家办公了,所以需要经常OpenVPN到公司的内网里去登陆服务和调试.家中电脑和手机上都设置的WebDAV地址是公司的公网地址,一旦OpenVPN进公司,OmniFocus就无法同步了.
+
+一开始犯懒,现在随着需要越来越多的时间切入公司内网干活,就越来越厌烦来回切换OmniFocus的同步地址.正好最近把Blog的VPS服务提供商换成了Linode,选了Linode新建立不久的东京机房,速度很不错,在我这里2M的ADSL可以达到400k/s的下载速度,几乎全速.
+
+So,干脆将WebDAV转移到新租的Linode VPS上算了.正好之前配置WebDAV和SSL的时候都是在Apache的官网上胡乱看完胡乱配置成的,这回好好记录下来以便将来翻阅.
+
+** Install WebDAV Apache2
+
+- 安装apache2,php5及相应的模块
+
+#+begin_src 
+sudo apt-get update
+sudo apt-get install apache2
+sudo apt-get install php5 libapache2-mod-php5
+#+end_src
+
+- 调用需要用到的模块
+
+#+begin_src 
+sudo a2enmod dav_fssudo
+sudo a2enmod dav
+#+end_src
+
+** Create shared directory
+
+- 创建需要共享的文件目录
+
+#+begin_src 
+sudo mkdir /home/users/webdav
+sudo chown www-data.www-data /home/users/webdav
+#+end_src
+
+- 创建可以登录的用户和密码
+
+#+begin_src 
+sudo htpasswd -c /home/users/passwd.dav users
+sudo chmod 640 /home/users/passwd.dav
+#+end_src
+
+** Install SSL Apache2
+
+- 配置Apache2 SSL:
+
+#+begin_src 
+sudo a2enmod ssl
+sudo openssl req -x509 -newkey rsa:1024 -keyout apache.pem -out apache.pem -nodes -days 999
+#+end_src
+
+** Virtual Sites SSL Configurations
+
+- 添加配置文件:
+
+#+begin_src 
+vim /etc/apache2/sites-enable/default-ssl
+#+end_src
+
+在文件中加入以下内容,请根据你的文件存放目录适当修改路径;
+
+#+begin_src 
+<VirtualHost *:443>
+     SSLEngine On
+     SSLCertificateFile /etc/apache2/ssl/apache.pem
+     DocumentRoot /home/users/webdav
+     <Directory /home/users/webdav/>
+          Options Indexes MultiViews
+          AllowOverride None
+          Order allow,deny
+          allow from all
+     </Directory>
+     Alias /webdav /home/users/webdav
+     <Location /webdav>
+          DAV On
+          AuthType Basic
+          AuthName "webdav"
+          AuthUserFile /home/users/passwd.dav
+          Require valid-user
+     </Location>
+</VirtualHost>
+#+end_src
+
+最后重启Apache2
+
+#+begin_src
+sudo /etc/init.d/apache2 restart
+#+end_src

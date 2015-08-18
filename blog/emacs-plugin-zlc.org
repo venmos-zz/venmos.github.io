@@ -1,0 +1,18 @@
+#+TITLE:       Emacs Zlc.el
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-01
+#+URI:         /blog/%y/%m/%d/emacs-plugin-zlc
+#+KEYWORDS:    emacs, zlc, minibuffer
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, zlc, minibuffer
+
+Zlc.el是一个增强Emacs Minibuff的Lisp扩展,用作者的一句话介绍就是:
+
+- Provides zsh like completion for minibuffer in Emacs.
+
+[[https://github.com/emacsmirror/zlc/blob/master/images/screenshot.png?raw%3Dtrue][https://github.com/emacsmirror/zlc/blob/master/images/screenshot.png?raw=true]]
+
+Zlc.el的 [[https://github.com/emacsmirror/zlc][Github]] 主页.

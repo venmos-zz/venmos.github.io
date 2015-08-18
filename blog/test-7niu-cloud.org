@@ -1,0 +1,39 @@
+#+TITLE:       试用七牛云储存
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-16
+#+URI:         /blog/%y/%m/%d/test-qiniu-cloud
+#+KEYWORDS:    试用, 七牛, 云储存
+#+TAGS:        cloud,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 试用, 七牛, 云储存
+
+以前我的各种服务器都是通过s3rsync这个用 Ruby 写的工具去将指定的目录同步备份到 Amazon S3,然后在用一个 Shell 脚本通过 Crontab 去定时执行,以达到每天自动压缩备份数据然后传送到 Amazon S3 上去的效果.但是如此有一个副作用,那就是:虽然我的各种服务器都是在海外,连接 S3 速度贼快,但是俺肉身在天朝,每次从 S3 上把数据拉回工作电脑就会非常非常慢.以前一直很懒,懒得去解决这个问题,就一直拖拖拖.但是在今天晚上想要从 S3 上去拉回 500M+的 MySQL 数据库备份时终于爆发了,必须一劳永逸的解决这个问题,立刻立马!
+
+经过长达两小时的各种对比,最终选择了七牛.
+
+为什么要选七牛?
+
+- 有完善的 CLI 工具
+- 支持 Windows/Linux/Mac 几乎全部平台
+- SDK 支持几乎全部主流语言
+- 文档丰富
+- 价格便宜,初始免费 10G
+
+如果跟我现在一样,只是想简单的备份服务器的话,直接用官方提供的qrsync工具即可, [[https://portal.qiniu.com/develop/index][电击打开下载页面]] .下载完工具软件后,只需要建立一个非常简单的配置文件就可立马使用:
+
+#+begin_src
+{
+    "access_key": "you key"
+    "secret_key": "you secret key"
+    "bucket": "你的七牛空间名称",
+    "sync_dir": "要上传的目录的完整路径",
+    "async_ops": "fop1;fop2;fopN",
+    "debug_level": 1
+}
+#+end_src
+
+将此文件保存为backup.json,然后使用qrsync backup.json命令即可开始自动传送你的备份目录文件到你的七牛空间了.关于 qrsync 的更多配置说明见 [[http://docs.qiniu.com/tools/qrsync.html][这里]] .
+
+之后就可以写一个备份脚本然后用 Cron 进行自动化了,具体怎么搞就看你的想象力了…

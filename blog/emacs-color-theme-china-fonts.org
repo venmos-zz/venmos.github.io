@@ -1,0 +1,24 @@
+#+TITLE:       Color-Theme 部分主题斜体字方块
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-21
+#+URI:         /blog/%y/%m/%d/emacs-color-theme-fonts-china
+#+KEYWORDS:    emacs, color-theme, 主题, 中文, 方块
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, color-theme, 主题, 中文, 方块
+
+本来一直用的Emacs主题是Tomorrow,与我的Terminal用的主题一样,可是在好看的主题也终究会看烦,于是就花了些时间从color-theme里选了一个我喜欢的蓝色背景的主题Deep-Blue.可是这个主题有一个毛病,那就是斜体中文字会变成方块?稍微看了下这个主题的代码,发现是对斜体字的定义的问题,于是稍微修改了一下:
+
+- $emacs ~/.emacs.d/color-theme/themes/color-theme-library.el
+- C-s找到color-theme-deep-blue
+- 在C-s找到下面这一行
+
+#+begin_src
+(font-lock-comment-face ((t (:italic t :foreground "CadetBlue" :slant italic)))
+#+end_src
+
+- 将slant后的italic修改为nil就行了
+
+不过这样临时修改也有一个毛病,那就是斜体字不显示为斜体了,这个等到哪天有时间在去捣鼓吧…

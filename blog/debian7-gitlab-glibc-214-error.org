@@ -1,0 +1,68 @@
+#+TITLE:       Debian7 Gitlab "GLIBC_2.14 not found"
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-07-30
+#+URI:         /blog/%y/%m/%d/debian7-gitlab-glibc-214-error
+#+KEYWORDS:    debian, gitlab, glibc, 错误
+#+TAGS:        gitlab, linux
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: debian, gitlab, glibc, 错误
+
+Debian 7 wheezy安装GitLab 7.6.0后执行gitlab-ctl reconfigure出现错误提示versionGLIBC_2.14' not found`.
+
+查看当前系统libc6版本:
+
+#+begin_src
+# sudo aptitude show libc6
+
+Package: libc6                           
+State: installed
+Automatically installed: no
+Multi-Arch: same
+Version: 2.13-38+deb7u1
+Priority: required
+Section: libs
+Maintainer: GNU Libc Maintainers 
+Architecture: amd64
+Uncompressed Size: 9,751 k
+Depends: libc-bin (= 2.13-38+deb7u1), libgcc1
+Suggests: glibc-doc, debconf | debconf-2.0, locales
+Conflicts: prelink (<= 0.0.20090311-1), tzdata (< 2007k-1), tzdata-etch
+Breaks: locales (< 2.13), locales-all (< 2.13), lsb-core (<= 3.2-27), nscd (< 2.13)
+Replaces: libc6-amd64
+Provides: glibc-2.13-1
+Description: Embedded GNU C Library: Shared libraries
+ Contains the standard libraries that are used by nearly all programs on the system. This package includes shared versions of the standard C library and the standard math library, as
+ well as many others.
+Homepage: http://www.eglibc.org
+
+#+end_src
+
+版本过老，添加Unstable源，deb http://mirrors.kernel.org/debian/ unstable main contrib non-free，再次安装libc6，之后查看版本：
+
+#+begin_src
+# sudo aptitude show libc6
+
+Package: libc6                           
+State: installed
+Automatically installed: no
+Multi-Arch: same
+Version: 2.19-19
+Priority: required
+Section: libs
+Maintainer: GNU Libc Maintainers <debian-glibc@lists.debian.org>
+Architecture: amd64
+Uncompressed Size: 10.8 M
+Depends: libgcc1
+Suggests: glibc-doc, debconf | debconf-2.0, locales
+Conflicts: prelink (<= 0.0.20090311-1), tzdata (< 2007k-1), tzdata-etch
+Breaks: hurd (< 1:0.5.git20140203-1), libtirpc1 (< 0.2.3), locales (< 2.19),
+        locales-all (< 2.19), lsb-core (<= 3.2-27), nscd (< 2.19)
+Replaces: libc6-amd64
+Description: GNU C Library: Shared libraries
+ Contains the standard libraries that are used by nearly all programs on the
+ system. This package includes shared versions of the standard C library and the
+ standard math library, as well as many others.
+Homepage: http://www.gnu.org/software/libc/libc.html
+#+end_src

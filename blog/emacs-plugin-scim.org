@@ -1,0 +1,38 @@
+#+TITLE:       Emacs 输入法
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-13
+#+URI:         /blog/%y/%m/%d/emacs-plugin-sim
+#+KEYWORDS:    emacs, 输入法,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 输入法,
+
+说来我真是Out了，今天我才知道原来Emacs内置了输入法的模块，囧。用快捷键C-x Return C-\，选择Chinese-PY就可以激活输入法，然后使用C-\快捷键来在英语、中文之间切换。
+
+尝试了一小会，原生内置的实在太难用了，连词组也不能输入。不过还好，在网上Google一下，发现已经有高人将其修改了，用的是从fcitx中转换出的几种输入法。
+
+- 电击下载 [[http://sourceforge.net/projects/zhdotemacs/files/chinese%2520emacs%2520input%2520methods/][Chinese Emacs Configuration]]
+
+- 安装输入法
+
+#+begin_src
+#tar -xvf emacsim.tar.bz2
+#cd emacsim
+如果是MacOS X
+#cp -r gb big5 /usr/local/Cellar/emacs/HEAD/share/emacs/24.3.50/leim
+如果是Debian
+#cp -r gb big5 /usr/share/emacs/24.3.50/leim
+#+end_src
+
+然后修改leim目录中的leim-list.el加入以下：
+
+#+begin_src
+(register-input-method
+ "chinese-pinyin-gb" "Chinese-CNS" 'quail-use-package
+ "拼音" "汉字输入∷【拼音】∷"
+ "gb/pinyin")
+#+end_src
+
+重启Emacs后，使用快捷键C-x Return C-\，然后选择chinese-pinyin-gb即可。

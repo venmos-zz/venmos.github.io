@@ -1,0 +1,190 @@
+#+TITLE:       使用 Kingate 搭建 Socks5
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-26
+#+URI:         /blog/%y/%m/%d/linux-install-kingate-configure
+#+KEYWORDS:    linux, socks5, 代理, kingate
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: linux, socks5, 代理, kingate
+
+虽然现在Dropbox不用代理或者OpenVPN在天朝也能正常使用了，但是不知道为什么我这里如果不挂代理或者OpenVPN的话，Dropbox总是不能自动更新文件，除非重启程序才可以。虽然有AutoSSH，但是在我的机器上偶尔也不大灵便，而且如果换用了服务器的话，还要在SSH，然后在Socks，多有不便。为了一劳永逸的解决这个问题，决定搭建Socks服务器，选来选去，最后先选定了国人的Kingate。
+
+Kingate Website : http://sourceforge.net/projects/kingate/
+
+首先安装所需的依赖包 => apt-get install build-essential automake make gcc g++
+
+然后下载解压源码 => wget http://hivelocity.dl.sourceforge.net/project/kingate/kingate/2.1/kingate-2.1.tar.gz tar -xvf kingate-2.1.tar.gz
+
+进入目录配置编译参数 => cd kingate-2.1 ./configure --prefix=/usr/local/kingate
+
+开始编译 => make
+
+我的服务器系统是Ubuntu Server 12，从编译这一步会出错，大体错误信息如下：
+
+#+begin_src
+Making all in src
+make[1]: Entering directory `/root/workspace/proxy/kingate-2.1/src'
+make  all-am
+make[2]: Entering directory `/root/workspace/proxy/kingate-2.1/src'
+if g++ -DHAVE_CONFIG_H -I. -I. -I.     -g -O0 -D_REENTRANT -DLINUX -MT KDnsCache.o -MD -MP -MF ".deps/KDnsCache.Tpo" -c -o KDnsCache.o KDnsCache.cpp; \
+        then mv -f ".deps/KDnsCache.Tpo" ".deps/KDnsCache.Po"; else rm -f ".deps/KDnsCache.Tpo"; exit 1; fi
+KDnsCache.cpp: In member function ‘unsigned int KDnsCache::GetName(const char*)’:
+KDnsCache.cpp:44: error: ‘strlen’ was not declared in this scope
+make[2]: *** [KDnsCache.o] Error 1
+make[2]: Leaving directory `/root/workspace/proxy/kingate-2.1/src'
+make[1]: *** [all] Error 2
+make[1]: Leaving directory `/root/workspace/proxy/kingate-2.1/src'
+make: *** [all-recursive] Error 1
+#+end_src
+
+查看报错信息后发现错误可能来自于KDnsCache，于是打开查看一下src/KDnsCache.cpp文件，果然发现头部貌似少了一行#include <string.h>，将其添加到头部，然后再次执行make。
+
+然后又华丽的报错了：
+
+#+begin_src
+mysocket.cpp: In member function ‘void mysocket::clear_recvq(int)’:
+mysocket.cpp:478: error: ‘malloc’ was not declared in this scope
+mysocket.cpp:482: error: ‘free’ was not declared in this scope
+make[2]: *** [mysocket.o] Error 1
+make[2]: Leaving directory `/root/workspace/proxy/kingate-2.1/src'
+make[1]: *** [all] Error 2
+make[1]: Leaving directory `/root/workspace/proxy/kingate-2.1/src'
+make: *** [all-recursive] Error 1
+#+end_src
+
+这次在来看一下src/mysocket.cpp文件，发现这回少了一行#include <malloc.h>，将其添加进去再次make。OK，这次没有报错信息了。
+
+安装完成之后编辑一下Kingate的配置文件，在/usr/local/kingate/etc/kingate.conf，编辑其中的内容为：
+
+#+begin_src
+http off
+ftp off
+pop3 off
+smtp off
+telnet off
+socks on
+mms off
+rtsp off
+manage on
+max 2000
+max_per_ip 0
+min_free_thread 3
+http_port 42352 => Web管理页面端口号
+http_accelerate off
+x_forwarded_for on
+http_time_out 30
+ftp_port 2121
+ftp_time_out 300
+pop3_port 1100
+pop3_time_out 300
+smtp_port 2525
+smtp_time_out 300
+telnet_port 2323
+telnet_time_out 300
+socks_port 31412 => Socks端口号
+socks_time_out 300
+socks5_user off => 是否开启Socks5?
+mms_port 1755
+mms_time_out 300
+rtsp_port 5540
+rtsp_time_out 300
+manage_port 8822
+manage_time_out 300
+log_model user
+log_level 0
+log_rotate {0 0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23 * * * }
+log_close_msg on
+mem_min_cache 50m
+mem_max_cache 12m
+disk_min_cache 20m
+disk_max_cache 30m
+use_disk_cache off
+refresh never
+refresh_time 300
+user_time_out 0
+mem_cache 50m
+disk_cache 100m
+max_deny_per_ip 0
+max_queue_thread 15
+min_limit_speed_size 1m
+limit_speed 20k
+max_request 50
+total_seconds 10
+bind_addr
+run_user
+insert_via off
+#+end_src
+
+修改完配置后我们还需要来写一个脚本，方便启动/重启Kingate服务，我比较懒，So，这个脚本摘抄自vpser.net：
+
+- kingate.sh
+
+#+begin_src
+#!/bin/bash
+#
+# chkconfig: 2345 85 15
+# description: kingate is an proxy server daemon
+# processname: kingate
+
+### BEGIN INIT INFO
+# Provides:          kingate
+# Required-Start:    $all
+# Required-Stop:     $all
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: starts kingate proxy server
+# Description:       starts kingate porxy server
+### END INIT INFO
+
+# Author:   licess
+# website:  http://www.vpser.net
+
+prog="kingate"
+kingate="/usr/local/kingate/bin/kingate" # kingate目录，如果你按照我的步骤来的话就不需要修改了
+
+start() {
+        echo -n $"Starting $prog: "
+        $kingate
+}
+
+stop() {
+        echo -n $"Stopping $prog: "
+  $kingate -q
+}
+
+restart(){
+        echo -n $"Restarting $prog: "
+  stop
+        start
+}
+
+case "$1" in
+  start)
+        start
+        ;;
+  stop)
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  *)
+        echo $"Usage: kingate {start|stop|restart}"
+        RETVAL=1
+esac
+exit $RETVA
+#+end_src
+
+保存后将脚本放入init.d目录，mv kingate.sh /etc/init.d/kingate，然后赋予其执行权限，chmod +x /etc/init.d/kingate，之后我们就可以使用如下命令来控制Kingate的启动/重启了：
+
+#+begin_src
+/etc/init.d/kingate start => 启动
+/etc/init.d/kingate stop => 关闭
+/etc/init.d/kingate restart => 重启
+#+end_src
+
+到了这一步你就可以打开 http://your-server-ip:42352 来访问Kingate的Web管理页面了，默认的用户名是root，密码是kingate，然后随便选那么一个支持Socks5代理的程序输入你的服务器地址与Socks5端口号测试一下服务是否运行正常。
+
+PS：差点忘了，测试成功后还需要update-rc.d -f kingate defaults一下，将Kingate加入开机启动项：）

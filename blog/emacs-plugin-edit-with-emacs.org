@@ -1,0 +1,42 @@
+#+TITLE:       Edit with Emacs
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-12-22
+#+URI:         /blog/%y/%m/%d/emacs-plugin-edit-with-emacs
+#+KEYWORDS:    用emacs编辑网页窗口输入
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 用emacs编辑网页窗口输入
+
+如果你用习惯了Emacs编辑器并经常使用它纂写各种文字和代码的话, 再使用网站内置的文字编辑器是不是会让你发狂呢? 不过还好, 有一款叫做Edit with Emacs的Chrome插件可以解决, 它可以让Chrome在外部调用Emacs进行文字编辑.
+
+Edit with Emacs for Chrome [[https://chrome.google.com/webstore/detail/edit-with-emacs/ljobjlafonikaiipfkggjbhkghgicgoh]]
+Edit-Server for Emacs http://github.com/stsquad/emacs_chrome
+
+使用Chrome安装for Chrome的插件, 之后从Github下载Edit-Server到Emacs的插件目录, 然后在Emacs的配置文件中写入:
+
+#+begin_src
+
+(add-to-list 'load-path "~/.emacs.d/edit-servers")
+(require 'edit-server)
+(when (require 'edit-server nil t)
+  (setq edit-server-new-frame nil)
+  (edit-server-start))
+#+end_src
+
+之后在网站的编辑框下方就会有一个紫色的edit小图标, 点击它Chrome就会在外部调用Emacs进行编辑了, 非常方便.
+
+另外Edit with Emacs还有根据网站网址自动转换编辑模式的功能, 比如:
+
+#+begin_src
+
+(setq edit-server-url-major-mode-alist
+      '(("github\\.com" . markdown-mode)
+                ("segmentfault\\.com" . markdown-mode)
+                ))
+#+end_src
+
+如此添加之后, 当我们在Github或者Segmentfault网站调用Emacs进行编辑的时候Emacs会自动切换为Markdown-mode.
+
+PS: Edit with Emacs的原理是在Emacs里开启一个服务, 默认监听9292端口. 然后Chrome将文字发送给Emacs进行处理, Emacs保存时在将编辑结果返回给Chrome. 如果Edit with Emacs在你的电脑上不能正常工作, 那么可以检查下9292端口是否被占用. 你可以修改Edit-Server的默认端口, 然后从Chrome插件的选项里做相应修改即可.

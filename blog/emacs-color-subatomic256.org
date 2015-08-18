@@ -1,0 +1,18 @@
+#+TITLE:       Emacs ColorTheme Subatomic256
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-02-13
+#+URI:         /blog/%y/%m/%d/
+#+KEYWORDS:    
+#+TAGS:        
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 
+
+发现 Emacs 新颜色主题 Subatomic256，黑背景深紫色系相当好看。
+
+仓库 [[https://github.com/d11wtq/subatomic256]]
+
+预览图：
+
+[[http://ww2.sinaimg.cn/large/6fcef87fjw1eegjrv7bvaj20xf0jvjul.jpg]]

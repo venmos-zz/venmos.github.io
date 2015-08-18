@@ -1,0 +1,55 @@
+#+TITLE:       使用 Gollum 游览编辑本地 Org-Mode Wiki
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-17
+#+URI:         /blog/%y/%m/%d/use-gollum-browse-org-mode-wiki
+#+KEYWORDS:    org-mode, wiki, 游览
+#+TAGS:        emacs, ruby,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 使用 gollum 游览 编辑 本地 Org-Mode Wiki
+
+使用 Org-Mode 就可以很方便的管理大量笔记，形成一个个人 Wiki 系统。在 Emacs 里也可以调用各种方便强大的工具对 Wiki 进行搜索与编辑。
+但有的时候需要将 Wiki 内容分享给朋友观看，或者想从局域网其他的机器上访问自己的 Wiki，而他/机器上没有 Emacs 该怎么办？
+
+这个时候就需要使用 Gollum 了，Gollum 可以在本地创建一个 Webserver，同时将 Org 格式的笔记转换为漂亮的 HTML 页面(支持代码高亮)在游览器中进行游览。
+
+Gollum Github [[https://github.com/gollum/gollum]]
+
+Gollum 是由 Github 开发使用的一个基于 Markdown 的 Wiki 管理系统，除了 Markdown 之外还支持：
+
+默认支持
+
+- Markdown
+- RDoc
+
+插件支持
+
+- AsciiDoc -- [sudo] gem install asciidoctor
+- Creole -- [sudo] gem install creole
+- GitHub Flavored Markdown -- [sudo] gem install github-markdown
+- MediaWiki -- [sudo] gem install wikicloth
+- Org -- [sudo] gem install org-ruby
+- Pod -- requires Perl >= 5.10 (the perl command must be available on your command line)
+- ReStructuredText -- requires python >= 2 (the python2 command must be available on your command line)
+- Textile -- [sudo] gem install RedCloth
+
+可以使用 [[https://rvm.io/][RVM]] 或 [[http://rbenv.org/][Rbenv]] 来进行 Ruby 版本与 Gem 管理。
+
+进入 *Org-Mode* 的 *Wiki* 目录，新建一个 Gemfile：
+
+#+begin_src
+source 'https://rubygems.org/'
+
+ruby "2.0.0"
+gem "gollum", "4.0.0"
+gem "org-ruby", "0.9.12"
+#+end_src
+
+然后运行 *bundle install* ，之后就可以访问 [[http://127.0.0.1:4567/index]] 进行游览了（需要有 index.org）。
+
+预览图：
+
+[[https://s3.amazonaws.com/f.cl.ly/items/1F190S3F323C2O1k392k/Screen%20Shot%202015-08-17%20at%2002.06.52.png]]
+
+[[https://s3.amazonaws.com/f.cl.ly/items/081h0f0X0Z3N0g2j3A0x/Screen%20Shot%202015-08-17%20at%2002.07.01.png]]

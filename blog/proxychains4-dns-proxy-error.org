@@ -1,0 +1,12 @@
+#+TITLE:       Proxychains4 Off DNS Proxy
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-11
+#+URI:         /blog/%y/%m/%d/proxychains4-off-dns-proxy
+#+KEYWORDS:    proxychains4, proxy dns,
+#+TAGS:        osx, linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: proxychains4, proxy dns,
+
+今天在公司的一台服务器上使用Proxychains4，配置的是Socks4代理，在连接代理的时候总是出错。反复检查Socks4代理没有任何问题，百思不得其解。后来没办法了就在Proxychains4的配置文件里挨个尝试逐一排查，最后注释掉proxy dns之后就好了。后来查看家中机器，发现proxy dns是默认开启的，也没有任何问题，真是奇怪。

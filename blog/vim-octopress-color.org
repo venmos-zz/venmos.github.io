@@ -1,0 +1,35 @@
+#+TITLE:       Vim 的 Octopress 配色
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-08
+#+URI:         /blog/%y/%m/%d/vim-octopress-color
+#+KEYWORDS:    octopress, vim, color
+#+TAGS:        octopress, vim,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: octopress, vim, color
+
+刚开始用Octopress的时候只是用以前从网上随便捡到的Markdown Syntax简单凑合一下. 随着使用Octopress的时间越来越长,从Octopress上写的文章也越来越长.终于,再也无法忍受那个阳春的Markdown Syntax了!
+
+从网上讨教了一番用Octopress的朋友,大家纷纷推荐vim-octopress.好了,就是它了!
+
+过程蛮简单:
+
+先从Github上Clone下来vim-octopress;
+
+#+begin_src 
+git clone https://github.com/tangledhelix/vim-octopress.git vim-octopress
+#+end_src
+
+分别拷贝到.vim文件夹内;
+最后指定.markdown文件的配色为octopress就ok了!;
+
+#+begin_src 
+autocmd BufNewFile,BufRead *.markdown setfiletype octopress
+#+end_src
+
+最后贴一张vim-octopress的预览图
+
+[[http://www.flickr.com/photos/venmos/7054671885/]]
+
+怎么样?养眼吧?

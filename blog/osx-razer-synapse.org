@@ -1,0 +1,16 @@
+#+TITLE:       Razer Synapse
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-13
+#+URI:         /blog/%y/%m/%d/osx-razer-synapse
+#+KEYWORDS:    razer, osx, 垃圾
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: razer, osx, 垃圾
+
+Razer现在越来越扯了,我买的黑寡妇键盘 for MacOS从一开始驱动就不完善,功能键各种不能用,就连游戏模式都打不开.
+
+好容易等到出了Synapse 2.0版本驱动,功能键稍微好用了一点(但是还是极其难用),游戏模式可以打开了. 但是操蛋的是这个驱动到目前为止的最新版,在Lion下仍有各种致命Bug.安装后,每次从结束待机休眠都会至少卡机30s~60s. 今天重启系统则更夸张了,隐藏Dock唤不出来,聚光灯直接挂掉了无法启动,打字卡顿的无法忍受.
+
+一怒之下卸载了Synapse,世界一下清净了,各种莫名其妙的故障全都消失了.我说Razer你丫在忙着出笔记本之前能先TMD都把旗下产品驱动完善了吗?

@@ -1,0 +1,48 @@
+#+TITLE:       Emacs for Windows use helm-ag
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-09
+#+URI:         /blog/%y/%m/%d/emacs-windows-use-helm-ag
+#+KEYWORDS:    emacs, windows, ag
+#+TAGS:        emacs, windows,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, windows, ag
+
+[[https://github.com/ggreer/the_silver_searcher][ag]] 是一个CLI下的高速搜索工具，用起来非常顺手，Emacs中的helm-ag就是调用的它，是我在使用Emacs时最常用的功能之一。
+
+要在Windows下使用，需要Cygwin，我用的是 [[https://babun.github.io/][babun]] ，一个整合好了的环境。打开Shell，先安装依赖包：
+
+#+begin_src
+
+$pact install libpcre-devel
+$pact install liblzma-devel
+#+end_src
+
+然后从Github克隆下来源码包：
+
+#+begin_src
+
+$git clone https://github.com/ggreer/the_silver_searcher.git
+#+end_src
+
+之后开始编译：
+
+#+begin_src
+
+$cd the_silver_searcher
+$./build.sh
+#+end_src
+
+
+编译完成之后将ag.exe文件拷贝到Cygwin或babun的/bin/目录下，然后在.emacs中写入：
+
+#+begin_src
+
+;; if u use babun
+(setq exec-path (cons "C:/babun/.babun/cygwin/bin" exec-path))
+;; if u use cygwin
+(setq exec-path (cons "C:/cygwin/bin" exec-path))
+#+end_src
+
+然后在Emacs里使用Package安装helm-ag，就可以在Emacs中使用了。

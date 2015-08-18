@@ -1,0 +1,22 @@
+#+TITLE:       iOS 触控笔
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-03-31
+#+URI:         /blog/%y/%m/%d/iospen
+#+KEYWORDS:    ios, 触控笔
+#+TAGS:        ios
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: ios 触控笔
+
+** 关于触控笔
+
+虽然说 iOS 设备的触摸已经做的非常好了,但是某些时候还是需要手写笔的帮助的,比如:画一些草图,或者临时的快速记一些会议笔记啦等等.我自己就试验过很多牌子的触控笔,比如国产杂牌或者一些比较好的外国品牌几乎都尝试过.下面是我最推荐的两个牌子:)
+
+** Just Mobile
+
+我买的第一支触控笔是国产山寨的,非常难用,经常会出现突然写不出来的情况.后来换了一只 Just Mobile,觉得非常好用.触感很灵敏,书写比较顺畅,虽然赶不上 e 人 e 本那种专业手写平板的手感,但是还是值得推荐.
+
+** Bamboo Stylus
+
+Bamboo Stylus 出的时候观望了两天,后来还是败了,理由是 Wacom 是 Professional 的-.–#.但是入手使用了一段时间以后比较失望,当然肯定也有我个人习惯的原因. 总觉得 Bamboo Stylus 需要用比较大的力去书写,感觉没有 Just Mobile 灵敏,写起来也不如 Just Mobile 顺畅.但是至少比一些杂牌的产品要强一些,而且 Bamboo Stylus 是可更换笔尖的,不排除将来(现在没有)会有持续扩展的能力(比如更粗的或者更细的笔尖,或者灵敏度更高的笔尖). 所以也是值得推荐的:)

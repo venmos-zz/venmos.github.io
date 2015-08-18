@@ -1,0 +1,22 @@
+#+TITLE:       Debian Apache2 启动报错 ServerName
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-01
+#+URI:         /blog/%y/%m/%d/debian-apache2-servername-error
+#+KEYWORDS:    debian, apache2, 启动报错, servername
+#+TAGS:        linux, ampp,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: debian, apache2, 启动报错, servername
+
+Debian安装完Apache2后重启Apache2报错：
+
+#+begin_src
+apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.0.1 for ServerName
+#+end_src
+
+几乎所有Ubuntu/Debian Apache2的文章之中都说是要修改httpd.conf，加入ServerName，而实际上在Debian中httpd.conf是空的，ServerName需要加在ports.conf之中才会起作用。
+
+#+begin_src
+echo "ServerName ubuntu.mydomain.com" >> /etc/apache2/ports.conf
+#+end_src

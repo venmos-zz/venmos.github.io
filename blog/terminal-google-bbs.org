@@ -1,0 +1,24 @@
+#+TITLE:       终端上 Google
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-15
+#+URI:         /blog/%y/%m/%d/terminal-google-bbs
+#+KEYWORDS:    终端, 模拟, google
+#+TAGS:        
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 终端, 模拟, google
+
+第一次学会上网D时候都是在家用黑乎乎的终端通过电话线在一片烦人的噪音中连线至 某台服务器==)
+
+今天发现一个很有趣的小网站,这个网站是来模拟通过终端拨号上Google的情景.
+
+[[http://farm6.staticflickr.com/5445/7077908325_1373a14def.jpg]]
+
+这个网站不光能模拟登陆,还真的可以搜寻游览,,而且还带配音的,真的很像,有木有!真的蛮怀念的…
+
+[[http://farm8.staticflickr.com/7134/6931830896_cf4f251dc9.jpg]]
+
+真的很像以前D终端BBS有木有,开始怀念以前在没有Netscape的时候,“你正在被XX攻击”“XX朝你得意的大笑”神马的了…
+
+体验地址,立刻电击: [[http://www.masswerk.at/googleBBS/][Google]] [[http://www.masswerk.at/bingBBS/][Bing]]

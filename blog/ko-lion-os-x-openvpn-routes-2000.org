@@ -1,0 +1,74 @@
+#+TITLE:       突破 Lion OS X OpenVPN Routes 2000 限制
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-16
+#+URI:         /blog/%y/%m/%d/ko-lion-osx-openvpn-2000
+#+KEYWORDS:    突破, lionosx, openvpn, 2000, 限制
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 突破, lionosx, openvpn, 2000, 限制
+
+话说自从升级到了Lion之后,Routes超过2000就没连接成功过.所幸我的OpenVPN服务器网络速度很好,绕一圈回到国内也不会特别卡,就是看优酷什么的缓冲慢了一点点而已.
+
+不过最近需要频繁的SSH到公司的服务器里去提交文件,不知道为什么从OpenVPN上绕一圈回来就单单登陆公司的服务器特别特别慢.有时候需要提交的文件多了,还必须先得断开OpenVPN. 一来二去的实在是烦了,开始翻OpenVPN的文档寻找解决办法,没想到翻了两页就找到办法了…
+
+以前都是从OpenVPN里把国内的路由表(Chnroutes)写入,让国内的流量不走OpenVPN,但是不知道为什么Lion下的OpenVPN定义路由表一旦超过2000就会报错,甚至有的时候1500就会出错,而Chnroutes又写的非常详细,足足有接近4000条之多!
+
+其实只要转换一下思维就行了,既然国内的路由表太多了写不进去,那就干脆直接写国外的路由表好了.让只有到北美(普遍莫名其妙上不去的一般都是北美的)的流量走OpenVPN不就OK了? PS:就这么简单的一个办法一开始我居然没有想到,愣是忍受了长达数天的巨慢国内速度,囧!
+
+确定了解决方案就开始翻北美的路由表,不一会就从网上寻到一张简短的北美路由表:
+
+#+begin_src 
+# North American Routes 
+route 24.0.0.0 255.0.0.0 vpn_gateway
+route 63.0.0.0 255.0.0.0 vpn_gateway
+route 64.0.0.0 255.0.0.0 vpn_gateway
+route 65.0.0.0 255.0.0.0 vpn_gateway
+route 66.0.0.0 255.0.0.0 vpn_gateway
+route 67.0.0.0 255.0.0.0 vpn_gateway
+route 68.0.0.0 255.0.0.0 vpn_gateway
+route 69.0.0.0 255.0.0.0 vpn_gateway
+route 70.0.0.0 255.0.0.0 vpn_gateway
+route 71.0.0.0 255.0.0.0 vpn_gateway
+route 72.0.0.0 255.0.0.0 vpn_gateway
+route 73.0.0.0 255.0.0.0 vpn_gateway
+route 74.0.0.0 255.0.0.0 vpn_gateway
+route 75.0.0.0 255.0.0.0 vpn_gateway
+route 76.0.0.0 255.0.0.0 vpn_gateway
+route 96.0.0.0 255.0.0.0 vpn_gateway
+route 97.0.0.0 255.0.0.0 vpn_gateway
+route 98.0.0.0 255.0.0.0 vpn_gateway
+route 99.0.0.0 255.0.0.0 vpn_gateway
+route 108.0.0.0 255.0.0.0 vpn_gateway
+route 173.0.0.0 255.0.0.0 vpn_gateway
+route 174.0.0.0 255.0.0.0 vpn_gateway
+route 184.0.0.0 255.0.0.0 vpn_gateway
+route 199.0.0.0 255.0.0.0 vpn_gateway
+route 204.0.0.0 255.0.0.0 vpn_gateway
+route 205.0.0.0 255.0.0.0 vpn_gateway
+route 206.0.0.0 255.0.0.0 vpn_gateway
+route 207.0.0.0 255.0.0.0 vpn_gateway
+route 208.0.0.0 255.0.0.0 vpn_gateway
+route 209.0.0.0 255.0.0.0 vpn_gateway 
+route 216.0.0.0 255.0.0.0 vpn_gateway
+#+end_src
+
+将这张路由表复制到你的OpenVPN配置文件的结尾处,然后还需要在OpenVPN配置文件的开头写入:
+
+#+begin_src 
+max-routes 50
+route-nopull
+#+end_src
+
+然后还需要注意要把redirect-gateway注视掉.最后还需要添加你使用的国外DNS进去,让前往DNS的流量都走OpenVPN,以避免DNS污染.这一段最好添加到北美路由表的上方:
+
+#+begin_src 
+# Google DNS
+route 8.8.8.0 255.255.255.0 vpn_gateway
+route 8.8.4.0 255.255.255.0 vpn_gateway
+#+end_src
+
+然后配置就结束了,以后当你连接OpenVPN后,除这张北美路由表之外的所有流量就会默认走你本地网关,而不是通过OpenVPN来走.
+
+如果你发现了某个网站上不去,而你又非常想上,你可以先PING一下它的域名,把获得的IP地址输入到你的路由表之中就可以了. 比如ping exmaple.com,得到ip 123.123.123.123,只需在OpenVPN配置文件的结尾写入route 123.123.123.0 255.255.255.0 vpn_gateway,然后重连OpenVPN让配置文件生效就OK了!

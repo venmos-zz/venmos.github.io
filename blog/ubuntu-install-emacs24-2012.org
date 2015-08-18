@@ -1,0 +1,17 @@
+#+TITLE:       Ubuntu 安装 Emacs24
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-11
+#+URI:         /blog/%y/%m/%d/ubuntu-install-emacs24-2012
+#+KEYWORDS:    ubuntu, 安装, emacs24
+#+TAGS:        emacs, linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: ubuntu, 安装, emacs24
+
+#+begin_src 
+$sudo apt-get install python-software-properties
+$sudo add-apt-repository ppa:cassou/emacs
+$sudo apt-get update
+$sudo apt-get install emacs24 emacs24-el
+#+end_src 

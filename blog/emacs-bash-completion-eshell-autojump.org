@@ -1,0 +1,63 @@
+#+TITLE:       Bash-completion eshell-autojump
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-08
+#+URI:         /blog/%y/%m/%d/bash-completion-eshell-autojump
+#+KEYWORDS:    bash-completion, 补全, eshell-autojump
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: bash-completion, 补全, eshell-autojump
+
+今天又给Emacs添加了两个新的ELisp包，Bash-Completion与Eshell-Autojump。
+
+- Bash-Completion
+
+常用Linux的都应该晓得Bash-Completion，是Linux下相当强大的Bash补全软件。安装Bash-Completion后可以在Bash中用TAB键补全任何命令，甚至可以补全软件参数。而Emacs-Bash-Completion就是将这一强大的补全软件带给Emacs中的Shell。Bash-Completion一般在GUN/Linux的发行版都是自带，在MacOS X下可以用Homebrew进行安装。
+
+安装完成后修改 ~/.bashrc文件，加入以下：
+
+#+begin_src
+if [[ ( -z "$INSIDE_EMACS" || "$EMACS_BASH_COMPLETE" = "t" ) &&\
+     -f /usr/local/Cellar/bash-completion/1.3/bash_completion ]]; then
+  . /usr/local/Cellar/bash-completion/1.3/etc/bash_completion
+fi
+#+end_src
+
+接着在去  https://github.com/szermatt/emacs-bash-completion 下载bash-completion.el。然后添加bash-completion配置，以下是我的配置：
+
+#+begin_src
+;;----------------------------------------------------------------------------
+;; Venom's Emacs24 Configuration
+;; Website : http://venmos.com
+;; Contact : me[at]venmos.com
+;;----------------------------------------------------------------------------
+
+;;----------------------------------------------------------------------------
+;; Enable bash-completion ~/.emacs.d/plugin/emacs-bash-completion
+;;----------------------------------------------------------------------------
+(add-to-list 'load-path "~/.emacs.d/plugin/emacs-bash-completion")
+(require 'bash-completion)
+(bash-completion-setup)
+
+(autoload 'bash-completion-dynamic-complete 
+  "bash-completion"
+  "BASH completion hook")
+(add-hook 'shell-dynamic-complete-functions
+  'bash-completion-dynamic-complete)
+(add-hook 'shell-command-complete-functions
+  'bash-completion-dynamic-complete)
+
+(provide 'init-bash-completion)
+#+end_src
+
+- Eshell-Autojump
+
+Eshell-Autojump是一个用来增强Eshell的ELisp包，通过使用它可以在EShell中快速切换目录。它会跟踪你最近切换到的目录与你的Buffer里打开的文件目录，使用cd =命令就会列出跟踪的目录列表，并以数字表示，然后使用cd -4就可以快速的进入编号为4的目录。
+
+安装Eshell-Autojump非常简单，可以使用el-get一键安装，配置也非常简单，只需两行：
+
+#+begin_src
+(eval-after-load 'eshell
+  '(require 'eshell-autojump nil t))
+#+end_src

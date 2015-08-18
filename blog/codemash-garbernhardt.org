@@ -1,0 +1,16 @@
+#+TITLE:       CodeMash 大会 Gary Bernhardt 搞笑演讲
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-17
+#+URI:         /blog/%y/%m/%d/codemash-gary-bernhardt
+#+KEYWORDS:    codemash garybernhardt
+#+TAGS:        code,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: codemash garybernhardt
+
+[[http://v.ku6.com/show/HE-4qKtHqnKlIKnJxLmu_A...html?from%3D2_qiniudn_1][http://v.ku6.com/show/HE-4qKtHqnKlIKnJxLmu_A...html?from=2_qiniudn_1]]
+
+Gary Bernhardt在CodeMash大会上恶搞Ruby与Javascript中的无厘头,笑抽我了.
+
+本视频转自 [[http://www.wefdc.com/video/3884.html]]

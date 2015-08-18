@@ -1,0 +1,15 @@
+#+TITLE:       Emacs ido ºöÂÔ¸ÃËÀµÄ .DS_Store
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-28
+#+URI:         /blog/%y/%m/%d/emacs-plugin-ido-disbale-ds-store
+#+KEYWORDS:    emacs, ido, ºöÂÔ, .ds_store
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, ido, ºöÂÔ, .ds_store
+
+#+begin_src
+ ;; Ignore .DS_Store files with ido mode ;;- 
+(add-to-list 'ido-ignore-files "\\.DS_Store")
+#+end_src

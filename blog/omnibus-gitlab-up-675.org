@@ -1,0 +1,48 @@
+#+TITLE:       Omnibus-GitLab 升级 6.7.5
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-23
+#+URI:         /blog/%y/%m/%d/omnibus-gitlab-up-675
+#+KEYWORDS:    gitlab, 升级,
+#+TAGS:        gitlab, linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: gitlab, 升级,
+
+看到现在无人不知无人不晓的OpenSSL漏洞后, 第一时间内就打上了最新的Debian补丁, 今天又发现GitLab也出了新版本, 于是顺便把GitLab也升级一下.
+
+升级过程很简单,GitLab目前的最新版本是6.7.6, [[https://www.gitlab.com/downloads/][下载地址是这里]] , 如果你之前按照 [[http://blog.segmentfault.com/venmos/1190000000457771][我的方式]] 开启了HTTPS, 升级前最好备份一下Nginx的配置文件.
+
+- 首先停止GitLab服务
+#+begin_src
+
+sudo gitlab-ctl stop unicorn
+sudo gitlab-ctl stop sidekiq
+#+end_src
+
+- 然后用GitLab的工具创建一个备份, 以备不测
+
+#+begin_src
+
+sudo gitlab-rake gitlab:backup:create
+#+end_src
+
+- 接着直接安装最新版本即可升级
+#+begin_src
+
+sudo dpkg -i gitlab_6.7.5-omnibus-1.ubuntu.12.04_amd64.deb
+#+end_src
+
+- 然后重置GitLab
+#+begin_src
+
+sudo gitlab-ctl reconfigure
+#+end_src
+
+- 最后重新启动GitLab
+#+begin_src
+
+sudo gitlab-ctl start
+#+end_src
+
+可悲的是GitLab 6.7.5按照官方方式开启HTTPS还是不能, 如果你要使用HTTPS, 可以看这篇 [[http://blog.segmentfault.com/venmos/1190000000457771][这篇我以前的文章]] . 升级过后可能会出现502错误页面, 不用担心, 等待几分钟服务全部启动后就会自动消失.

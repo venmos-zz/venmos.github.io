@@ -1,0 +1,30 @@
+#+TITLE:       使用 Alfred 发推特
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-15
+#+URI:         /blog/%y/%m/%d/osx-alfred-post-twitt
+#+KEYWORDS:    alfred, twitter
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: alfred, twitter
+
+今天发现了一个Ruby写的软件,可以让你在Alfred中直接发推,就如同帽子微博一样. 在安装Tweet for Alfred之前你可能先需要安装Xcode,RVM与GCC.
+
+* 首先在Terminal中安装tweet:
+
+#+begin_src
+$sudo gem install console_tweet
+#+end_src
+
+然后在Terminal中设置tweet:
+
+#+begin_src
+twitter setup
+#+end_src
+
+执行完twitter setup之后会出现一条 https://api.twitter.com 开头的网址,将其完整复制粘贴到游览器中打开,会获得一组数字. 将数字输入在Enter PIN:之后,回车,就完成Twitter的Oauth认证了.
+
+然后到这里 [[http://daviscabral.com.br/Twitter.alfredextension][下载]] Alfred插件,安装.
+
+安装完插件之后,就可以唤出Alfred,然后输入tweet +内容来发推特啦:)

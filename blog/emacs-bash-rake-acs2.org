@@ -1,0 +1,27 @@
+#+TITLE:       Emacs Bash 执行 Rake 出现 ASCII 错误
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-28
+#+URI:         /blog/%y/%m/%d/emacs-bash-rake-error
+#+KEYWORDS:    emacs, bash, rake, acsii, error
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, bash, rake, acsii, error
+
+我的Emacs版本是24.3.50.1，虽然我用Zsh的，但是我的Emacs的默认Shell是Bash。今天在Emacs里的Shell里执行Octopress的rake generate命令时出现错误YAML Exception reading: invalid byte sequence in US-ASCII，大体意思是说我的Markdown日志内容是一个无效的字节序列。但是如果我在MacOSX的Terminal里执行rake generate命令，就不会出现这个奇怪的错误，我就断定问题是出在Emacs上，花了大把时间检查Emacs配置和Log信息都没有发现问题的所在。
+
+最后没办法了，我就开始从Google上搜索，没想到还真有一个和我遇到同样问题的人。由于一开始在MacOSX里的Terminal是没有错误的，所以我就认定问题是在Emacs身上，但其实问题还是在Bash的配置上，囧。
+
+在~/.bashrc中加入以下参数来定义字符编码：
+
+#+begin_src
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8b
+#+end_src
+
+之后Kill掉Shell，在重启打开Shell，再次执行rake generate，错误消失了：）
+
+更新：
+
+在Emacs配置里加入(setenv "LANG" "en_US.UTF-8")也可解决问题。

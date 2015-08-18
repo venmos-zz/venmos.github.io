@@ -1,0 +1,38 @@
+#+TITLE:       Tomorrow Theme
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-10
+#+URI:         /blog/%y/%m/%d/tomorrow-theme
+#+KEYWORDS:    tomorrow, theme,
+#+TAGS:        theme,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: tomorrow, theme,
+
+今天从Github上闲逛,偶尔发现一个养眼D主题, [[https://github.com/ChrisKempson/Tomorrow-Theme][Tomorrow Theme]].
+
+这个主题的支持范围非常广泛,甚至包括OS X Terminal…:
+
+- TextMate
+- Vim (Full-colour and 256-colour)
+- GNU Emacs
+- Xcode 4
+- Coda
+- Eclipse
+- Sublime Text 2 (Uses TextMate Themes)
+- Redcar (Uses TextMate Themes)
+- E TextEditor (Uses TextMate Themes)
+- SubEthaEdit (Uses Coda Themes)
+- BBEdit
+- Ace Editor
+- IntelliJ
+- Visual Studio
+- Notepad++
+- iTerm2
+- OS X Terminal
+
+我给我的Vim,TextMate和Terminal装上后的效果:
+
+[[http://farm8.staticflickr.com/7045/6915843572_d10a5e0c37.jpg]]
+
+详见 [[https://github.com/ChrisKempson/Tomorrow-Theme][Github]].

@@ -1,0 +1,22 @@
+#+TITLE:       Alfred 同时发送推特与微博
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-15
+#+URI:         /blog/%y/%m/%d/osx-alfred-post-weibo-twitt
+#+KEYWORDS:    alfred, twitter, weibo
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: alfred, twitter, weibo
+
+刚装完 [[http://venmos.com/blog/2012/08/15/alfred-tweet/][Twitter for Alfred]]  ,又想到之前的 [[http://venmos.com/blog/2012/04/10/alfred-weibo/][帽子微博]] ,就想为神马不能一条信息同时发送到推特与微博呢?
+
+打开Alfred中的Twitter与围脖插件一看,只要调换一下命令,将Twitter的命令复制到围脖之中不就行了嘛:)
+
+打开Alfred设置,找到AlfredWeibo插件,在Command窗口中最下端加入以下命令:
+
+#+begin_src
+/bin/bash -l -c 'echo "{query}" | twitter tweet'
+#+end_src
+
+保存即可,以后在帽子围脖中发送的信息也会发送到推特了:)

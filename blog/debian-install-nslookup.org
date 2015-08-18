@@ -1,0 +1,14 @@
+#+TITLE:       Debian install nslookup
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-11-25
+#+URI:         /blog/%y/%m/%d/debian-install-nslookup
+#+KEYWORDS:    debian, nslookup, 安装,
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: debian, nslookup, 安装,
+
+#+begin_src
+sudo apt-get install dnsutils
+#+end_src

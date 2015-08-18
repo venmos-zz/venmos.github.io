@@ -1,0 +1,87 @@
+#+TITLE:       Omnibus-GitLab 配置 HTTPS
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-04
+#+URI:         /blog/%y/%m/%d/omnibus-gitlab-enable-https
+#+KEYWORDS:    gitlab, 开启, https, 配置
+#+TAGS:        gitlab, linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: gitlab, 开启, https, 配置
+
+有一台空闲的服务器, 于是想着搭建一台GitLab玩一玩, 结果一看GitLab的官方安装步骤, 我和我的小伙伴们都惊呆了! 正准备放弃的时候, 结果从一个隐蔽的小角落里发现了一键安装包. 靠, 有一键你就早说!
+
+GitLab Community Edition (CE) 俗称一键安装包:  [[https://www.gitlab.com/downloads/][下载页面]]
+GitLab Community Edition (CE) 俗称一键安装包:  [[https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md][官方文档]]
+
+这个文档已经写的非常简单了, 大体意思是你首先得有一台Linux服务器, Debian/Ubuntu or CenterOS. CenterOS我没用过, 这里只讲Debian/Ubuntu.
+
+- apt-get update & apt-get upgrade 首先升级系统到最新.
+- apt-get install openssh-server postfix postfix是用来Email给用户用的, 安装时选择默认选项, 之后输入你服务器绑定的域名.
+- 下载安装包并拷贝到服务器.
+- dpkg -i gitlab_6.7.2-omnibus-1.ubuntu.12.04_amd64.deb 进行安装.
+
+创建配置文件:
+
+#+begin_src
+sudo mkdir -p /etc/gitlab
+sudo touch /etc/gitlab/gitlab.rb
+sudo chmod 600 /etc/gitlab/gitlab.rb
+#+end_src
+
+- 编辑配置文件, 加入一条域名配置external_url "http://hostname.com"
+- 使用gitlab-ctl reconfigure命令载入&重新配置GitLab.
+- 之后输入域名即可访问了, 真的只要6步, So easy. 默认用户名是root, 密码是5iveL!fe.
+
+这个一键安装虽然很多部分都不是自定义配置, 但是作为自用玩儿来说是足够了. 但是虽然是自用玩儿, 咋也得来个HTTPS才能显得高端大气上档次! 前面的安装步骤我都是按照官方文档来的, 一点问题都没有, 顺利的都可以用HTTP访问使用了. 但是在开启HTTPS的时候官方文档就坑了, 按照官方文档开启HTTPS的步骤我在Debian 7, Ubuntu 12, Ubuntu 13全试过了, 都不行, 压根无法开启Nginx的HTTPS.
+
+最后无奈之下我只能修改Nginx的配置了, 结果一下就行了, 坑爹阿.
+
+建立SSL目录, 然后拷贝你的证书到SSL目录:
+
+- mkdir /etc/gitlab/ssl & chmod 700 /etc/gitlab/ssl
+- cp gitlab.hostname.com.crt gitlab.hostname.com.key /etc/gitlab/ssl/
+
+编辑/etc/gitlab/gitlab.rb文件, 修改成:
+
+#+begin_src
+external_url "https://hostname.com"
+nginx['redirect_http_to_https'] = true
+nginx['ssl_certificate'] = "/etc/gitlab/ssl/gitlab.hostname.com.crt"
+nginx['ssl_certificate_key'] = "/etc/gitlab/ssl/gitlab.hostname.com.key"
+#+end_src
+
+之后使用gitlab-ctl reconfigure重建配置, 再修改Nginx配置文件/var/opt/gitlab/nginx/etc/gitlab-http.conf里的默认设置:
+
+#+begin_src
+listen *:443 default_server;                                                                                  
+  ssl on;
+  ssl_certificate /etc/gitlab/ssl/gitlab.hostname.com.crt;
+  ssl_certificate_key /etc/gitlab/ssl/gitlab.hostname.com.key;
+  ssl_protocols SSLv3 TLSv1;
+  ssl_ciphers ALL:!aNULL:!ADH:!eNULL:!LOW:!EXP:RC4+RSA:+HIGH:+MEDIUM;
+#+end_src
+
+接着再创建一个/var/opt/gitlab/nginx/etc/index.conf文件用来HTTP跳转HTTPS:
+
+#+begin_src
+server {
+    listen *:80;
+    server_name hostname.com;
+
+    rewrite ^(.*)$  https://$host$1 permanent;
+}
+#+end_src
+
+最后修改/var/opt/gitlab/nginx/etc/nginx.conf配置文件, 在其中加入以下内容, 来载入index.conf:
+
+#+begin_src
+include /var/opt/gitlab/nginx/etc/index.conf;
+include /var/opt/gitlab/nginx/etc/gitlab-http.conf;
+#+end_src
+
+以上全部完成之后, 使用gitlab-ctl restart来重启所有服务, 即可使用HTTPS访问GitLab了.
+
+PS: 注意在防火墙中开启SSH HTTP HTTPS and SMTP端口.
+
+

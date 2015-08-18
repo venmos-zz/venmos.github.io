@@ -1,0 +1,30 @@
+#+TITLE:       Dnscrypt
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-23
+#+URI:         /blog/%y/%m/%d/dnscrypt
+#+KEYWORDS:    安全, dns, 污染, 防止
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 安全, dns, 污染, 防止
+
+DNSCrypt是由OpenDNS发布的一款加密DNS流量软件,它能阻止常见的各种DNS攻击:如重放攻击,观察攻击,时序攻击,中间人攻击等等(亲,你懂的).DNSCrypt支持所有常见主流平台,包括:Mac::Linux::Windows.
+
+DNSCrypt的安装使用非常简单,只要去 [[http://shared.opendns.com/dnscrypt/packages/][这里]] 下载安装包,一路双击就OK.在Mac下安装完毕后,会在系统偏好设置出出现一个DNSCrypt的图标,点击进入就可配置:
+
+[[http://f.cl.ly/items/2z0W3R0Q0M1l142V121O/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202012-09-23%20%E4%B8%8B%E5%8D%8810.35.19.png]]
+
+进入DNSCrypt设置后,只要勾选Enable OpenDNS(使能OpenDNS),勾选Enable DNSCrypt(使能DNSCrypt),再勾选一个DNSCrypt over TCP/443(使能TCP/443加密链接方式)就OK了,同时下方也会显示using DNSCrypt/HTTPS(使用DNSCrypt加密方式).在你Enable DNSCrypt时,DNSCrypt会自动更改你的DNS,不需要你在手动进行设置,非常方便.
+
+[[http://f.cl.ly/items/0a1S2W2W0z0n3V0K1I1c/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202012-09-23%20%E4%B8%8B%E5%8D%8810.35.09.png]]
+
+设置完毕后我们在使用nslookup命令来测试一个广大人民群众喜闻乐见的著名网站来测试DNSCrypt是否堪用:
+
+[[http://f.cl.ly/items/1D3c0y1s3m2H1J3k3r46/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202012-09-23%20%E4%B8%8B%E5%8D%8810.35.40.png]]
+
+结果返回正常值,代表DNSCrypt工作正常,且是堪用的:))
+
+PS1:这款软件其实是非常搭配使用代理的童鞋的,推荐使用代理方式上网,又对Tcp-DNS繁琐设置厌烦的童鞋使用.
+
+PS2:我最近也一直在使用这款软件,虽然我一直使用的是OpenVPN(OpenVPN可使DNS解析服务走VPN加密隧道,从而避免污染),但是很多时候我会忘了开OpenDNS,然后就链接网络,造成被污染.在链接OpenVPN之后往往还要在执行一下清空DNS的命令,很繁琐,而且有的时候MacOS X的DNS服务会抽风,那就更烦了,而使用DNSCrypt就会简单的避免这种情况,而根据我自身的感受,速度要比使用Google DNS快一些.

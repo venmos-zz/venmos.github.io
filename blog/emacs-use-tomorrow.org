@@ -1,0 +1,23 @@
+#+TITLE:       Emacs 使用 Tomorrow 主题
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-31
+#+URI:         /blog/%y/%m/%d/emacs-use-tomorrow
+#+KEYWORDS:    emacs, tomorrow, 主题
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, tomorrow, 主题
+
+Emacs自带的主题实在难看,决定换成以前常用的[[https://github.com/chriskempson/tomorrow-theme][ Tomorrow ]]主题系列.自己尝试了一下没更换成功,看样子Emacs自定义主题稍微有些复杂:)放狗搜了一下,找到一个可用的答案.原来需要先require Tomorrow一下,然后在使用color-theme-tomorrow.el中定义的主题名称就可以了.
+
+#+begin_src
+(add-to-list 'load-path "~/.emacs.d/color-theme/")
+(require 'color-theme)
+(load "~/.emacs.d/color-theme/color-theme-tomorrow.el")
+(eval-after-load "color-theme"
+  '(progn
+      (color-theme-tomorrow-night)))
+#+end_src
+
+PS:需要color-theme,且我的Tomorrow放在~/.emacs.d/color-theme/目录之中.

@@ -1,0 +1,17 @@
+#+TITLE:       Kindle 批量删除文章
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-11-08
+#+URI:         /blog/%y/%m/%d/kindle-del-js
+#+KEYWORDS:    kindle, 批量, 删除,
+#+TAGS:        code,n
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: kindle, 批量, 删除,
+
+#+begin_src
+javascript:(function(){ var v = new RegExp('PersonalDocuments'); if (!v.test(document.URL)) {alert("The script can only work in Personal Documents!");}else{a=document.getElementsByClassName('rowBodyCollapsed');b=document.getElementsByName('checkboxForDelete');if(b.length==0){document.getElementById('Row1Button').innerHTML += "<a href='javascript:(function(){for(var i=0;i<b.length;i++){b[i].checked=true;};})();'>All</a><a href='javascript:(function(){for(var i=0;i<b.length;i++){b[i].checked=false;};})();'> None</a><a href='javascript:(function(){for(var i=0;i<b.length;i++){b[i].checked=!b[i].checked;};})();'> Reverse</a>";for(var i = 0; i<a.length; i++){ tmp=document.getElementById('Row' + (i+1) + 'Button'); tmp.innerHTML += "<input type='checkbox' name='checkboxForDelete' >";};}else{for(var i = 0; i<b.length; i++){if(b[i].checked){Fion.deleteItem('deleteItem_'+a[i].getAttribute('asin'));}};}return;}})();
+
+#+end_src
+
+保存为书签，点击一下书签然后勾选要删除的内容，之后再次点击书签即开始批量删除。

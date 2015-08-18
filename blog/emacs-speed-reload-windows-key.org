@@ -1,0 +1,24 @@
+#+TITLE:       Emacs 快速恢复分割窗口
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-20
+#+URI:         /blog/%y/%m/%d/emacs-speed-reload-windows-key
+#+KEYWORDS:    emacs, 快速, 恢复, 分割, 窗口
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 快速, 恢复, 分割, 窗口
+
+使用C-x 0/1/2/3可以快速的变更Emacs的窗口设置,但是有时候我C-x 1完成了一个文件的编辑之后又想快速回到C-x 1之前的分割窗口状态,又或者是我不小心误操作了C-x 1后该怎么办?难道又要重新在做一遍窗口分割?
+
+其实Emacs里已经自带了一个叫做winner-mode的minor mode,可以快速帮你恢复窗口分割状态:
+
+- emacs ~/.emacs.d/init.el
+
+#+begin_src
+(when (fboundp 'winner-mode) 
+  (winner-mode) 
+  (windmove-default-keybindings))
+#+end_src
+
+之后只需要C-c left组合键,就可以快速退回上一个窗口设置.

@@ -1,0 +1,29 @@
+#+TITLE:       Zsh 快速加入 Sudo
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-28
+#+URI:         /blog/%y/%m/%d/zsh-speed-add-command-sudo
+#+KEYWORDS:    zsh, 快速, 加入, sudo
+#+TAGS:        zsh,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: zsh, 快速, 加入, sudo
+
+经常会忘记给命令参数前面加上sudo,虽然用sudo !!也方便是用C-a sudo也方便,但是我还是想用一个更懒的办法:
+
+- $emacs ~/.zshrc
+
+#+begin_src
+sudo-command-line() {
+[[ -z $BUFFER ]] && zle up-history
+[[ $BUFFER != sudo\ * ]] && BUFFER="sudo $BUFFER"
+zle end-of-line               
+}
+zle -N sudo-command-line
+
+bindkey "\e\e" sudo-command-line
+#}}}
+#+end_src
+
+- 输入完命令后按快捷键Esc Esc在命令前端加入sudo
+

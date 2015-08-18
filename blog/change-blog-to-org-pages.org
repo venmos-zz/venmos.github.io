@@ -1,0 +1,11 @@
+#+TITLE:       更换 Blog 到 Org-Pages
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-16 Sun
+#+URI:         /blog/change-blog-to-org-pages
+#+KEYWORDS:    emacs org-mode org-pages
+#+TAGS:        blog, emacs, org-page, org-mode
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 更换 Blog 到 Org-Page
+试用了 [[https://github.com/kelvinh/org-page][org-page]] 感觉非常方便，开始将 Blog 迁移到 org-page。

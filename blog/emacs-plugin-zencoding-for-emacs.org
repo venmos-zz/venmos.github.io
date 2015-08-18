@@ -1,0 +1,21 @@
+#+TITLE:       Zencoding for Emacs
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-30
+#+URI:         /blog/%y/%m/%d/emacs-plugin-zencoding
+#+KEYWORDS:    emacs, zencoding,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, zencoding,
+
+搞前端的童鞋都应该知道大名鼎鼎的Zencoding,使用它可以让我们只需击打最少的键就可以输出大量的HTML代码.在Emacs下使用el-get安装Zencoding非常简单,只需要el-get-install RET zencoding-mode两行命令即可自动安装完成.但是Zencoding在Emacs下缺占用了两个非常常用的快捷键,一个是C-j:断行一个是C-RET:cua-mode.所以在Emacs里安装完Zencoding后还需要禁止一下原生快捷键,改用自定义的快捷键:
+
+#+begin_src 
+(add-hook 'zencoding-mode-hook
+          (define-key zencoding-mode-keymap (kbd "C-j") nil)
+          (define-key zencoding-mode-keymap (kbd "<C-return>") nil)
+          (define-key zencoding-mode-keymap (kbd "C-c C-j") 'zencoding-expand-line))
+#+end_src
+
+如此即可屏蔽Zencoding原生的C-j与C-RET,改为C-c C-j:))

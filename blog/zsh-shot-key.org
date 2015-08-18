@@ -1,0 +1,21 @@
+#+TITLE:       Zsh 快捷键
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-11-23
+#+URI:         /blog/%y/%m/%d/zsh-shot-key
+#+KEYWORDS:    zsh 快捷键
+#+TAGS:        zsh,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: zsh 快捷键
+用了Zsh很长时间了,也充分感觉到了Zsh的强大与便捷.但是不知道为什么有一些在Linux下可以使用的Zsh快捷键到了MacOS下就无法使用了.
+
+这里拣了一些我经常使用的Zsh快捷键,打出来加深一下记忆.
+
+- 调用Vim编辑命令 Ctrl+x Ctrl+e
+- 移动到命令行首 Ctrl+a
+- 移动到命令行尾 Ctrl+e
+- 移动光标到下一个字符 Ctrl+f
+- 移动光标到上一个字符 Ctrl+b
+- 删除整行命令 Ctrl+u
+- 搜索历史命令 Ctrl+r

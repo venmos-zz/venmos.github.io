@@ -1,0 +1,19 @@
+#+TITLE:       OS X 10.10 Emacs 24.4 全屏化窗口
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-11-13
+#+URI:         /blog/%y/%m/%d/osx-10-10-emacs-244-full-windows
+#+KEYWORDS:    osx, emacs, 全屏
+#+TAGS:        emacs, osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, emacs, 全屏
+
+Emacs 24.4 全屏化窗口的命令为toggle-frame-fullscreen, 为它绑定一个快捷键:
+
+#+begin_src 
+;; fullscreen
+(global-set-key (kbd "C-x w f") 'toggle-frame-fullscreen)
+#+end_src
+
+

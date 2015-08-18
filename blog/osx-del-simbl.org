@@ -1,0 +1,20 @@
+#+TITLE:       删除 SIMBL
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-12
+#+URI:         /blog/%y/%m/%d/osx-del-simbl
+#+KEYWORDS:    删除, simbl
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 删除, simbl
+
+今天手贱,在Safari上装了一个SIMBL包,结果导致Safari每次启动都会卡顿30s~60s才会有反应.而且苦逼的是安装包内给定的卸载程序不知为何在Lion上无法运行,囧.
+
+看样子只能手动删除了,研究了一下大概在这几个位置:
+
+/Library/LaunchAgents/目录下的net.culater.SIMBL.Agent.plist文件;
+
+/Library/ScriptingAdditions/目录下的SIMBL.osax文件;
+
+可能还有其他的我没有找到,不过删除这两个文件后重启系统问题消失,我也懒得在找有没有其他了:)

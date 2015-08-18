@@ -1,0 +1,24 @@
+#+TITLE:       修改 Emacs-W3M 的默认 Search
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-28
+#+URI:         /blog/%y/%m/%d/change-emacs-w3m-search
+#+KEYWORDS:    修改, emacs, w3m, 默认, 搜索,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 修改, emacs, w3m, 默认, 搜索,
+
+如,修改Emacs-W3M的默认Search为DuckDuck Go ==> http://www.duckduckgo.com/?q=%s
+
+#+begin_src
+(setq w3m-search-default-engine "DuckDuck Go")
+
+(add-to-list 'w3m-search-engine-alist
+    '("DuckDuck Go" "http://www.duckduckgo.com/?q=%s"))
+
+(defadvice w3m-search (after change-default activate)
+      (let ((engine (nth 1 minibuffer-history)))
+  (when (assoc engine w3m-search-engine-alist)
+    (setq w3m-search-default-engine engine))))
+#+end_src

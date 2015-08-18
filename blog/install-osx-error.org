@@ -1,0 +1,22 @@
+#+TITLE:       安装 Mac OS X 时发生错误
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-31
+#+URI:         /blog/%y/%m/%d/install-osx-error-2012
+#+KEYWORDS:    osx, error, install
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, error, install
+今天在更换硬盘后重试安装 Mac OS X,没想这回更换硬盘后做完 RAID,安装重启之后居然直接四国了,冏.
+
+可能是因为这四块硬盘仍然不兼容 Mac Pro RAID Card,也可能是我重装的时候 RAID 还没准备完启动卷,也可能是 RAID Card 当时显示缓冲电池没电了. 不过这都不重要了,重要的是现在一用 Lion 安装盘启动 Mac Pro 就会显示”安装 Mac OS X 时发生问题.尝试重新安装”
+
+打电话给苹果客服之后,得到的解决步骤如下:
+
+- 关闭 Mac;
+- 在键盘上预先找到 Command,Option,R,P;
+- 启动 Mac;
+- 在按下 Mac 电源按钮后立刻按住 Command + Option + R + P;
+- 一直按住以上按键,直到听见电脑第二次重启响声;
+- 松开按键,选择语言,继续安装 Mac OS X Lion;

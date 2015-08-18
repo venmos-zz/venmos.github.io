@@ -1,0 +1,16 @@
+#+TITLE:       GeekTool
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-21
+#+URI:         /blog/%y/%m/%d/geektool-configure
+#+KEYWORDS:    geektools, 配置, config
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: geektools, 配置, config
+
+捣鼓一小时GeekTool, 以下是成果:
+
+[[http://f.cl.ly/items/023C0D2C100C051P323p/GeekTool.jpg]]
+
+附我的配置下载: [[http://c.venmos.com/ISxk]]

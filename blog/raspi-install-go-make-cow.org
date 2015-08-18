@@ -1,0 +1,42 @@
+#+TITLE:       树莓派上编译 Go 安装 Cow
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-01
+#+URI:         /blog/%y/%m/%d/raspi-make-go-install-cow
+#+KEYWORDS:    树莓派, 编译go, 安装, 配置, cow
+#+TAGS:        raspi, linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 树莓派, 编译go, 安装, 配置, cow
+
+Cow是不错的软件，相当好用，我在公司是直接把它挂到了服务器上，然后办公室的人都在用它。但是回到了家里我就无法用移动设备或者PSP之类的连接它了，我的电脑也不能一天24小时的在家中开机，碰巧这两天买了连个树莓派，上面运行的是专门定制过的Debian Linux，我就想着是否能够使用它来运行Cow。十分不幸的是，似乎作者的网站上并没有提供ARM设备的Cow版本，我尝试的下载了Linux 32位的版本，但是无法在树莓派上运行。所幸Cow是用Go语言写的，而Go支持ARM，大不了自己编译Cow。
+
+我不知道是因为我的的问题还是因为什么奇怪的问题，树莓派的官方源里有Golang，但是我安装之后却无法使用。So，干脆连Go也自己编译好了。
+
+先安装依赖包：
+
+#+begin_src
+sudo apt-get install -y mercurial gcc libc6-dev
+#+end_src
+
+然后用Mercurial拖回Go的源码：
+
+#+begin_src
+hg clone -u default https://code.google.com/p/go $HOME/go
+#+end_src
+
+然后开始编译:
+
+
+#+begin_src
+cd $HOME/go/src
+./all.bash
+#+end_src
+
+这一步非常非常非常漫长，我估计我等了能有七八十分钟。等待漫长的编译结束后，我们还需要设置一下环境变量，在.zshrc或.bashrc下加入export PATH=$PATH:$HOME/go/bin。然后重启Shell环境，执行一下go version命令，如果出现正确的版本号信息，就表示一切都OK了。如果你准备马上开始编译Cow，还需要设置一下gopath，在.zshrc或.bashrc中加入export GOPATH=$HOME/mygo，然后执行go get github.com/cyfdecyf/cow命令开始拖回Cow的源码并编译。
+
+又是一阵漫长的等待，之后Cow的可执行文件会出现在$HOME/mygo/bin/目录之中，最后附我所编译好了的Go for Raspberry pi与Cow for Raspberry pi下载地址与Cow项目主页：
+
+- Go for Raspberry pi http://pan.baidu.com/share/link?shareid=3899103835&uk=235347055
+- Cow 0.7.1 for Raspberry pi http://pan.baidu.com/share/link?shareid=3925804000&uk=235347055
+- Cow 项目主页https://github.com/cyfdecyf/cow

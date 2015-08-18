@@ -1,0 +1,20 @@
+#+TITLE:       Ubuntu 12 显卡未知
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-13
+#+URI:         /blog/%y/%m/%d/ubnntu-graphics-error
+#+KEYWORDS:    ubuntu, 显卡, 安装, 错误
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: ubuntu, 显卡, 安装, 错误
+
+办公室的同事今天把自己的办公开发用笔记本全新安装升级到了Ubuntu 12版本后出了一个很诡异的问题， 在硬件查看里，显卡一直显示未知？要知道同事的本子的显卡是很普通的Intel GM45显卡，Ubuntu 12应该 已经集成了它的开源驱动了，在Ubuntu 11版本里也是默认安装完系统后就会识别了。
+
+仔细的花了半个小时研究了一遍各种与显卡相关的配置文件，没有解决。但是不死心，因为虽然对日常使用 没有什么影响，但是那个未知太难看了！
+
+于是就放狗搜索！没想到第一页就找到了答案（囧，早知道就不研究配置了，一开始就放狗了！），原来是少了 一个组件，安装后问题就解决了。
+
+#+begin_src
+$sudo apt-get install mesa-utils
+#+end_src

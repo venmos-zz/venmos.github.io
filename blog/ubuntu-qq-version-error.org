@@ -1,0 +1,37 @@
+#+TITLE:       QQ for Ubuntu Error
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-03-31
+#+URI:         /blog/%y/%m/%d/qq-for-ubuntu-error
+#+KEYWORDS:    qq, ubuntu, error
+#+TAGS:        error, linux
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: QQ Ubuntu Version Error
+
+从 QQ 官方网站下载 deb 安装包后安装的时候你会发现提示错误”version number…“,意思大概为版本号相关的错误,八成是开发人员打包的时候不谨慎造成的.
+
+解决办法是:
+
+解包 Deb
+#+begin_src
+dpkg-deb -e linuxqq-x.xx.deb linuxqq
+dpkg-deb -x linuxqq-x.xx.deb linuxqq/debian
+#+end_src
+
+
+修改控制信息
+#+begin_src 
+vim linuxqq/debian/control
+/--找出 Version 一行,将其修改为 1234--/
+#+end_src
+
+打包修改后的 QQ
+#+begin_src
+dpkg-deb -b linuxqq linuxqq.deb
+#+end_src
+
+安装修改后的 QQ
+#+begin_src
+dpkg -i linuxqq.deb
+#+end_src

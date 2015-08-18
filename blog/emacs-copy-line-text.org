@@ -1,0 +1,28 @@
+#+TITLE:       Emacs 拷贝一行文本
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-21
+#+URI:         /blog/%y/%m/%d/emacs-copy-line-text
+#+KEYWORDS:    emacs, 拷贝, 一行, 文本
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 拷贝, 一行, 文本
+
+- $emacs ~/.emacs.d/init.el
+
+#+begin_src
+(global-set-key (kbd "C-c C-w") 'copy-lines)
+
+(defun copy-lines(&optional arg)
+  (interactive "p")
+  (save-excursion
+    (beginning-of-line)
+    (set-mark (point))
+    (next-line arg)
+    (kill-ring-save (mark) (point))
+  )
+)
+#+end_src
+
+- 然后使用C-c C-w组合键来拷贝,也可在前面加C-u number参数来拷贝数行.

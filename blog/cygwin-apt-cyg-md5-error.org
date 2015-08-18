@@ -1,0 +1,12 @@
+#+TITLE:       Cygwin apt-cyg "MD5 sum did not match"
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-07-28
+#+URI:         /blog/%y/%m/%d/cygwin-apt-cyg-md5-error
+#+KEYWORDS:    cygwin, apt-cyg, md5, 错误
+#+TAGS:        
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: cygwin, apt-cyg, md5, 错误
+
+晚上给家里共用的电脑安装了Windows 10，顺便安装了Cygwin，以便不时之需。为了使用方便，又在Cygwin里安装了apt-cyg。然后使用apt-cyg安装Git出现了一个很奇怪的错误MD5 sum did not match。检查环境确实已经安装了md5sum，也可以运行使用，但是就是没法使用apt-cyg install。最后没办法直接编辑了apt-cyg文件，找到md5sum，替换修改成sha512sum。然后重试apt-cyg install，成功。

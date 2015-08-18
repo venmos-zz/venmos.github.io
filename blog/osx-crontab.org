@@ -1,0 +1,43 @@
+#+TITLE:       OS X 执行定期任务
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-13
+#+URI:         /blog/%y/%m/%d/osx-crontab
+#+KEYWORDS:    osx, 定期, 执行, crontab
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, 定期, 执行, crontab
+
+用过Linux的童鞋都应该知道在Linux下可以使用crontab来定期的执行一些任务,同样在MacOS X下也可以使用,不过这并不是官方所推荐的方法,官方所推荐的办法是编写plist脚本,与开机执行脚本同样.
+
+下面是我所使用的一个示例,具体含义是每天执行一次backup-amazons3.sh这个脚本,将我的工作目录备份到Amazon S3上去.
+
+#+begin_src
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Backup</key>
+    <string>com.venmos.cron.backup.plist</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/venmos/Github/backup-amazons3.sh</string>
+    </array>
+    <key>KeepAlive</key>
+    <false/>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Day</key>
+        <integer>1</integer>
+    </dict>
+</dict>
+</plist>
+#+end_src
+
+编辑完之后将其保存在/Library/LaunchDaemons/之中就可以了,更多时间参数可以看Apple的 [[https://developer.apple.com/library/mac/#documentation/Darwin/Reference/ManPages/man5/launchd.plist.5.html][官方文档]] 之中的详细说明.
+
+PS:如果你真的很像还使用你所熟悉的crontab,那么你不妨尝试一下这款MacOS X下的图形化的crontab: [[http://www.macupdate.com/app/mac/7486/cronnix][CronniX]] .
+

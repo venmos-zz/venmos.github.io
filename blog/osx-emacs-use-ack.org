@@ -1,0 +1,25 @@
+#+TITLE:       OS X Emacs 使用 ACK
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-05
+#+URI:         /blog/%y/%m/%d/osx-emacs-use-ack
+#+KEYWORDS:    osx, emacs, 使用, ack
+#+TAGS:        osx, emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, emacs, 使用, ack
+
+前几天看了这个博客，非常不错，主要是介绍的Ack(http://happycasts.net/?utf8=%E2%9C%93&search=ack)，于是我也在自己的Air上用brew install ack安装了Ack。但是只是这样，只能在Terminal中使用，不大方便，于是我又el-get-install安装了ack.el。
+
+Ubuntu下面的Ack命令叫ack-grep，而MacOSX下的就叫ack，所以我们还要设置一下init.el：
+
+#+begin_src
+(setq ack-command "ack")
+#+end_src
+
+然后我还绑定了两个常用快捷键，一个是ack，同Terminal中的Ack命令相同。另一个是ack-find-file，用来在当前目录中搜索打开文件，通TextMate中的Command+t：
+
+#+begin_src
+(global-set-key (kbd "C-c C-f") 'ack)
+(global-set-key (kbd "C-c C-a") 'ack-find-file)
+#+end_src

@@ -1,0 +1,48 @@
+#+TITLE:       山寨 Spacemacs Mode Line
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-07
+#+URI:         /blog/%y/%m/%d/emacs-plugin-sz-spe-mode-line
+#+KEYWORDS:    spacemacs, modeline,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: spacemacs, modeline,
+
+theming.el 效果
+
+http://segmentfault.com/img/bVm1qK
+
+theming.el => https://github.com/ashutoshrishi/emacs-personal/blob/master/personal/t...
+
+mainline.el 效果
+
+http://segmentfault.com/img/bVm1qO
+
+mainline.el => https://github.com/emacsfodder/emacs-mainline
+
+将Mode变成圆圈字母
+
+http://segmentfault.com/img/bVm1rg
+
+#+begin_src
+
+M-x package-install RET
+diminish RET
+#+end_src
+
+#+begin_src
+
+init-diminish.el
+
+(require 'diminish)
+
+(when (require 'diminish nil 'noerror)
+  (eval-after-load "company"
+        '(diminish 'company-mode "Ⓒ"))
+  (eval-after-load "yasnippet"
+    '(diminish 'yas-minor-mode "Ⓨ")))
+
+(provide 'init-diminish)
+;;; init-diminish.el end here.
+#+end_src

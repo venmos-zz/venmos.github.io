@@ -1,0 +1,168 @@
+#+TITLE:       OS X 安装 pDNSd 实现无污染高速缓存 DNS
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-19
+#+URI:         /blog/%y/%m/%d/osx-install-pdnsd-configure
+#+KEYWORDS:    osx, dns, 污染, pdnsd
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, dns, 污染, pdnsd
+
+前面讲Dnsmasq，我还打算下一篇写Dnsmasq for Ubuntu/DD-WRT来搭建家庭DNS缓存服务器呢，没想到这么快我就“变心”了Orz…其实从Dnsmasq转变到Pdnsd的原因很简单，一是Pdnsd原生支持TCP形式来访问DNS服务器，我就不需要在跑Tcp-DNS-proxy了；二是Pdnsd也能通过变通的方式来让特定的域名来走特定的DNS服务器；三是Pdnsd可以自定义TTL时间，也就是可以自己定义缓存保存的时间；四是不知道是我机器还是系统的问题，Dnsmasq在我的机器上跑起来老是各种抽风Orz…
+
+Pdnsd在MacOS X上安装还是蛮简单的，只需要brew install pdnsd即刻自动安装了。brew这个命令是homebrew这个软件包的命令，至于homebrew以前已经讲过很多很多次了，这里就不在罗嗦了。
+
+安装完成之后我们需要配置一下Pdnsd，它的配置文件默认是在/usr/local/etc/pdnsd.conf.sample（如果你是用homebrew安装的话），这是一个默认的配置文件模板，我建议拷贝一个或者新建一个配置文件，而不动这个默认的配置文件模板。因为如果将来有配置参数错误，或者配置文件写坏了，我们还可以有这个模板来参考或恢复。
+
+你可以用cp pdnsd.conf.sample pdnsd.conf命令来从配置文件模板拷贝出来一个配置文件，然后在其中修改。但是由于这个模板文件里废话太多，可读性不好，我一般都是新建一个配置文件来写入自己所需要的功能配置，使用touch pdnsd.conf命令来创建一个空白的配置文件。
+
+下面是我的pdnsd.conf配置文件：
+
+#+begin_src
+global {
+        perm_cache=4096;
+        cache_dir="/usr/local/var/cache/pdnsd";
+        max_ttl=604800;
+      query_method=tcp_only;
+        paranoid=on;
+        server_port=53;
+        server_ip="127.0.0.1";
+      min_ttl=1d;
+      max_ttl=1w;     
+}
+
+server {
+        label=GoogleDNS;
+        ip=8.8.8.8, 8.8.4.4;
+        timeout=30;
+        interval=30;
+        uptest=ping;
+        ping_timeout=50;
+      purge_cache=off;
+}
+#+end_src
+
+你可以将它复制到你的配置文件中直接使用，其中只需要注意的是perm_cache这个参数代表了你要缓存多少DNS信息，min_ttl这个参数代表了缓存的DNS信息的最短有效期，max_tll这个参数定义了缓存的DNS信息最长的有效期，一般min_ttl的时间最好大于max_ttl，我定义的min_ttl为1d，也就是1一天。
+
+另外一个比较重要的参数是query_method，我写的参数是tcp_only，也就是强制只使用TCP方式去查询DNS服务器，这个参数一定要是TCP方式，否则还是会遭到DNS污染，一切都白费了。最后的server，就是你指定的DNS查询服务器，这里使用的是Google的DNS，当然你也可以用OpenDNS，只要你乐意。
+
+另外Pdnsd还可以通过配置让指定的域名来走指定的DNS服务器来进行解析，比如用GoogleDNS来解析国外服务器很方便，但是解析国内服务器的话就会绕远路。所以我们要对Pdnsd进行配置，让它更加科学的来解析DNS，让我们访问国内的网站不至于太慢。
+
+通过查看配置文件模板就可以很容易的看明白，Pdnsd是通过exclude的方式来排除域名的。比如在label=GoogleDNS参数下面新建一行exclude=.cn,.youku.com;，这样Pdnsd就会在GoogleDNS设置里排除末尾带.cn的域名和youku.com域名。在你解析它们的时候，Pdnsd会交给下面的域名服务器组来解析，我用以下配置文件来示例一下：
+
+#+begin_src
+server {
+        label=GoogleDNS;
+        ip=8.8.8.8, 8.8.4.4;
+        timeout=30;
+        interval=30;
+        uptest=ping;
+        ping_timeout=50;
+      purge_cache=off;
+      exclude=.cn,
+      .youku.com,
+      .taobao.com;
+}
+
+server {
+  label=ChinaDNS
+  ip=202.102.152.3, 202.102.154.3;
+}
+
+#+end_src
+
+Pdnsd来读配置文件的机制是上面的配置的优先级总是高于下面的配置的优先级，也就是说写在最上面的DNS解析服务器配置模块的优先级要高于写在下面的，是一个层级结构。而上面的配置文件在最上面的解析服务器模块里定义了排除.cn后缀和youku.com,taobao.com,这个几个域名。这样Pdnsd就不会使用GoogleDNS这个解析配置模块来解析.cn后缀和youku.com,taobao.com域名，而转交给下一个域名解析模块来解析，也就是转交给ChinaDNS来解析。
+
+如此我们就可以将经常访问的国内网站写入GoogleDNS模块里的exclude参数后面来进行排除，然后在用国内的DNS服务器来解析，来优化网络。我用这种方式是因为我上的国内网站屈指可数，没有几个，而如果你上国内网站很多，上国外网站就几个的话你也可以反过来写，以免花太多的精力来写这个配置文件，比如：
+
+#+begin_src
+server {
+      label=ChinaDNS
+      ip=202.102.152.3, 202.102.154.3;
+      exclude=.twitter.com,
+      .youtube.com,
+      .google.com,
+      .facebook.com;
+  }
+  
+server {
+  label=GoogleDNS
+  ip=8.8.8.8, 8.8.4.4;
+}
+#+end_src
+
+这样就会把上面写的这些不存在的网站（你懂的）的域名排除，不用国内的DNS来解析，而转交给GoogleDNS来解析了。
+
+最后我们还需要给Pdnsd的缓存文件夹赋予一下权限，也就是上面配置文件里写的/usr/local/var/cache/pdnsd目录，当然你也可以根据你的喜好来指定其他目录。我比较懒，直接用root权限来运行Pdnsd，所以我chown root:admin /usr/local/var/cache/pdnsd，如果你用别的账户，请自行授权，或者777也行。
+
+以上配置都完成之后，你就可以启动Pdnsd来进行测试了，用命令sudo pdnsd来启动它，然后将你的系统的DNS服务器修改为127.0.0.1，也就是本机。现在你就可以上网进行测试了，如果测试都没问题，都是按照你所想的规则来进行解析的话，下面我就需要开始新建一个启动文件，来让MacOS X开机自己自启动Pdnsd。
+
+touch /Library/LaunchDaemons/pdnsd.plist
+
+然后写入以下：
+
+- pdnsd.plist
+
+#+begin_src
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+      <key>Label</key>
+      <string>pdnsd</string>
+      <key>Program</key>
+      <string>/usr/local/sbin/pdnsd</string>
+      <key>RunAtLoad</key>
+      <true/>
+      <key>ServiceDescription</key>
+      <string>pdnsd dns caching daemon</string>
+  </dict>
+</plist>
+#+end_src
+
+其中唯一需要注意的就是/usr/local/sbin/pdnsd，这是Pdnsd可执行程序存在的目录，如果你也跟我一样是通过homebrew安装的，那就不需要修改了，否则你可以通过which pdnsd命令来查看Pdnsd可执行程序的目录。
+
+现在你就可以重启计算机了，如果一切正常Pdnsd就会在开机时自动启动了，你可以通过sudo ps aux | grep dns名来来看Pdnsd是否已经启动。
+
+PS之前的pdnsd.conf设置有一些配置问题，可能会造成抽风，以下是又经过修改的版本：
+
+#+begin_sec
+global {
+        perm_cache=4096;
+        cache_dir="/usr/local/var/cache/pdnsd";
+        status_ctl = on;
+      query_method=tcp_only;
+        server_port=53;
+        server_ip="127.0.0.1";
+      min_ttl=1d;
+      max_ttl=2d;   
+      timeout=10;  
+      neg_domain_pol=on;
+#       paranoid=on; 
+}
+
+server {
+        label=GoogleDNS;
+        ip=8.8.8.8, 8.8.4.4;
+        timeout=4;
+        interval=10m;
+        uptest=ping;
+        ping_timeout=50;
+      purge_cache=off;
+  }
+  
+source {
+  owner=localhost;
+  file="/etc/hosts";
+}
+ 
+ 
+rr {
+  name=localhost;
+  reverse=on;
+  a=127.0.0.1;
+  owner=localhost;
+  soa=localhost,root.localhost,42,86400,900,86400,86400;
+}
+#+end_src

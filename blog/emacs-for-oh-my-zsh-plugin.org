@@ -1,0 +1,42 @@
+#+TITLE:       Emacs for Oh-my-zsh Plugin
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-29
+#+URI:         /blog/%y/%m/%d/emacs-oh-my-zsh-plugin
+#+KEYWORDS:    emacs, oh-my-zsh,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, oh-my-zsh,
+
+Emacs的启动速度一直是让人诟病的原因，尤其是在向我这样使用了如此之多的Lisp之后，启动速度就更慢了。为了解决这个问题，给Oh-My-Zsh添加了一个Plugin，同时将Emacs启动时置于Server模式，方便在Terminal与Emacs之间快速切换。
+
+- emacs.plugin.zsh
+
+#+begin_src
+function dired () {
+  emacsclient -e "(dired \"${1:a}\")"
+}
+
+function cde () {
+    EMACS_CWD=`emacsclient -e "
+     (expand-file-name
+      (with-current-buffer
+          (if (featurep 'elscreen)
+              (let* ((frame-confs (elscreen-get-frame-confs (selected-frame)))
+                     (num (nth 1 (assoc 'screen-history frame-confs)))
+                     (cur-window-conf (cadr (assoc num (assoc 'screen-property frame-confs))))
+                     (marker (nth 2 cur-window-conf)))
+                (marker-buffer marker))
+            (nth 1
+                 (assoc 'buffer-list
+                        (nth 1 (nth 1 (current-frame-configuration))))))
+        default-directory))" | sed 's/^"\(.*\)"$/\1/'`
+
+    echo "chdir to $EMACS_CWD"
+    cd "$EMACS_CWD"
+}
+
+#+end_src
+
+将此文件加入~/.oh-my-zsh/plugin/emacs/目录之中，然后在Emacsp配置文件中设置(server-start)参数，让Emacs启动时自动启动Server模式。之后你就可以在Zsh里使用dired命令将当前Zsh路径在Emacs里以Dired方式打开，也可以使用emacsclient filename命令来将文件转交给Emacs来打开处理。

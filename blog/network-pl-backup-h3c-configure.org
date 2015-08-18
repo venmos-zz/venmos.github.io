@@ -1,0 +1,53 @@
+#+TITLE:       批量备份 H3C 网络设备配置脚本
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-09
+#+URI:         /blog/%y/%m/%d/pl-backup-h3c-configure
+#+KEYWORDS:    批量, 备份, h3c, 配置,
+#+TAGS:        code, shell,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 批量, 备份, h3c, 配置,
+
+公司的网络设备越来越多,得写个批量备份脚本了,要不备份配置文件累死了.本来想用Ruby的Net::Telnet,后来还是简单点用expect实现了.
+
+#+begin_src
+#!/usr/bin/expect
+
+# h3c config backup
+# venmos
+# venmos.com
+# me[at]venmos.com
+
+set device1 "192.168.1.1"
+set device2 "192.168.2.1"
+set user user  
+set pass password
+set timeout 60
+
+spawn telnet $device1
+expect "Username:"
+send "$user\n"
+expect "Password:"
+send "$pass\n"
+
+expect ">"
+send "tftp (tftp server ip) put startup.cfg device1.cfg \n"
+expect ">"
+send "\n"
+send "exit\n"
+
+spawn telnet $device2
+expect "Username:"
+send "$user\n"
+expect "Password:"
+send "$pass\n"
+
+expect ">"
+send "tftp (tftp server ip) put startup.cfg device2.cfg \n"
+expect ">"
+send "\n"
+send "exit\n"
+#+end_src
+
+把脚本放到一台服务器上定时执行,在配合Git就可以增量备份了,以后网络设备不小心配置错误也不用担心了,可以随时用Git回滚恢复.

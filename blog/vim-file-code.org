@@ -1,0 +1,42 @@
+#+TITLE:       自定义 Vim 语言类型
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-03-28
+#+URI:         /blog/%y/%m/%d/vim-file-code
+#+KEYWORDS:    vim, file, 语言,
+#+TAGS:        vim
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: vim, file, 语言,
+
+话说我给我的Vim装了一个Markdown高亮与HTML格式转换插件以后我就乐于用Vim写Markdown文件了. 但是对于我这个懒人来说,Markdown语法还是不够简单,比如插入图片和超链接等等.
+
+作为一个Vim控,我自然而然的想到了在snipMate里自定义语法块来简化我的输入.
+
+于是我建立了一个snipMate定义:
+
+#+begin_src 
+snippet links
+    [${1:name}](http://${2:url} "${3:Title}")${4}
+#+end_src 
+
+设置完之后开始编辑Markdown文件,结果发现不行,snipMate并不会自动调用我所自定义的设置,囧.
+
+一开始我认为是需要在snippets里定义.mkd文件类型,结果翻遍了snipMate插件和sinpMateb帮助都没有找到相关设置. 然后我发现在Markdown文件里使用Vim命令定义文件类型(:set filetype=mkd),就会激活snipMate.所以我又想可能与Vim定义文件类型有关,于是乎我又开始在Vim文档里搜素有关定义文件类型的内容.果不其然,一下就让我找到了.
+
+- 方法一:
+
+#+begin_src 
+au BufRead,BufNewFile *.mkd set filetype=mkd
+#+end_src
+
+- 方法二:
+
+自定义 Vim 文件类型
+#+begin_src 
+$mkdir ~/.vim/ftdetect
+$vim ~/.vim/ftdetect/mkd.vim
+|--add--|
+au BufRead,BufNewFile *.mkd set filetype=mkd;
+#+end_src
+- 然后保存,重启Vim,设置就生效了:)

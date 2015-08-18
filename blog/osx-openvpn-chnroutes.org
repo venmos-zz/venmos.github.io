@@ -1,0 +1,28 @@
+#+TITLE:       OS X OpenVPN Chnroutes
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-25
+#+URI:         /blog/%y/%m/%d/osx-openvpn-chnroutes
+#+KEYWORDS:    osx, openvpn, 路由,
+#+TAGS:        osx, gfw,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, openvpn, 路由,
+
+#+begin_src
+$cd /usr/local/
+$git clone https://github.com/fivesheep/chnroutes.git ip
+$cd ip
+$python chnroutes.py -p mac
+$chmod +x ip*
+#+end_src
+
+Edit OpenVPN Configure, Add:
+
+#+begin_src
+up "/usr/local/ip/ip-up"
+down "/usr/local/ip/ip-down"
+script-security 2
+#+end_src
+
+If it's Viscosity, Configuration into the Viscosity, SelectAll data is transmitted via VPN.

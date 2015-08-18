@@ -1,0 +1,18 @@
+#+TITLE:       OS X Emacs 阅读 PDF
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-04
+#+URI:         /blog/%y/%m/%d/osx-emacs-read-pdf
+#+KEYWORDS:    osx, emacs, pdf,
+#+TAGS:        emacs, osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, emacs, pdf,
+
+今天偶尔间看了一个新闻，说是Emacs早就内置了可以阅读PDF的功能，只要打开PDF文件，Emacs就会自动进入DocView模式。但是不知道为什么，在我的机器上总是不成功。查看了一下Emacs的日志，发现是缺少了相关的系统组件所致。于是使用Homebrew安装一下组件：
+
+#+begin_src
+brew install ghostscript xpdf
+#+end_Src
+
+注意：xpdf需要先安装XQuartZ，在 [[https://xquartz.macosforge.org/landing/]]

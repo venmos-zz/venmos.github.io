@@ -1,0 +1,48 @@
+#+TITLE:       搭建无污染的快速缓存 DNS
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-18
+#+URI:         /blog/%y/%m/%d/add-clean-dns-cache
+#+KEYWORDS:    搭建, 无, 污染, 缓存, dns
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 搭建, 无, 污染, 缓存, dns
+
+以前经常为DNS缓存的问题苦恼，比如有的时候早上起来刚上网的时候忘记开OpenVPN了，这时就会被DNS污染，而在开了OpenVPN之后由于有DNS缓存的存在，要经过相当一段漫长的时间才能够清理掉被污染的DNS。所幸后来发现了Tcp-DNS-proxy，这个问题迎刃而解了。但后来时间长了，又觉得每次都要索引DNS太慢了，为了加速网络，我决定在给Tcp-DNS-proxy配一个缓存软件。
+
+在网上搜索一番之后决定使用Dnsmasq，配置简单，功能强大。
+
+MacOS X
+
+安装Tcp-DNS-Proxy
+
+Tcp-DNS-proxy的安装方法见 [[https://venmos.com/blog/2012/08/17/mac-tcpdns]]
+
+配置Tcp-DNS-Proxy
+
+编辑tcpdns.py文件，将ThreadedUDPServer后的53修改为55; => 修改为55是因为Dnsmasq默认为53端口，这样也便于系统使用，为了防止端口冲突，所以需要修改Tcp-DNS-proxy的端口为55。
+
+安装Homebrew
+
+Homebrew的安装方法见 [[http://mxcl.github.io/homebrew]]
+
+安装Dnsmasq
+
+#+begin_src
+$brew install dnsmasq #安装dnsmasq
+$sudo cp /usr/local/Cellar/dnsmasq/x.xx/dnsmasq.conf.example /usr/local/etc/dnsmasq.conf 
+<=从配置文件模板拷贝新建配置文件
+$sudo cp /usr/local/Cellar/dnsmasq/x.xx/homebrew.mxcl.dnsmasq.plist /Library/LaunchDaemons/ 
+<=从启动文件模板拷贝到启动文件配置目录
+$sudo launchctl load -w /Library/LaunchDaemons/homebrew.mxcl.dnsmasq.plist 
+<=加载启动文件
+#+end_src
+
+配置Dnsmasq
+
+编辑/usr/local/etc/dnsmasq.conf，修改server=后为127.0.0.1#55；
+
+结尾
+
+最后保存所有配置，重启计算机，如果配置一切无误的话，在Terminal中输入nslookup twitter.com 127.0.0.1就会返回正确无污染的解析，而解析会被Dnsmasq保存在缓存之中，以加速下次解析。现在你就可以将计算机的网络设置里的DNS服务器地址修改为127.0.0.1，开始享受快速而无污染的DNS服务了。

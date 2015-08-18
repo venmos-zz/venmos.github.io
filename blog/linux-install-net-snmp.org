@@ -1,0 +1,84 @@
+#+TITLE:       Linux安装配置 Net-Snmp
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-12
+#+URI:         /blog/%y/%m/%d/linux-install-net-snmp
+#+KEYWORDS:    linux, 安装, 配置, net-snmp
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: linux, 安装, 配置, net-snmp
+
+最近用上了监控宝,一下子生活就惬意了许多.为了让生活更加惬意,我决定将我的所有服务器开启snmp v3,统一用监控宝来监控服务器资源使用情况.
+
+我所喜用的Ubuntu内的源并无net-snmp软件,所以使用从源代码安装的古老方式:
+
+前往 [[http://sourceforge.net/projects/net-snmp/files/net-snmp/5.7.1/]] 下载net-snmp 5.7.1版本;
+
+#+begin_src 
+* 解压缩net-snmp
+#tar -xvf net-snmp-5.7.1.tar.gz
+#cd net-snmp-5.7.1
+* 安装依赖环境
+#apt-get install libperl-dev
+#apt-get install make
+* 配置net-snmp
+#./configure --prefix=/usr/local/snmp --with-mib-modules=ucd-snmp/diskio
+* 编译并安装
+#make
+#make install
+* 安装过程中会询问使用snmp版本(建议使用v3)与系统管理员联系方式和服务器所在地
+* 至此,net-snmp就安装完成了
+#+end_src
+
+
+安装完成后,我们还需创建一个配置文件,安装包里已自带默认配置模版,我们只需复制:
+
+#+begin_src 
+#cd net-snmp-5.7.1
+#cp EXAMPLE.conf /usr/local/snmp/share/snmp/snmpd.conf
+#+end_src
+
+然后编辑此配置文件,加入一个只读账户:
+
+#+begin_src 
+#vim /usr/local/snmp/share/snmp/snmpd.conf
+* 在其中加入以下
+rouser username auth
+* username为你要创建的用户名
+* auth 为此账户访问时需要验证
+* 然后修改本机监听地址与端口,在以下部分
+agentAddress udp:127.0.0.1:161
+#+end_src
+
+然后我们还需要在创建一个同名账户,并附加密码:
+
+#+begin_src 
+#vim /var/net-snmp/snmpd.conf
+* 注意此文件夹需管理员权限才可访问
+* 注意此文件在某些系统下可以需要先运行一下/usr/local/net-snmp/sbin/snmpd后才会出现
+* 在其中加入以下
+createUser username MD5 password
+* username需同先前建立的账户名相同
+* password为你所设定的密码
+* MD5为此密码使用MD5方式加密
+#+end_src
+
+最后我们启动服务并测试是否配置成功:
+
+#+begin_src 
+#/usr/local/snmp/sbin/snmpd -d
+* 然后使用以下命令检测配置是否成功
+#/usr/local/snmp/bin/snmpwalk -v 3 -l authNoPriv -a MD5 -u username -A password 127.0.0.1:161 sysDescr
+* username与password需替换成你所设置的账户名和密码
+* 如返回类似以下信息,则表示配置已经成功
+SNMPv2-MIB::sysDescr.0 = STRING: Linux host1 2.6.27.19-5-default #1 SMP 2009-02-28 04:40:21 +0100 x86_64
+#+end_src
+
+如果需要启动服务器时自动加载net-snmp,则需将启动命令写入Ubuntu的启动设置中:
+
+#+begin_src 
+#vim /usr/local/rc.local
+* 在exit 0前加入以下
+/usr/local/snmp/sbin/snmpd -d
+#+end_src 

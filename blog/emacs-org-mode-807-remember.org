@@ -1,0 +1,35 @@
+#+TITLE:       Org-mode 8.0.3 中的 Remember
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-30
+#+URI:         /blog/%y/%m/%d/org-mode-803-remember
+#+KEYWORDS:    org-mode, 8.0.3, remember
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: org-mode, 8.0.3, remember
+
+这几天闲的没事干，把Emacs的配置重新搞了一下，现在直接依赖于el-get，让这项工作轻松了不少。用el-get安装了最新的org-mode之后发现org-mode 8.0.3版的参数发生了一些变化，org-remember.el被剔除了，这也就一意味着以前所用的org-remember-templates都失效了，而且会在Emacs启动时报错。
+
+通过阅读Org-Mode的官方文档发现可以使用org-cpture来替代org-remember，而以前对org-remember自定义的快捷模板参数也可以直接拿给org-cpture来使用，只需要修改几个参数即可。
+
+比如新的org-cpture快捷模板可以这样写：
+
+#+begin_src
+(setq org-capture-templates
+
+      `(("i" "Index" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Index")
+       "* TODO %?\n  %i\n  %a")
+      ("t" "Task" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Task")
+       "* TODO %?\n  %i\n  %a")
+      ("b" "Blog" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Blog")
+       "* TODO %?\n  %i\n  %a")
+      ("s" "Study" entry (file+headline ,"~/Documents/Project/org-mode/todo.org" "Study")
+       "* TODO %?\n  %i\n  %a")
+      ("n" "Note" entry (file+headline ,"~/Documents/Project/org-mode/note.org" "Index")
+       "* Note %?\n  %i\n  %a")))
+#+end_src
+
+如果你跟我一样以前使用一套快捷键来唤出org-remember来进行快速录入，现在你还需要更改快捷键的设置，变成(global-set-key "\C-cr" 'org-capture)。
+
+通过以上修改就能把以前的org-remember修改为现在的org-cpture，使用方法也相同。大体上org-cpture-templates跟以前的org-remember-templates差不多，只是对于快捷键和名称的写法稍有修改而已。org-apture比org-remember更加强大，有更多新的参数和方法可以自定义，不过我这人比较懒，而且我的老一套Org-Mode配置工作的很好，所以就没在深入研究。

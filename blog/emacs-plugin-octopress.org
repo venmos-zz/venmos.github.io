@@ -1,0 +1,31 @@
+#+TITLE:       在 Emacs 里操作 Octopress
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-01
+#+URI:         /blog/%y/%m/%d/emacs-use-octopress.el
+#+KEYWORDS:    emacs, octopress,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, octopress,
+
+以前使用Vim的时候是学着 [[http://lucifr.com/2012/08/18/my-blogging-workflow/][Lucifr的方式]] 用Alfred来快速创建和提交Octoress.在抛弃使用多年的Vim转向Emacs之后,就想着Emacs既然可以强大到煮咖啡,那能不能直接在Emacs里创建和提交Octopress呢? 放狗搜了一会,果然找到一个,是gfreezy编写的 [[https://github.com/gfreezy/octopress-emacs][octopress-emacs.el]] .看了一下源码是使用rbenv的,而我是使用rvm的,于是就稍微修改了一下来使用rvm.
+
+我的修改版地址: [[https://7ol.org.cn/venmos/octopress-emacs-el]]
+
+- 下载安装:
+
+#+begin_src
+$cd ~/Your Elisp Folder/
+$git clone git@github.com:venmos/octopress-emacs.git
+#+end_src
+
+配置Octopress路径:
+
+#+begin_src
+$emacs -nw ~/Your Elisp Folder/octopress-emacs/octopress-emacs.el 将expand-file-name后修改为你的Octopress路径.
+#+end_src
+
+使用说明:
+
+详见 [[https://7ol.org.cn/venmos/octopress-emacs-el]]

@@ -1,0 +1,57 @@
+#+TITLE:       使用 GNUPG 保护你的备份数据
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-20
+#+URI:         /blog/%y/%m/%d/use-gpg-src-your-data
+#+KEYWORDS:    gpg, 加密, 文件, 备份
+#+TAGS:        osx, linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: gpg, 加密, 文件, 备份
+
+一方面垂涎国内各大云储存巨大的储存空间和上传速度, 一方面又畏惧着国内各大云储存的节操, 怎么办呢? 你可以使用GnuPG加密保护你的备份数据.
+
+GnuPG是非常强大的开源加密软件,围绕它所建立的公钥和私钥可以有非常非常多种的用法.例如:你的朋友导入了你的公钥,在向你发送信息时就可以使用你的公钥将信息加密,加密后此信息理论上只有你的私钥才能解开.又或者你可以使用GnuPG配合Emacs的Org-Mode来加密的自己的Org文章内的指定内容,如写在你的Org文件里的密码等.
+
+这里只介绍简单的加密单个文件的使用方法,更多的使用方法可以见下面的连接.
+
+注意:你所有的钥匙都存在~/.gnupg/中,虽然也经过处理不能直接获得,但是在其它软件的攻击下,依然能进行篡改.这是整个gpg的薄弱之处，切记一定要保护好这个文件夹.
+
+- [[http://zh.wikipedia.org/wiki/GnuPG][维基百科 GNUPG]]
+- [[http://gnupg.org/howtos/zh/index.html][GNU 隐私卫士中文版]]
+- [[http://coldnew.github.io/blog/2013/07/13_5b094.html][使用 GNUPG 加密的 Org 文章]]
+
+OS X Install GnuPG
+#+begin_src
+brew install gpg
+#+end_src
+
+生成自己的钥匙
+#+begin_src
+gpg --gen-key
+#+end_src
+
+导出公钥
+#+begin_src
+gpg --armor --output filename --export [UID]
+#+end_src
+
+导入公钥
+#+begin_src
+gpg --import filename
+#+end_src
+
+查看已有的钥匙
+#+begin_src
+gpg --list-keys
+#+end_src
+
+加密备份
+#+begin_src
+gpg -ea -r [UID] filename.tar.gz
+#+end_src
+
+解密备份
+#+begin_src
+gpg -o filename.tar.gz -d filename.tar.gz.asc
+#+end_src

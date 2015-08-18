@@ -1,0 +1,16 @@
+#+TITLE:       Chromatic
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-05
+#+URI:         /blog/%y/%m/%d/osx-chromatic
+#+KEYWORDS:    chrome, osx,
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: chrome, osx,
+
+今天在升级Chromium的时候顺手找到一款软件Chromatic,可以方便的切换下载各种版本的Chromium.
+
+[[http://f.cl.ly/items/1p1f090M0c0h2r0Q3H2P/1.jpg]]
+
+下载地址是: [[http://mrgeckosmedia.com/applications/info/Chromatic]]

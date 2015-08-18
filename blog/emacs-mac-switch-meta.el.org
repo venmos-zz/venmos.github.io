@@ -1,0 +1,27 @@
+#+TITLE:       mac-switch-meta.el
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-07-23
+#+URI:         /blog/%y/%m/%d/mac-switch-meta
+#+KEYWORDS:    mac, meta,
+#+TAGS:        emacs, osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: mac, meta,
+
+#+begin_src
+(defun mac-switch-meta nil 
+  "switch meta between Option and Command"
+  (interactive)
+  (if (eq mac-option-modifier nil)
+      (progn
+    (setq mac-option-modifier 'meta)
+    (setq mac-command-modifier 'hyper)
+    )
+    (progn 
+      (setq mac-option-modifier nil)
+      (setq mac-command-modifier 'meta)
+      )
+    )
+  )
+#+end_src

@@ -1,0 +1,30 @@
+#+TITLE:       Cerevo EneBRICK HHKB Edition
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-07-08
+#+URI:         /blog/%y/%m/%d/cere-eneb-hhkb
+#+KEYWORDS:    hhkb, 蓝牙,
+#+TAGS:        venmos,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: hhkb, 蓝牙,
+
+本来想改HHKB内置蓝牙的，后来想出门的时候偶尔也要连iPad用。我不喜欢带套，那么就还得带一个iPad支架或者现场随便找个什么东西支着，而且EneBRICK也可以当移动电源给iPad或者iPone或者Macbook充电，于是就决定败EneBRICK。
+
+http://segmentfault.com/img/bVmR3l
+
+用慧慧从日本亚马逊淘的，总共和人民币755.49，包括邮费。
+
+http://segmentfault.com/img/bVmR3m
+
+http://segmentfault.com/img/bVmR3n
+
+http://segmentfault.com/img/bVmR3q
+
+外壳铝合金，质感不错，重量也挺轻。底座滑动不顺滑，不过也无所谓了。插入键盘以后打开电源，搜索蓝牙，连接上就能用，也没什么特别的设置。试了一下用Prompt连接服务器上的Emacs用，除了打字特别快的时候感觉有点延时，别的并没有感觉到什么不快。
+
+http://segmentfault.com/img/bVmR3s
+
+最后吐槽一下这个包装，简单、暴力、实用...
+
+http://segmentfault.com/img/bVmR3t

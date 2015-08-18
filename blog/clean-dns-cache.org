@@ -1,0 +1,25 @@
+#+TITLE:       OS X GNU/Linux Windows Çå¿Õ DNS »º´æ
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-05-29
+#+URI:         /blog/%y/%m/%d/osx-linux-windows-clean-dns-cache
+#+KEYWORDS:    osx, windows, linux, Çå¿Õ, dns»º´æ
+#+TAGS:        osx, windows, linux
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, windows, linux, Çå¿Õ, dns»º´æ
+
+- OS X
+#+begin_src
+dscacheutil -flushcache
+#+end_src
+
+- GNU/Linux
+#+begin_src
+/etc/init.d/nscd restart
+#+end_src
+
+- Windows
+#+begin_src
+ipconfig /flushdns
+#+end_src

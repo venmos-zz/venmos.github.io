@@ -1,0 +1,36 @@
+#+TITLE:       El-get Emacs 里的 Apt-get
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-30
+#+URI:         /blog/%y/%m/%d/emacs-plugin-el-get
+#+KEYWORDS:    el-get, emacs, apt-get
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: el-get, emacs, apt-get
+
+昨天在学习Emacs的时候发现了一个非常强大的Lisp扩展管理器:el-get.el-get可以透明的管理各种来源的Lisp扩展,同样也能够直接安装、升级、删除第三方的Lisp扩展.使用它来在Emacs里安装各种第三方Lisp扩展,就好像在Ubuntu下使用apt-get一样容易简单.
+
+[[https://github.com/dimitri/el-get][el-get Github]]
+
+安装el-get,复制以下代码到scratch中执行:
+
+#+begin_src
+;; So the idea is that you copy/paste this code into your *scratch* buffer,
+;; hit C-j, and you have a working el-get.
+(url-retrieve
+ "https://github.com/dimitri/el-get/raw/master/el-get-install.el"
+ (lambda (s)
+   (end-of-buffer)
+   (eval-print-last-sexp)))
+#+end_src
+
+注意:在X朝的网络中,安装同步可能要耗费较长时间.
+
+** 使用el-get:
+- 安装一个Lisp扩展,如:M-x : el-get-install RET emacs-w3m RET
+- 删除一个Lisp扩展,如:M-x : el-get-remove RET emacs-w3m RET
+- 升级一个Lisp扩展,如:M-x : el-get-update RET emacs-w3m RET
+- 升级全部Lisp扩展,如:M-x : el-get-update-all RET
+
+其他全部请看 [[https://github.com/dimitri/el-get][官方文档]] .

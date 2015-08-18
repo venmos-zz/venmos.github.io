@@ -1,0 +1,14 @@
+#+TITLE:       Emacs 使用 Sudo 账户 以 Root 权限 打开远程文件
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-02
+#+URI:         /blog/%y/%m/%d/emacs-sudo-open-remote-file
+#+KEYWORDS:    emacs, sudo, root, 打开远程文件,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, sudo, root, 打开远程文件,
+
+#+begin_src
+C-x C-f /ssh:you@remotehost|sudo:them@remotehost:/path/to/file RET
+#+end_src

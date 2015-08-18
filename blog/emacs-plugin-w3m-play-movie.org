@@ -1,0 +1,48 @@
+#+TITLE:       Emacs W3M 播放 Youtube BiliBili
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-07-19
+#+URI:         /blog/%y/%m/%d/emacs-w3m-play-movie
+#+KEYWORDS:    emacs, w3m, 播放, youtube, bolibili,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, w3m, 播放, youtube, bolibili,
+
+预览:
+
+http://segmentfault.com/img/bVmKOE
+
+http://www.tudou.com/programs/view/fG_XnTsC-2s/
+
+环境:
+
+1. OS X 10.10.4
+2. Emacs 24.5.1
+
+需求:
+
+1. [[http://mpv.io/][MPV]]
+2. [[https://github.com/m13253/BiliDan][BiliDan]]
+
+
+配置:
+将bilidan.py做一个软连接到/usr/local/bin/bili,之后在Emacs的W3M配置中加入以下:
+
+#+begin_src
+
+;; mpv
+(defun w3m-play-movie ()
+  (interactive)
+  (let ((url (w3m-anchor)))
+    (cond ((string-match "^http:\\/\\/www\\.youtube\\.com" url)
+           (message (concat "loading from youtube... " url))
+           (call-process "mpv" nil nil nil url))
+          ((string-match "^http:\\/\\/www\\.bilibili\\.com" url)
+           (message (concat "loading from bilibili..." url))
+           (call-process "bili" nil nil nil url)))))
+#+end_src
+
+使用:
+
+在W3M里搜索结果之中将光标移动到Youtube或BiliBili的链接之上,然后M-x输入w3m-play-movie,即会自动调用mpv播放选中链接.

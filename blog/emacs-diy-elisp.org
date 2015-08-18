@@ -1,0 +1,113 @@
+#+TITLE:       Emacs Elisp 01
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-07
+#+URI:         /blog/%y/%m/%d/emacs-elisp-01
+#+KEYWORDS:    emacs, elisp, 编程,
+#+TAGS:        emacs, elisp,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, elisp, 编程,
+
+最近捣鼓了很多Emacs的Lisp扩展包，稍微弄懂了一点ELisp的语言代码方式，比如我今天刚刚自定义了一条命令用于快速使用Ack在Emacs目录下搜索笔记。
+
+有关Ack的介绍，http://happycasts.net/episodes/26 Ack.el的Github，https://github.com/leoliu/ack-el
+
+这是我的Org-Mode的配置：
+
+- My_Org-Mode_Config
+
+#+begin_src
+;;----------------------------------------------------------------------------
+;; Venom's Emacs24 Configuration
+;; Website : http://venmos.com
+;; Contact : me[at]venmos.com
+;;----------------------------------------------------------------------------
+(require 'ack)
+;;----------------------------------------------------------------------------
+;; Enable org-mode mode ~/.emacs.d/init-org-mode.el
+;;----------------------------------------------------------------------------
+
+;;----------------------------------------------------------------------------
+;; org-mode configure
+;;----------------------------------------------------------------------------
+(add-hook 'org-mode-hook
+          '(lambda ()
+              (define-key org-mode-map [(tab)] 'yas-expand)
+             ))
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(setq org-log-done t)
+(setq org-startup-indented t
+      org-agenda-include-diary nil
+      org-agenda-start-on-weekday nil
+      org-agenda-include-all-todo t
+      org-agenda-include-all-deadline t
+        )
+      
+(global-set-key "\C-ca" 'org-agenda)
+(global-set-key "\C-cr" 'org-capture)
+;(org-remember-insinuate)
+;;----------------------------------------------------------------------------
+;; org-mode directory url
+;;----------------------------------------------------------------------------
+(setq org-directory "~/Copy/Org-Mode/")
+(setq org-agenda-files (list "~/Copy/Org-Mode/todo.org"))
+;;----------------------------------------------------------------------------
+;; Org-Mode notes url
+;;----------------------------------------------------------------------------
+(setq org-default-notes-file "~/Copy/Org-Mode/note.org")
+;;----------------------------------------------------------------------------
+;; Org-Mode remember templates
+;;----------------------------------------------------------------------------
+(setq org-capture-templates
+      `(("i" "Index" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Index")
+       "* TODO %?\n  %i\n  %a")
+      ("t" "Task" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Task")
+       "* TODO %?\n  %i\n  %a")
+      ("b" "Blog" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Blog")
+       "* TODO %?\n  %i\n  %a")
+      ("s" "Study" entry (file+headline ,"~/Copy/Org-Mode/todo.org" "Study")
+       "* TODO %?\n  %i\n  %a")
+      ("n" "Note" entry (file+headline ,"~/Copy/Org-Mode/note.org" "Note")
+       "* Note %?\n  %i\n  %a")))
+;;----------------------------------------------------------------------------
+;; org-mobile config
+;;----------------------------------------------------------------------------
+(custom-set-variables
+ '(org-mobile-directory "~/Copy/Org-Mode/Mobile")
+ '(org-mobile-files (quote (org-agenda-files)))
+ '(org-mobile-inbox-for-pull "~/Copy/Org-Mode/note.org")
+ '(org-mobile-use-encryption nil))
+(custom-set-faces)
+;;----------------------------------------------------------------------------
+;; search org-mode
+;;----------------------------------------------------------------------------
+(defun org-mode-dired ()
+  (interactive)
+  (org-mode-dired (find-file "~/Copy/Org-Mode/")))
+
+(defun org-mode-ack ()
+  (interactive)
+  (org-mode-ack (ack-find-file "~/Copy/Org-Mode/")))
+;;----------------------------------------------------------------------------
+;; Provide
+;;----------------------------------------------------------------------------
+(provide 'init-org-mode)
+#+end_src
+
+这是我在其中加入的关于使用Ack的实现方法：
+
+- Ack_Org-Mode
+
+#+begin_src
+(require 'ack)
+(defun org-mode-dired ()
+  (interactive)
+  (org-mode-dired (find-file "~/Copy/Org-Mode/")))
+
+(defun org-mode-ack ()
+  (interactive)
+  (org-mode-ack (ack-find-file "~/Copy/Org-Mode/")))
+#+end_src
+
+之后不管我处于哪个Buffer之中，我只要使用org-mode-ack或就可快速打开或搜索我的Org-Mode。

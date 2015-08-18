@@ -1,0 +1,33 @@
+#+TITLE:       稍微调整了下 Blog
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-23
+#+URI:         /blog/%y/%m/%d/edit-octopress-index
+#+KEYWORDS:    octopress 调整 首页
+#+TAGS:        octopress
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: octopress 调整 首页
+
+*** Index
+a. 添加了点点摄影博客链接;
+b. 引用了自己的Instagram照片墙;
+c 嵌入了Wiki;
+d 修改了地址栏图标;
+
+***  侧边栏
+a. 添加了分类云显示;
+b. 添加新浪微博;
+c. 添加了一个友情链接;
+
+*** Plugin
+a. 添加了Instag插件,方便插入Instagram图片;
+
+准备:
+
+*** Index
+a. 有时间修改一下CSS中的字体,默认的显示中文不大好看;
+
+*** 侧边栏
+a. 新浪微博自带的太丑陋了,有空研究下新浪微博的文档换一个简洁的样式;
+b. 侧边栏字体有点小,需要修改一下字体大小;

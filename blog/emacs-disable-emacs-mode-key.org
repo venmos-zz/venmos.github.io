@@ -1,0 +1,23 @@
+#+TITLE:       取消 Emacs Mode 键位
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-28
+#+URI:         /blog/%y/%m/%d/emacs-disable-emacs-mode-key
+#+KEYWORDS:    取消, 禁用, emacs, 快捷键,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 取消, 禁用, emacs, 快捷键,
+
+我绑定的 Ace-Jump 的键位绑定是C-c SPC与C-x SPC,但是在 Org-Mode 下面不知道C-c SPC被哪项功能给占用了,不能用.我都不知道是哪像功能,那也就意味着压根不需要,那干脆给去掉算了.
+
+
+#+begin_src
+(defun org-mode-C-c-spc () 
+    (define-key org-mode-map (kbd "C-c SPC") nil)) 
+
+(add-hook 'org-mode-hook 'org-mode-C-c-spc)
+#+end_src
+
+
+大体意思是: defun建立一个(函数?),然后绑定按键C-c SPC值为空.接着在指定只在 Org-Mode 模式下加载这条(函数?)就可以了.

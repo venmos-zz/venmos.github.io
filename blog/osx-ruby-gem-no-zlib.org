@@ -1,0 +1,29 @@
+#+TITLE:       Gem no file Zlib
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-12
+#+URI:         /blog/%y/%m/%d/osx-gem-no-file-zlib
+#+KEYWORDS:    gem, error, no file, zlib
+#+TAGS:        osx, ruby,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: gem, error, no file, zlib
+
+有时候去朋友家玩,突然发现了有趣的软件或者灵感,而没有携带自己的笔记本,就无法使用Octpress Post Blog了.为了在地球的任何地方,只要有网络与SSH就能Post Blog,于是乎我给我的VPS上也安装了RVM与Octopress.
+
+用Ubuntu的apt-get很方便的就安装了Ruby,安装rvm也与在MacOS X上相差无异.就是到了gem install bundle的时候出了错误,提示no file zlib xxx.
+
+原来是少了zlib插件,于是手动安装:
+
+#+begin_src 
+$rvm pkg install zlib
+#+end_src
+
+然后卸载ruby-1.9.2-p320重新安装:
+
+#+begin_src 
+$rvm remove 1.9.2-p320
+$rvm install 1.9.2-p320
+#+end_src
+
+重启一个新zsh,再次执行gem install bundle,成功:)

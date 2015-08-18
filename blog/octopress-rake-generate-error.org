@@ -1,0 +1,45 @@
+#+TITLE:       Octopress rake generate error
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-06
+#+URI:         /blog/%y/%m/%d/octopress-rake-generate-error
+#+KEYWORDS:    octopress rake generate error
+#+TAGS:        octopress
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: octopress rake generate error
+
+Mac Pro光荣送修,掏出尘封已久的Macmini来替代几天,这回重装Lion时干脆语言选择了EN.
+
+顺利安装完rvm,并用rvm安装了ruby 1.9.2,然后install bundler,完了在bundle install,一切顺利. 进入Octopress目录,新建了一篇文章正准备发表的时候,发现rake generate时出现错误.
+
+#+begin_src 
+[~/Dropbox/dropbox]$ rake generate         [source][ruby-1.9.2-p290]
+## Generating Site with Jekyll
+unchanged sass/screen.scss
+Configuration from /Users/venmos/Dropbox/octopress/_config.yml
+Building site: source -> public
+/Users/venmos/.rvm/gems/ruby-1.9.2-p290/gems/jekyll-0.11.0/lib/jekyll/convertible.rb:29:in `read_yaml': invalid byte sequence in US-ASCII (ArgumentError)
+  from /Users/venmos/.rvm/gems/ruby-1.9.2-p290/gems/jekyll-0.11.0/lib/jekyll/post.rb:39:in `initialize'
+  from /Users/venmos/Dropbox/venmoszeitler.com/plugins/preview_unpublished.rb:23:in `new'
+  from /Users/venmos/Dropbox/venmoszeitler.com/plugins/preview_unpublished.rb:23:in `block in read_posts'
+  from /Users/venmos/Dropbox/venmoszeitler.com/plugins/preview_unpublished.rb:21:in `each'
+  from /Users/venmos/Dropbox/venmoszeitler.com/plugins/preview_unpublished.rb:21:in `read_posts'
+  from /Users/venmos/.rvm/gems/ruby-1.9.2-p290/gems/jekyll-0.11.0/lib/jekyll/site.rb:128:in `read_directories'
+  from /Users/venmos/.rvm/gems/ruby-1.9.2-p290/gems/jekyll-0.11.0/lib/jekyll/site.rb:98:in `read'
+  from /Users/venmos/.rvm/gems/ruby-1.9.2-p290/gems/jekyll-0.11.0/lib/jekyll/site.rb:38:in `process'
+  from /Users/venmos/.rvm/gems/ruby-1.9.2-p290/gems/jekyll-0.11.0/bin/jekyll:250:in `<top (required)>'
+  from /Users/venmos/.rvm/gems/ruby-1.9.2-p290/bin/jekyll:19:in `load'
+  from /Users/venmos/.rvm/gems/ruby-1.9.2-p290/bin/jekyll:19:in `<main>'
+#+end_src
+
+之前安装系统的时候都是选择中文语言,后来为了学习英语才换了系统语言为英文.这样步骤的时候,install bundler和bundle install之后都不会出现问题. 难道是因为本地语言编码的问题?囧…
+
+在~/.profile和~/.zshrc中写入:
+
+#+begin_src 
+LANG=en_US.UTF-8
+LC_ALL=en_US.UTF-8
+#+end_src
+
+然后重启Terminal,在rake generate一下,果然成功了…

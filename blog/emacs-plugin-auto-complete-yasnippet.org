@@ -1,0 +1,43 @@
+#+TITLE:       Emacs Auto-complete or Yasnippet
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-30
+#+URI:         /blog/%y/%m/%d/emacs-plugin-auto-complete-yasnippet
+#+KEYWORDS:    emacs, auto-complete, yasnippet
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, auto-complete, yasnippet
+
+稍微花了点时间熟练了一下Emacs操作之后,就开始寻找Lisp扩展,主要是想实现以前用Vim Plugin所实现的一些功能.包括:自动补全和代码片段等等.这一篇主要写自动补全与代码片段.
+
+从网上放狗搜了一下,得知目前较轻量的补全扩展叫做auto-complete,较好的代码片段扩展叫做yasnippet.我是使用el-get来管理Lisp扩展,所以本文使用el-get来进行安装.如果你不使用el-get,也可以使用常规方法安装,大同小异.
+
+安装auto-complete:
+
+- M-x : el-get install RET auto-complete;
+- 安装完之后重启Emacs,编辑文件时M-x : auto-complete-mode,就会打开自动补全模式;
+- 如果想要启动时自动加载,需要编辑.emacs,插入以下:
+
+#+begin_src
+;; auto-complete
+(add-to-list 'load-path "~/.emacs.d/el-get/auto-complete/")
+(require 'auto-complete)
+(global-auto-complete-mode)
+#+end_src
+
+- PS:本来我是觉得不需要load-path的,可是不知为什么如果不加这一行,Emacs启动时会报错:找不到”global-auto-complete-mode”.
+- PPS:auto-complete在有些Mode里不会被启用,比如markdown-mode.el.在~/.emacs.d/el-get/auto-complete/目录中随便搜索一个Mode,比如perl-mode,在搜索出的两个文件的相关行里手动添加markdown-mode之后保存退出,重启Emacs即可.
+
+安装yasnippet:
+
+- M-x : el-get install RET yasnippet;
+- 安装完之后重启Emacs,编辑文件时M-x : yas-global-mode RET yas-minor-mode-on,就会开启Snippet;
+- 如果想要启动时自动加载,需要编辑.emacs,插入以下:
+
+#+begin_src
+(yas-global-mode)
+(yas-minor-mode-on)
+#+end_src
+
+- PS:yasnippet的代码片段保存在~/.emacs.d/el-get/yasnippet/snippets/,可以随意按照自己的习惯自行自定义.

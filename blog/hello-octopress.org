@@ -1,0 +1,26 @@
+#+TITLE:       Byebye VimWiki, Hello Octopress
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-05-31
+#+URI:         /blog/%y/%m/%d/byebye-vimwiki-hello-octopress
+#+KEYWORDS:    byebye vimwiki hello octopress
+#+TAGS:        octopress, vim
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: byebye vimwiki hello octopress
+
+以前挺习惯用VimWiki做比较长和正规得笔记,但是总有一些零碎的东西需要写,又不适合用VimWiki这种用来书写长篇大论的东西来记录,所以后来也学着用日历插件来在VimWiki写类似Blog得日记.
+
+但是用Diary的话,是以天为基数的,也就是一天只能写一片日记.后来想修改VimWiki的模版,用一个专门的页面来写Blog,在尝试一下后也放弃了,因为VimWiki无法输出RSS文件,天生对Blog需要的各种功能残疾.
+
+在网上闲逛,发现了现在火热的Octopress,立刻想尝试一下.但是由于我一点也不会Ruby,也没有在MacOS上配置Ruby的经验,一开始就在Lion下配置失败了. 然后又开始尝试Jekyll,所幸Jekyll尝试成功了,但是使用起来总是种种不如意(大部分原因还是因为我是个懒人,懒得自己配置各种神马).
+
+本着不折腾成功不死心星人的精神,卸载了RVM,Ruby,又在Google大神的帮助下,重新安装配置RVM,Ruby,最后居然配置成功了!
+
+花了20分钟,把以前用VimWiki写的日记都转移到Octopress上.
+
+用Octopress写Blog太爽了,估计没几天我就会逐渐开始懒得写VimWiki,最后直接弃用了吧.
+
+不过我还是想坚持下去;
+
+打算以后还是大的条目还是用VimWiki记录,毕竟摘抄只能过目了一下而已,自己在重新编辑排版一下然后输入进去VimWiki会有一个加深印象的作用. 而且翻阅习惯了自己的VimWiki,查阅起来也方便一些.零碎的片段神马的就交由Octopress了,然后把VimWiki Diary砍掉就可以了=).

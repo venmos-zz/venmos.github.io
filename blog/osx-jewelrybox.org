@@ -1,0 +1,22 @@
+#+TITLE:       JewelryBox
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-11
+#+URI:         /blog/%y/%m/%d/jewelrybox-rvm
+#+KEYWORDS:    rvm, osx, ui, software
+#+TAGS:        osx, ruby,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: rvm, osx, ui, software
+
+原来RVM在MacOS下还有图形界面的版本,囧.
+
+本着生命不息折腾不止的原则,必须要下下来看看.
+
+功能很强大,界面设计的蛮友好.可以很方便的安装和卸载Ruby版本,具体还是看图吧==)
+
+[[http://farm8.staticflickr.com/7275/6917513404_cd36963983.jpg]]
+
+[[http://farm8.staticflickr.com/7116/6917513688_63fd814d14.jpg]]
+
+下载地址与详细介绍请 [[http://unfiniti.com/software/mac/jewelrybox][电击这里]] .

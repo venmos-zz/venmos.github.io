@@ -1,0 +1,37 @@
+#+TITLE:       Emacs Òþ²Ø Tabbar ×óÉÏ½Ç°´Å¥
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-25
+#+URI:         /blog/%y/%m/%d/emacs-disbale-tabbar-botton
+#+KEYWORDS:    emacs, ¹Ø±Õ, Òþ²Ø, tabbar, °´Å¥
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, ¹Ø±Õ, Òþ²Ø, tabbar, °´Å¥
+
+#+begin_src
+(defcustom tabbar-hide-header-button t
+  "Hide header button at left-up corner.
+Default is t."
+  :type 'boolean
+  :set (lambda (symbol value)
+         (set symbol value)
+         (if value
+             (setq
+              tabbar-scroll-left-help-function nil ;don't show help information
+              tabbar-scroll-right-help-function nil
+              tabbar-help-on-tab-function nil
+              tabbar-home-help-function nil
+              tabbar-buffer-home-button (quote (("") "")) ;don't show tabbar button
+              tabbar-scroll-left-button (quote (("") ""))
+              tabbar-scroll-right-button (quote (("") "")))))
+  :group 'tabbar)
+#+end_src
+
+Òþ²ØÇ°£º
+
+[[http://segmentfault.com/img/bVb12G]]
+
+Òþ²Øºó£º
+
+[[http://segmentfault.com/img/bVb12H]]

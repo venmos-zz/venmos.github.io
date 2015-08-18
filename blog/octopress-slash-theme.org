@@ -1,0 +1,14 @@
+#+TITLE:       换了新的主题 Slash
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-10
+#+URI:         /blog/%y/%m/%d/octopress-slash-theme
+#+KEYWORDS:    octopress, 主题, slash,
+#+TAGS:        octopress,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: octopress, 主题, slash,
+
+Octopress自带的主题看烦了.
+
+换了来自一位台湾的设计师[[http://zespia.tw/][ Zespia ]]的作品 [[http://zespia.tw/Octopress-Theme-Slash/index_tw.html][Slash]] .

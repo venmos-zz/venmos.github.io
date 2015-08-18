@@ -1,0 +1,147 @@
+#+TITLE:       Autossh Privoxy :: PSV 下载加速
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-20
+#+URI:         /blog/%y/%m/%d/mac-autossh-privoxy-psv
+#+KEYWORDS:    autossh, prvoxy, psv, 下载加速
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: autossh, prvoxy, psv, 下载加速
+
+好歹能经过我家女王同意,特准俺今天可以刷卡买个游戏(人生真苦逼阿).一下班我就兴冲冲的杀到PSV商店上去买仙境传说奥德赛,一点购买,一看下载进度条差点晕倒,要36个小时有木有!?!?!
+
+感谢国X感谢方XX感谢GFW,我FUCK!
+
+果断选择使用SSH代X来绕过伟大的万里长城防火X,经过一阵激烈的大脑思考后,为了能更快速的玩上RO,决定还是使用以前在GUN/Linux上熟练使用过的AutoSSH + Privoxy组合:)
+
+- AutoSSH是一款非常方便的软件,它可以实现不断监控SSH链接,并在链接断开时自动重新链接.
+
+- Privoxy是非常强大的代理软件,可以将SSH出来的Socks转换为更大众的HTTP形式以供给其他设备使用,PSV原生支持HTTP代理设置.
+
+So,我的思路就是在我的Mac上通过SSH建立一条到我的VPS的加密隧道,并在Mac上进行Socks方式的转发.然后在通过Privoxy将Socks的转发方式改变成HTTP,以提供给我的PSV使用.
+
+所以如果你准备干下去,首先你要确定你有以下设备:
+
+- 第一,也是最重要的,你需要有一台不再天朝境内的VPS服务器或一个外国服务商提供的SSH账户(为了保证速度,首推香港、韩国、日本机房),收费免费均可.
+
+- 第二,你需要有一台运行MacOS X的计算机,或者运行GUN/Linux的也行,GUN/Linux的配置方法与MacOS X大同小异,只是在开机启动设置上不同而已,可自行搜索,网上一抓一大把.
+
+- 第三,你的MacOS X需要已经安装了Xcode与Xcode Command Line Tools与Homebrew.
+
+- 第四,你需要有一台无线路由器,以便在无线局域网之中将Privoxy的代理提供给PSV使用;
+
+- 第五,如果你满足以上三条,那么你可以接着往下看了;
+
+安装AutoSSH,这里推荐并使用 [[http://brew.sh][Homebrew]] 进行安装:
+
+- brew install autossh
+
+装完成后需建立一个Plist文件,告诉MacOS X启动时自动执行AutoSSH:
+
+- sudo emacs ~/Library/LaunchAgents/com.autossh.plist
+
+#+begin_src
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>KeepAlive</key>
+        <true/>
+        <key>Label</key>
+        <string>com.auto.sshd</string>
+        <key>Program</key>
+        <string>/usr/local/bin/autossh</string>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/usr/local/bin/autossh</string>
+                <string>-M</string>
+                <string>22222</string>
+                <string>-q</string>
+                <string>-N</string>
+                <string>-D</string>
+                <string>9090</string>
+                <string>username@host</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+</dict>
+</plist>
+#+end_src
+
+其中:
+
+- /usr/local/bin/autossh指的是AutoSSH执行文件所在目录;
+- 9090指的是指定转发的端口;
+- username@host指的是你的VPS服务器;
+
+保存完毕后执行launchctl load /Users/username/Library/LaunchAgents/com.auto.sshd.plist载入启动项,完了你还需要ssh-copy-id一下你的SSH密匙到VPS,以实现免密码登录,具体可自行Google,非常简单:)
+
+然后安装Privoxy,同样推荐并使用Homebrew进行安装:
+
+- brew install privoxy
+
+安装结束后需要修改Privoxy的Config配置文件,以告知本地SSH转发的端口号,同时设置Privoxy的端口号:
+
+- sudo emacs /usr/local/etc/privoxy/config
+
+找到listen-address,将127.0.0.1修改为0.0.0.0,这样也可使其他机器使用Privoxy;
+
+127.0.0.1后的8118为Privoxy的默认端口号,也可自行修改;
+
+找到forward-socks5,修改其后方的端口号为你自定义的SSH转发端口号,如上部示例是9090;
+
+修改保存之后,还需建立一个Plist文件,告知MacOS X Privoxy执行文件的路径与配置文件的路径,同时可指定一个执行Privoxy程序的用户名:
+
+- sudo emacs /Library/LaunchAgents/com.privoxy.plist
+
+#+begin_src
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+        <key>Label</key>
+        <string>com.privoxy.launchd.privoxy</string>
+        <key>ProgramArguments</key>
+        <array>
+                <string>/usr/local/sbin/privoxy</string>
+                <string>/usr/local/etc/privoxy/config</string>
+        </array>
+        <key>RunAtLoad</key>
+        <true/>
+</dict>
+</plist>
+#+end_src
+
+其中:
+
+- /usr/local/sbin/privoxy为Privoxy执行程序的路径;
+- /usr/local/etc/privoxy/config为Privoxy的配置文件路径;
+
+同样,保存完配置之后你还需要sudo launchctl load /Library/LaunchAgents/com.privoxy.plist一下,以载入启动项.
+
+全部配置完毕后就可重启MacOS X以检查服务是否正确配置并成功自启动,可用ps auxwww命令进行查看,如下:
+
+[[http://f.cl.ly/items/251S2v2J01323E1s032q/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202012-09-19%20%E4%B8%8B%E5%8D%8810.17.42.png]]
+
+[[http://f.cl.ly/items/3v3r2q2b1B1x1X3m0Z2d/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202012-09-19%20%E4%B8%8B%E5%8D%8810.17.22.png]]
+
+如果你的显示结果如我一样,那么即代表AutoSSH与Privoxy已经配置正确并启动成功.现在就可以在PSV的无线网络设置之中开启代理选项,在代理服务器一项中填入你的计算机的局域网IP地址与Privoxy配置中的端口号.然后打开游览器,找一个显示IP的网站,如:ip168.com,如果你的IP显示为你的VPS IP,则设置成功.
+
+尼玛,一挂代理,立刻奥德赛的下载就从几十小时变成了几十分钟,我靠这差距也忒大了点!
+
+再次感谢国X,感谢方XX感谢GFW!!
+
+PS Emacser: 在编辑Plist文件的时候没有高亮显示看起来恨不爽,但其实Plist就是XML格式,我们可以在.emacs里指定让.plist文件套用xml-mode:
+
+#+begin_src
+;; plist
+(setq auto-mode-alist
+    (cons '("\\.plist" . nxml-mode) auto-mode-alist))
+#+end_src
+
+PS Linuxer :
+
+通常的GUN/Linux,如Ubuntu,使用系统默认包管理器安装Privoxy会自动建立开机启动配置,无需自行建立.在GUN/Linux下Privoxy的Config一般都储存在/etc/privoxy/config.
+
+在通常的GUN/Linux下,开机启动AutoSSH只需要编辑/etc/rc.local在其中加入autossh -qTfnN -D 9050 username@host即可. 需要注意的是开机会默认以Root账户执行这条命令,所以你还需要切换到Root账户,ssh-keygen一下建立ssh密匙,然后在ssh-copy-id一下将密匙拷贝到VPS之上,以实现Root账户免密码登录VPS.

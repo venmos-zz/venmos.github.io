@@ -1,0 +1,40 @@
+#+TITLE:       Emacs 窗口神器 Emacs-Window-Manager
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-30
+#+URI:         /blog/%y/%m/%d/emacs-plugin-emacs-window-manager
+#+KEYWORDS:    emacs, 窗口管理, 编程, ide
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 窗口管理, 编程, ide
+
+[[http://segmentfault.com/img/bVb3p9/view]]
+
+- Github https://github.com/kiwanami/emacs-window-manager
+- 依赖 https://raw.githubusercontent.com/kiwanami/emacs-window-layout/master/window-layout.el
+
+安装:
+
+#+begin_src
+cd ~/.emacs.d/plugin
+git clone https://github.com/kiwanami/emacs-window-manager.git
+cd emacs-window-manager
+wget https://raw.githubusercontent.com/kiwanami/emacs-window-layout/master/window-layout.el
+#+end_src
+
+简单配置:
+
+#+begin_src
+(add-to-list 'load-path "~/.emacs.d/plugin/emacs-window-manager/")
+(require 'e2wm)
+
+(global-set-key (kbd "M-+") 'e2wm:start-management)
+
+(provide 'init-e2wm)
+#+end_src
+
+快捷键:
+- M-+ 开启Emacs-Window-Manager
+- C-; Q 退出Emacs-Window-Manager
+- 更多见项目 [[https://github.com/kiwanami/emacs-window-manager][Github]]

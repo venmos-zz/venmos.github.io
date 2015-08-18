@@ -1,0 +1,58 @@
+#+TITLE:       Vagrant for Emacs
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-02
+#+URI:         /blog/%y/%m/%d/emacs-plugin-vagrant
+#+KEYWORDS:    vagrant for emacs
+#+TAGS:        emacs, vps,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: vagrant for emacs
+
+Vagrant.el https://github.com/ottbot/vagrant.el
+
+在Vagrant目录可以通过M-x执行Vagrant命令：
+
+#+begin_src
+
+vagrant-up
+vagrant-halt
+vagrant-status
+#+end_src
+
+等，与终端下的Vagrant命令相同。
+
+Vagrant-Tramp https://github.com/dougm/vagrant-tramp
+
+配置：
+
+#+begin_src
+
+(eval-after-load 'tramp
+  '(vagrant-tramp-enable))
+#+end_src
+
+通过Tramp打开Vagrant文件：
+
+#+begin_src
+
+Find file: /vagrant:
+-> devbox:
+   esxbox:
+   kafka-broker1:
+   kafka-broker2:
+   kafka-zookeeper:
+#+end_src
+
+使用Sudo以管理员权限打开Vagrant文件:
+
+#+begin_src
+
+C-x C-f /vagrant:box|sudo:box:/path/to/file RET
+#+end_src
+
+vagrant-tramp-ssh命令还适用与以下软件：
+
+- VMware Fusion
+- VMware Workstation
+- VirtualBox

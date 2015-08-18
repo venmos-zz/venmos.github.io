@@ -1,0 +1,12 @@
+#+TITLE:       Octopress Emacs V0.2.1
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-11
+#+URI:         /blog/%y/%m/%d/emacs-plugin-octopress-021
+#+KEYWORDS:    emacs, octopress, 021
+#+TAGS:        emacs, venmos, code
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, octopress, 021
+
+Octopress-Emacs以前的octopress-generate与octopress-preview命令是直接调用Bash输出命令的，由于Emacs是单线程，所以会造成假死。现在添加了一个preview.el的宏包，通过octopress-shell执行这个宏包就可以自动开启一个新Shell（Octopress Preview)，并自动cd进Octopress目录然后rvm use 1.9.3，方便rake generate与rake preview的输入，而不会造成Emacs假死。

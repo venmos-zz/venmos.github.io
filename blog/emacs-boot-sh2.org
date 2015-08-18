@@ -1,0 +1,22 @@
+#+TITLE:       Emacs 尼強重云
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-29
+#+URI:         /blog/%y/%m/%d/emacs-boot-sh
+#+KEYWORDS:    emacs, 尼強重云,
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 尼強重云,
+
+#+begin_src
+#! /bin/bash
+# file:/usr/local/bin/emacs
+
+emurl= "/usr/local/Cellar/emacs/HEAD/Emacs.app/Contents/MacOS/emacs"
+case "$*" in
+  *-nw*) $emurl $*;;
+  *--no-window-system*) $emurl $*;;
+  *) $emurl $* &;;
+esac
+#+end_src

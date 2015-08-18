@@ -1,0 +1,26 @@
+#+TITLE:       Emacs 方便复制粘贴的扩展
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-28
+#+URI:         /blog/%y/%m/%d/emacs-plugin-past-copy
+#+KEYWORDS:    emacs, 复制, 粘贴, 扩展, 插件
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 复制, 粘贴, 扩展, 插件
+
+我估计大多用 Emacs 的朋友都与我一样对 Emacs 的复制粘贴功能十分不满,C-y 之后在不停的 M-y 半天才能找到之前的复制内容,还不如重新打开文件重新复制一遍来得快.不过今天我找到两枚非常好用的扩展包,它们能大大提高我们使用 Kill-Ring 的效率.
+
+下面先演示下这两个扩展包,首先我在我的 Emacs 某个个人配置里随便的复制那么一段内容:
+
+[[http://venmos-com.qiniudn.com/emacs-kill-ido-copy.jpg]]
+
+然后使用快捷键 C-y 来唤出kill-ring-ido(我修改了系统自带的快捷键),就会在底部 Minibuff 中显示出 Kill-Ring 的搜索窗口.开头的(10)表明了我的 Kill-Ring 里有 10 个内容,现在我只要随便键入一些字母,Kill-Ring 就会用这些字母去跟我的 10 个内容去相匹配,匹配度最高的就会排头显示,此时我只要按下回车就会进行粘贴了.
+
+[[http://venmos-com.qiniudn.com/emacs-kill-ring-ido.jpg]]
+
+有一些时候我们可能需要经常的复制粘贴一些非常大段的代码,由于非常长,而且有些非常相似,记不清楚.如果这时在用几个关键字匹配的话就会非常麻烦,我们可以用browse-kill-ring命令(默认快捷键 M-y)来打开一个新缓冲区来显示与我们的 Kill-Ring 内容.而且不光能游览 Kill-Ring 里的内容,还能进行各种编辑操作.比如你可以将光标移动到一段复制内容上,然后使用快捷键e进行编辑,之后在用快捷键C-c C-c保存,非常方便.
+
+[[http://venmos-com.qiniudn.com/emacs-browse-kill.jpg]]
+
+这两个扩展的安装也同样非常方便,使用el-get安装kill-ring-ido与browse-kill-ring,browse-kill-ring+即可.

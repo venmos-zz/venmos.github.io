@@ -1,0 +1,83 @@
+#+TITLE:       Debian Install Bittorrent Sync
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-27
+#+URI:         /blog/%y/%m/%d/debian-install-bittorrent-sync
+#+KEYWORDS:    debian, bitsync,
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: debian, bitsync,
+
+首先前往BitTorrent Sync [[http://www.bittorrent.com/sync/downloads][下载]] 程序包, 解压程序包.之后创建目录存放BitTorrent Sync, 并赋予其相应权限:
+
+#+begin_src
+mkdir /etc/btsync
+mv btsync /etc/btsync/
+cd /etc/btsync/
+chown root:root btsync
+chmod 755 btsync
+#+end_src
+
+从BitTorrent Sync创建出一个默认配置模板文件:
+
+#+begin_src
+./btsync --dump-sample-config > sync.conf
+#+end_src
+
+修改配置模板文件:
+
+
+- "device_name" --> 随便你想为这个设备取什么名
+- "storage_path" --> 注释掉这一行,并为其创建相应目录存放配置
+- "login" --> 随便你想取什么登陆名
+- "password" --> 为你的登录名创建一个密码
+
+之后在/etc/init.d/创建一个脚本程序用于开始, 停止BitTorrent Sync:
+
+#+begin_src
+touch /etc/init.d/btsync
+emacs /etc/init.d/btsync
+#+end_src
+
+#+begin_src
+#! /bin/sh
+# /etc/init.d/btsync
+#
+
+# Start or Stop BT Sync
+case "$1" in
+  start)
+        /etc/btsync/./btsync --config /etc/btsync/sync.conf
+    ;;
+  stop)
+        pkill btsync
+    ;;
+  *)
+    echo "Usage: /etc/init.d/btsync {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
+#+end_src
+
+赋予脚本执行权限:
+
+#+begin_src
+chmod +x /etc/init.d/btsync
+#+end_src
+
+将脚本载入开机启动程序序列:
+
+#+begin_src
+update-rc.d btsync defaults
+#+end_src
+
+使用这条命令启动BitTorrent Sync:
+
+#+begin_src
+/etc/init.d/btsync start
+#+end_src
+
+之后打开http://you-r-ip:8888即可打开BitTorrent Sync的网页配置了.

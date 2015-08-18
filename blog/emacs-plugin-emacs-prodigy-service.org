@@ -1,0 +1,80 @@
+#+TITLE:       使用 Prodigy 在 Emacs 中管理外部服务
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-01
+#+URI:         /blog/%y/%m/%d/emacs-plugin-prodigy
+#+KEYWORDS:    emacs, 外部服务, 管理, prodigy
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 外部服务, 管理, prodigy
+
+- Manage external services from within Emacs
+
+- I came up with the idea when I got to work one Monday morning and before I could start working I had to manually start ten or so services.
+
+- To get rid of this tedious work, I started working on this Emacs plugin, which provides a nice and simple GUI to manage services.
+
+- Github https://github.com/rejeep/prodigy.el
+
+简而言之, Prodigy可以让你在Emacs中直接管理外部服务, 方便快捷, 无需多次切换. 比如: Python Simple HTTP Server, Nodemon Server, Sinatra Server 或 Octopress Preview.
+
+Prodigy的配置也相当简单, 比如针对Sinatra的配置:
+
+#+begin_src
+(prodigy-define-service
+  :name "Sinatra"
+  :command "server"
+  :cwd "/path/to/my/project"
+  :path '("/path/to/my/project/bin")
+  :port 6003
+  :tags '(work ruby)
+  :init-async (lambda (done)
+                (rvm-activate-ruby-for "/path/to/my/project" done)))
+#+end_src
+
+比如针对Octopress Preview的配置:
+
+#+begin_src
+(prodigy-define-service
+    :name "Octopress preview"
+    :command "rake"
+    :args '("preview")
+    :cwd '("/path/to/my/octopress")
+    :tags '(octopress)
+    :kill-signal 'sigkill)
+#+end_src
+
+甚至Octopress Generate:
+
+#+begin_src
+(prodigy-define-service
+    :name "Octopress generate"
+    :command "rake"
+    :args '("generate")
+    :cwd '("/path/to/my/octopress")
+    :tags '(octopress)
+    :kill-signal 'sigkill)
+#+end_src
+
+Octopress Preview的效果预览:
+
+[[http://segmentfault.com/img/bVb3Lf]]
+
+[[http://segmentfault.com/img/bVb3Lg]]
+
+在Prodigy选择列表里的基本快捷键:
+
+- n 下一个
+- p 上一个
+- M 第一个
+- M-> 最后一个
+- m 标记
+- M 标记全部
+- u 取消标记
+- U 取消全部标记
+- s 开启服务
+- S 关闭服务
+- r 重启服务
+- $ 显示 Process
+- o 显示 Browse

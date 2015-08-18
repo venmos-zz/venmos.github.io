@@ -1,0 +1,26 @@
+#+TITLE:       Coda2
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-07-20
+#+URI:         /blog/%y/%m/%d/code2-osx
+#+KEYWORDS:    coda2, 网页编辑器,
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: coda2, 网页编辑器,
+
+千呼万唤始出来，Coda 2终于面世了！
+
+此次新版本更新几乎整合了之前我所有梦寐以求的元素！MySQL管理整合有木有！Git版本控制整合有木有！ 不仅如此，此次还发布了Diet Coda for iPad!内置Air Preview超强功能可以配合Coda 2在iPad上进行实时效果预览！
+
+试用了两天之后就毫不犹豫的败了下去！PS：现在购买是$75的折扣价格哦（相当于从Coda1升级上去的价格），8过第一天的$49.99的超级优惠被我错过去了OTZ…
+
+下面是几张界面图：
+
+[[http://f.cl.ly/items/1q3w461f1o340s2j0N2h/coda2_terminal.png]]
+
+[[http://f.cl.ly/items/2Y0n130C040a032B3C0Y/coda2_mysql.png]]
+
+[[http://f.cl.ly/items/1g3s1u351J201r181r1K/coda2_edit.png]]
+
+[[http://f.cl.ly/items/3Y22091p0O223y1H0g2Q/coda2_plugin.png]]

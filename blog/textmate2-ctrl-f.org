@@ -1,0 +1,12 @@
+#+TITLE:       TextMate2 Ctrl-F
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-13
+#+URI:         /blog/%y/%m/%d/textmate2-ctrl-f
+#+KEYWORDS:    textmate, ctrl-f
+#+TAGS:        
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: textmate, ctrl-f
+
+TextMate2已经开源许久了,今天没事,就下了一个玩玩.大部分光标键位都与Emacs相同,就是Ctrl+f在Ruby模式变成了prams[:id],让我及不适应.翻了半天才找着这个快捷键位原来不在Ruby Bundle里,而是在Rails Bundle里的Jump to Method Definition.

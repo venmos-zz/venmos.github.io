@@ -1,0 +1,30 @@
+#+TITLE:       惊的速记
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-03-31
+#+URI:         /blog/%y/%m/%d/edit-note-nv
+#+KEYWORDS:    osx, note
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, note
+
+唉,找来找去终于找到了Evernote的替代品,名为”惊的速记”,还是一款开源产品.
+
+优点是:
+
+- 支持自定义云同步,比如可以用任意类Dropbox软件进行同步;
+- 不支持图片,视频等多媒体格式,所以就算你有几千条笔记,依然启动迅速;
+- 可以从一条笔记中连接另一条笔记,类似Wiki里的词条;
+- 可通过Simplenote与iOS设备进行同步;
+- 由于是纯文本格式,所以同步速度飞快;
+- 可统一集中储存在单一数据库里,也可分别储存为单个文本文件,更可直接输出为HTML格式文件;
+- 由于可以可以分别储存为单个文件,所以可以直接使用Spotlight进行搜索;
+- 可以使用外部编辑器进行编辑,比如我最爱的Vim;
+- 所有操作都可使用快捷键进行,记录大量笔记的时候有”程序员的快感”;
+
+缺点是:
+
+- 同时也是优点之一:不支持多媒体格式;
+- 界面简陋…
+- 不支持复杂的文字排版

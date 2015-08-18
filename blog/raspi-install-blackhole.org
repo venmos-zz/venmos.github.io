@@ -1,0 +1,58 @@
+#+TITLE:       Raspberry Pi install Blackhole
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-05
+#+URI:         /blog/%y/%m/%d/raspi-install-blackhole
+#+KEYWORDS:    树莓派, raspberry, 安装, blackhole
+#+TAGS:        raspi, linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 树莓派, raspberry, 安装, blackhole
+
+- [[http://code4craft.github.io/blog/2013/02/25/blackhole-anti-dns-poison/][About Blackhole]]
+
+Install Java7
+#+begin_src
+
+echo "deb http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list
+echo "deb-src http://ppa.launchpad.net/webupd8team/java/ubuntu precise main" | tee -a /etc/apt/sources.list
+apt-key adv --keyserver keyserver.ubuntu.com --recv-keys EEA14886
+apt-get update
+apt-get install oracle-java7-installer
+apt-get install oracle-java7-set-default
+#+end_src
+
+Verification Java
+
+#+begin_src
+
+$ java -version
+java version "1.7.0_17"
+Java(TM) SE Runtime Environment (build 1.7.0_17-b02)
+Java HotSpot(TM) 64-Bit Server VM (build 23.7-b01, mixed mode)
+#+end_src
+
+Install Curl
+
+#+begin_src
+
+apt-get install curl
+Install Blackhole
+#+end_src
+
+#+begin_src
+
+curl http://code4craft.github.io/blackhole/install.sh | [sudo] sh
+#+end_src
+
+Start Blackhole
+
+#+begin_src
+
+/usr/local/blackhole/blackhole.sh start
+#+end_src
+
+For more help , visit the link below.
+
+- [[https://github.com/code4craft/blackhole][Blackhole Github]]
+- [[https://github.com/code4craft/blackhole/blob/master/server/README.md][Blackhole Docs]]

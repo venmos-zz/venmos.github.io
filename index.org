@@ -1,0 +1,39 @@
+#+TITLE:       ./venmos's index
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-11-27 Tue
+#+URI:         /
+#+KEYWORDS:    Lisp, Emacs, OSX, Linux
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil @:t ::t |:t ^:nil -:t f:t *:t <:t
+#+DESCRIPTION: venmos index
+
+[[http://venmos.com/assets/BB.jpg]]
+
+Kuroi Mato [[http://venmos.com][./venmos]]
+
+Maccon, Emacscon, Lolicon, ACG. False geek, Looks like a quiet guy. Love open source, Loves photography and outdoor sports. Favorite programming language is Ruby and Lisp.
+
+- Website
+
+Blog [[http://venmos.com/blog][venmos.com/blog]]
+
+Wiki [[https://github.com/venmos/wiki/wiki/index][github.com/venmos/wiki]]
+
+- Git
+
+Github [[https://github.com/venmos][github.com/venmos]]
+
+Gitcafe [[https://gitcafe.com/venmos][gitcafe.com/venmos]]
+
+- Social Networking
+
+Twitter [[https://twitter.com/venmos][@venmos]]
+
+Weibo [[https://weibo.com/venmos][@venmos]]
+
+Email [[mailto:venmos@fuck.gfw.es][venmos@fuck.gfw.es]] >> F0081E37
+
+Journal
+
+My blog has been deleted, now a new blog in [[http://blog.segmentfault.com/venmos][Segmentfault]].

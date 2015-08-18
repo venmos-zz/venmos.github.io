@@ -1,0 +1,43 @@
+#+TITLE:       树莓派上编译 Emacs24
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-06-30
+#+URI:         /blog/%y/%m/%d/raspi-make-emacs24
+#+KEYWORDS:    树莓派, 安装, emacs24
+#+TAGS:        emacs, raspi
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 树莓派, 安装, emacs24
+
+昨天我从淘宝上订的树莓派二代到了，闲的蛋疼从上面编译了一个Emacs24 。实际上从树莓派上编译Emacs24没有任何意义，因为我可以直接用Emacs通过SSH连接树莓派的Bash和修改任何文件，So，从树莓派上安装Emacs24纯粹是为了折腾而折腾。拿到机器后首先update一下，然后在upgrade一下，以使系统升级到最新版本，然后还需要安装几个包来编译Emacs24：
+
+#+begin_src
+sudo apt-get install texinfo libncurses5-dev
+#+end_src
+
+如果要用X Windows，还需要在要安装几个另外的包：
+
+#+begin_src
+sudo apt-get install xorg-dev libpng12-dev libjpeg8-dev libgif-dev libtiff5 libtiff5-dev
+#+end_src
+
+安装完相关依赖之后，就可以下载Emacs24的源码了：
+
+#+begin_src
+wget http://ftp.gnu.org/pub/gnu/emacs/emacs-24.3.tar.gz
+#+end_src
+
+然后解压源码压缩包并进入源码目录：
+
+#+begin_src
+tar -xvf emacs-24.3.tar.gz
+cd emacs-24.3
+#+end_src
+
+编译之前还需要给gcc2.4做一个连接sudo ln -s /usr/bin/gcc /usr/local/bin/gcc-4.2，之后开始configure，在这一步可以配置参数将Emacs24安装在指定目录，也可以开启X支持：
+
+#+begin_src
+./configure --prefix /opt/emacs --without-x
+#+end_src
+
+configure之后没有报错，就可以开始make了，这一步需要很长时间…我是晚上睡觉前挂机编的Orz…（PS：表忘记开Tmux）。make完成之后执行./emacs命令来检查Emacs24是否可以顺利执行，之后执行make install开始完成最后安装。安装结束之后Emacs24可执行文件是在/opt/emacs/bin/emacs，之后做一个软连接就可以了ln -s /opt/emacs/bin/emacs /usr/bin/emacs。

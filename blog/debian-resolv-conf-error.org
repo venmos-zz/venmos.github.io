@@ -1,0 +1,47 @@
+#+TITLE:       Debian DNS resolv.conf 重启失效
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-11-25
+#+URI:         /blog/%y/%m/%d/debian-dns-resolv-conf-error
+#+KEYWORDS:    debian, dns, 重启失效,
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: debian, dns, 重启失效,
+
+** 方法一
+
+编辑：
+#+begin_src
+
+$sudo emacs /etc/resolvconf/resolv.conf.d/head
+#+end_src
+
+加入：
+#+begin_src
+
+nameserver 8.8.8.8
+nameserver 8.8.4.4
+#+end_src
+
+重新加载：
+#+begin_src
+
+resolvconf -u
+#+end_src
+
+** 方法二
+
+编辑：
+#+begin_src
+
+/etc/network/interfaces
+#+end_src
+
+加入：
+#+begin_src
+
+dns-nameservers 8.8.8.8
+dns-nameservers 8.8.4.4
+#+end_src
+

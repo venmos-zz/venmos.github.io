@@ -1,0 +1,12 @@
+#+TITLE:       ERC 好友列表
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-07-11
+#+URI:         /blog/%y/%m/%d/emacs-plugin-erc-friend-list
+#+KEYWORDS:    emacs, irc, erc, 好友列表
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, irc, erc, 好友列表
+
+有的时候我想要ERC有一个单独的Buffer来显示所有在线的好友列表来方便查阅好友状态，这时候就需要Erc-NickList了。Erc-NickList包含在erc-extras之中，用el-get-install命令就可以很方便的安装了、安装之后就可以通过erc-nicklist命令来呼出一个Buffer独立显示在线好友名单，类似Speedbar的效果。

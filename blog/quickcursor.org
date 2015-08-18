@@ -1,0 +1,19 @@
+#+TITLE:       QuickCursor
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-05-31
+#+URI:         /blog/%y/%m/%d/quickcursor-osx
+#+KEYWORDS:    emacs, quickcursor
+#+TAGS:        osx, emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, quickcursor
+
+我是一个Vim控,我有强烈的意愿想用Vim来处理任何软件里任何我需要输入文字的地方. 而QuickCursor就满足了我这个愿望,QuickCursor可以让你在任何地方使用Vim或其它任意你喜欢的文本编辑器来编辑文字,保存之后在自动粘贴回去.
+
+今天打算买来着,所以翻了翻作者网站的介绍.这一番不要紧,赫然发现作者把QuickCursor的所有源代码都放在了Github,冏. 怀着忐忑的心情我拖下了QuickCursor的源代码,在Xcode里编译,打包,然后运行,一切正常!
+
+这里我就不评价神马开源与闭源的问题了(估计要说起来,得一片论文,冏),发这篇文章只是记录下来,具体的谁看谁去想吧.
+
+- QuickCursor Github
+- [[https://github.com/jessegrosjean/quickcursor]]

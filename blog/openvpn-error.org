@@ -1,0 +1,35 @@
+#+TITLE:       OpenVPN 错误
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-03
+#+URI:         /blog/%y/%m/%d/openvpn-error-2012
+#+KEYWORDS:    openvpn 错误 error
+#+TAGS:        osx, openvpn
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: openvpn 错误 error
+
+昨天睡觉前发现VPS的网页显示有点不大正常,睡觉前顺便重启了一下.这一重启不要紧,早上一起来发现OpenVPN无法连接了!
+
+赶紧SSH到VPS,重启OpenVPN服务后,发现OpenVPN倒是连接成功了,但是无法PING通任何网络?
+
+仔细的排查了OpenVPN配置文件后发现OpenVPN配置没有问题,可能问题出在转发环节.
+
+于是重新设置OpenVPN转发环节:
+#+begin_src 
+iptables -t nat -A POSTROUTING -s 10.168.0.0/16 -o eth0 -j MASQUERADE
+iptables-save > /etc/iptables.rules
+#+end_src
+
+顺手检查iptables.rules文件:
+#+begin_src 
+cd /etc/network/if-up.d/
+ls -l
+cat /etc/network/if-up.d/iptables
+#+end_src
+
+发现原来问题出在iptables没有了执行权限,赋予iptables执行权限后重启OpenVPN和网络连接后,终于正常了!
+#+begin_src 
+sudo /etc/init.d/openvpn restart
+sudo /etc/init.d/networking restart
+#+end_src 

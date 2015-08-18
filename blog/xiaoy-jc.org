@@ -1,0 +1,12 @@
+#+TITLE:       该来的总会来的，小圆脸剧场版...
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-02
+#+URI:         /blog/%y/%m/%d/xyl-jcb
+#+KEYWORDS:    小圆脸 剧场版
+#+TAGS:        acg
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 小圆脸 剧场版
+
+[[https://farm8.staticflickr.com/7126/6892218284_d7967f7894.jpg]]

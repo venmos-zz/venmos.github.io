@@ -1,0 +1,49 @@
+#+TITLE:       OS X Terminal or Emacs Shell ls color
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-04-06
+#+URI:         /blog/%y/%m/%d/osx-terminal-emacs-shell-ls-color
+#+KEYWORDS:    osx, terminal, ls, 颜色, emacs, shell, 颜色
+#+TAGS:        emacs, osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, terminal, ls, 颜色, emacs, shell, 颜色
+
+在OSX的Terminal里默认的Bash的ls输出是没有颜色的,同样Bash里的ls输出没有颜色,在Emacs的Shell里无论是Ansi-term还是Shell-mode都不会有颜色,即便在~/.bashrc里加入alias ls='ls --color=auto'也不会有效果.这是因为OSX里默认的ls是一个简化版本,并不支持ls --color=auto这样的参数.
+
+要想在OSX里使用ls --color=auto这样的参数来改善输出结果,你需要在OSX安装GNU-Ls这样的工具才能使用--color=auto参数.
+
+- OSX 通过Homebrew Install GNU-Ls
+#+begin_src
+
+brew install coreutils
+#+end_src
+
+- 加入.bashrc或.zshrc
+#+begin_src
+
+alias ls='gls --color=auto'
+alias dir='gdir --color=auto'
+alias grep='grep --color=auto'
+#+end_src
+
+- 进一步美化ls输出,可以使用 [[https://github.com/seebi/dircolors-solarized][dircolors-solarized.]]
+
+
+- 克隆dircolors-solarized
+git clone https://github.com/seebi/dircolors-solarized.git ~/.dircolors-solarized
+
+- 加入.bashrc或.zshrc
+eval $(gdircolors ~/.dircolors-solarized/dircolors.ansi-dark)
+
+dircolors-solarized里内置dircolors.256dark dircolors.ansi-dark dircolors.ansi-light dircolors.ansi-universal,其中dircolors.256dark是适用于256色终端输出的,你可以按照自己的审美任意选择其一.
+
+- dircolors-solarized效果展示:
+
+[[http://segmentfault.com/img/bVb5pL]]
+
+- 我所使用的就是dircolors.ansi-dark,搭配的是Oh My Zsh和Tomorrow Theme,以下是效果截图:
+
+http://segmentfault.com/img/bVb5pS
+
+http://segmentfault.com/img/bVb5pT

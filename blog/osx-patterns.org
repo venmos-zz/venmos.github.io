@@ -1,0 +1,20 @@
+#+TITLE:       Patterns
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-14
+#+URI:         /blog/%y/%m/%d/osx-patterns
+#+KEYWORDS:    osx, 正则表达式, patterns
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: osx, 正则表达式, patterns
+
+从Mac App Store上买了一个Patterns,用来写正则表达式很方便哦.
+
+[[http://farm8.staticflickr.com/7239/6898580114_f5ca9a2ddd.jpg]]
+
+支持多种语言;
+
+[[http://farm6.staticflickr.com/5456/6898582370_3c2fd8145b_q.jpg]]
+
+仅售$2.99,真的只要299!

@@ -1,0 +1,55 @@
+#+TITLE:       OWC PCI-E SSD Mac Pro 最后的武装
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-09-08
+#+URI:         /blog/%y/%m/%d/mac-pro-owc-pci-e
+#+KEYWORDS:    macpro, pci-e ssd, owc
+#+TAGS:        venmos,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: macpro, pci-e ssd, owc
+
+妈妈说会花十万块钱买电脑的都是疯子,很遗憾她儿子就是一个疯子,而且还在试图超越其他一般的疯子…
+
+曾几何时,Mac Pro是Apple产品线中无需评论的绝对王者.但是关注Apple产品线的童鞋就会发现,随着最近几年Apple在移动市场的火爆,作为昔日王者的Mac Pro已经被冷落了许久.当初花重金购入这台Mac Pro,看重的就是卓越的计算能力,以及与类Unix系统良好的兼容性,当然还有那么一点点的可扩展性.为了不至于让超级跑车用QQ轮胎而导致杯具的发生,我还在订购时特意加了一块Apple RAID Card.只是我料的到当初,但缺料不到后来.这块Apple RAID Card狗血的性能并未给我的超级跑车带来大幅的提升,反而带来了无尽的麻烦.
+
+Apple RAID Card的狗血:
+
+- 不支持除Apple专门定制的硬盘外的其他一切硬盘;
+- 在Apple全面奔向SSD的时代,居然不支持SSD;
+- RAID10,4硬盘,读写才270M/s不到,有木有?!
+
+虽然Apple似乎暂时抛弃了它昔日的王者,但是我不能抛弃(因为我已经买了…Orz),那就不能在指望Apple,只能另寻出路了…
+
+[[http://f.cl.ly/items/0T2C1v1w2P3T242G223Y/raidcardspeed.png]]
+
+OWC PCI-E SSD Apple RAID Card狗血的性能
+
+现在我还能依稀回忆起当初看到”OWC推出世界首款Mac Pro兼容PCI-E SSD”这条新闻时的兴奋,当时我就心想”这就是我超级跑车的完美轮胎”!在经过漫长的等待之后,这款SSD终于在亚马逊上上架了,于是立马刷卡购入,之后又是一阵漫长的等待….直到今天.
+
+
+拆开包装拍完靓照之后我就迫不及待的装上Mac Pro,开始重装系统.由于一开始太过兴奋,忘记了计时,于是我又中断了安装,又重装了一遍Orz..
+
+[[http://f.cl.ly/items/3d173X2P1d2k312p172z/%E7%85%A7%E7%89%87.PNG]]
+
+OWC PCI-E SSD 从选定安装磁盘,点下安装按钮到系统安装完成后重启,总共耗时7分46秒.不能说是令人惊奇的速度,但是也比以前的RAID Card快了不知多少…
+
+[[http://f.cl.ly/items/091P1U2e153Q0r382L0a/diskspeedtest.png]]
+
+OWC PCI-E SSD 安装结束后,漫长的系统更新一万成,立刻迫不及待的下载了Disk Speed Test进行测速,只可惜结果让我大跌眼镜!
+
+[[http://f.cl.ly/items/2e1J3R33362W0F0b3K2I/aja1.png]]
+
+OWC PCI-E SSD 不死心的我又马不停蹄的去下AJA,这回测试结果终于让我稳住了颤抖的身躯…
+
+[[http://f.cl.ly/items/171M0i052R10101q3g01/aja2.png]]
+
+OWC PCI-E SSD 虽然离原厂号称的720m/s有些差距,但是已经很接近了…
+
+OWC PCI-E SSD 最后我又下载了号称比较专业的Xbench进行测试,这次的结果终于让我舒坦了…
+
+[[http://f.cl.ly/items/3I3902462x3W2R3L0M11/xbench.png]]
+
+在Emacs之中编辑完这篇帖子之后我也没有闲着,我又开始马不停蹄的重建我的工作和娱乐系统.过程是令人欣喜的,大量数据(几百G)的拷贝恢复感觉不经意之间就已经完成了,速度交以前狗血的Apple Raid Card有了飞跃性的提升!就连我以前因为安装了大量插件而启动需要等一袋烟功夫(夸张了喂)的Firefox与Emacs都打开了秒开的境界!
+
+总的来说以一句话做为结尾”我上上个月的奖金没有白花…“ :))

@@ -1,0 +1,30 @@
+#+TITLE:       BetterZip QuickLook
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2013-03-23
+#+URI:         /blog/%y/%m/%d/betterzip-osx-quicklook
+#+KEYWORDS:    betterzip, osx, quicklook
+#+TAGS:        osx, quicklook
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: betterzip, osx, quicklook
+
+因为我一直都习惯写纯文本文件,不大用World,Page神马庞大的软件,所以也就一直没大注意过MacOS自带的QuickLook功能.
+
+不过今天从网上偶然看了一篇介绍QuickLook的插件,里面提到了BetterZip提供的QuickLook插件,可以快速预览各种压缩包的格式,顿时来了兴趣.
+
+[[http://macitbetter.com/img/BetterZipQL11.jpg]]
+
+[[http://macitbetter.com/BetterZipQL.zip][电击下载 BettaerZip QuickLook]]
+
+[[http://macitbetter.com/BetterZip-Quick-Look-Generator/][官方主页]]
+
+** 安装
+
+电击下载后解压缩完毕,将里面的文件拖动到/Library/QuickLook文件夹内就行了, 一般拖入了新的插件后,系统都要等待一段时间才会识别加载新插件,如果你等的不耐烦了, 可以输入下面的命令,强制立刻刷新加载新插件;
+
+打开终端Terminal,输入:
+
+#+begin_src
+qlmanage -r
+#+end_src

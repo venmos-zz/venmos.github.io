@@ -1,0 +1,90 @@
+#+TITLE:       Rime <鼠须管> 输入法
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-22
+#+URI:         /blog/%y/%m/%d/osx-rime
+#+KEYWORDS:    rime, 鼠须管, 输入法
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: rime, 鼠须管, 输入法
+
+这两天频繁的打文件,Sogou输入法终于让哥爆发了.你丫的傻X永远也记不住哪个单词该TMD 排在第一位?你丫的永远也记不住哥的公司名?别以为你丫有云输入哥就不敢卸你!
+
+卸完了Sogou输入法,于是哥又开始了慢慢寻找之路.虽然现在国内Mac用户的日子越来越好 过了,各路大神都推出了自己的输入法,但是一番实验下来之后,发现不管神码QQ输入法还是 百度输入法均为达到哥想要的效果.而老牌的QIM与FIT,之前就因为种种原因替换了之后,就 再也提不起再次实验的兴趣了.
+
+直到哥在一个Geek BBS发现了Rime,顿时豁然开朗.
+
+[[http://f.cl.ly/items/1E0V3X1B0n2V0a2Q101M/rime.png]]
+
+准确的说鼠须管输入法是基于Rime的MacOS X平台输入法,而Rime的全称则为中州韻輸入法引擎. Rime不仅仅是一款输入法,而是一款完整的输入法算法框架.Rime的基础结构十分强大,一套 构架支持拼音,双拼,注音,五笔,仓额等所有音码类的输入法.对于拼音类输入法而言,Rime 默认集成了两种:朙月拼音和地球拼音,我现在所用的就是其中的朙月拼音.
+
+Rime的优点:
+
+- 速度极快,几乎按下按键的瞬间就会出现字符;
+- 算法极佳,就好似知道你要输入什么一般;
+- 免费开源;
+- 横跨Windows,Linux,Mac等几乎所有主流操作系统平台;
+- 自定义功能强大;
+
+Rime可能是优点也可能是缺点:
+
+- 基于配置文件配置,没有图形化配置菜单;
+
+Rime三平台版本:
+
+- 中州韵 iBrickr-rime,是Linux平台发行版;
+
+- 小狼毫 Weasel,是Windows平台发行版;
+
+- 鼠须管 Squirrel,是MacOS X平台发行版;
+
+Rime的Google Code:
+
+[[http://code.google.com/p/rimeime/]]
+
+Rime输入法甚至可以称为Geeks输入法,因为它与普通输入法配置方法不同,它所用的是Geek所爱用的配置文件方法.
+
+安装完Rime输入法后,第一次需唤出输入法然后用快捷键Control+`来唤出设置菜单,然后按数字键选中明月拼音`. 然后就可以使用了,但是对于习惯于Sogou等输入法的国内用户来说,默认配置是及不习惯的.比如,选字菜单是竖向排列的, 选字菜单字体太大,选字菜单翻页不能使用中括号等等.不过这些都没关系,只要花个十来分钟来阅读官方说明,并自定义 自己的配置文件,你就可轻易的将Rime输入法自定义任何自己想要的形式:)
+
+Rime的 [[http://code.google.com/p/rimeime/wiki/CustomizationGuide][官方定制指南]].
+
+随下附我的配置文件,目前还很简单只是全当做简单参考,更多定制细节还请参见上方的官方定制指南.
+
+- luna_pinyin.custom.yaml
+
+#+begin_src
+patch:
+  "key_binder/bindings":
+    - { when: paging, accept: bracketleft, send: Page_Up }
+    - { when: has_menu, accept: bracketright, send: Page_Down }
+  # 使用中括号键翻页
+
+  'punctuator/import_preset': alternative
+  switches:
+    - name: ascii_mode
+      reset: 0
+      states: [ 中文, 西文 ]
+    - name: full_shape
+      states: [ 半角, 全角 ]
+      reset: 0                # 选择半角标点符号
+    - name: simplification
+      reset: 1                # 启动简体字体
+      states: [ 漢字, 汉字 ]
+#+end_src
+
+ - squirrel.yaml
+
+#+begin_src
+config_version: "0.10"
+
+us_keyboard_layout: false
+
+style:
+  horizontal: true                # 默认横向排列字体候选菜单
+  font_face: "黑体"               # 默认采用黑体字体
+  font_point: 18                  # 默认采用字体大小
+  corner_radius: 10
+  border_height: 0
+  border_width: 0
+#+end_src

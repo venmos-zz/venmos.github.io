@@ -1,0 +1,28 @@
+#+TITLE:       Debian PHP5 开启 Sendmail
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-02-28
+#+URI:         /blog/%y/%m/%d/debian-php5-on-sendmail
+#+KEYWORDS:    debian, ubuntu, php5, sendmail,
+#+TAGS:        linux, php,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: debian, ubuntu, php5, sendmail,
+
+安装Sendmail：
+
+#+begin_src
+apt-get install sendmail
+#+end_src
+
+编辑PHP.ini：
+
+#+begin_src
+emacs /etc/php5/apache2/php.ini
+#+end_src
+
+在PHP中的Sendmail参数后加入Sendmail路径：
+
+#+begin_src
+sendmail_path = /usr/sbin/sendmail
+#+end_src

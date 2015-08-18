@@ -1,0 +1,17 @@
+#+TITLE:       更换 OS X 核心语言为英文
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-01-21
+#+URI:         /blog/%y/%m/%d/change-osx-lang-to-en
+#+KEYWORDS:    更换 OSX 核心语言 英文
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: 更换 OSX 核心语言 英文
+
+为了更好的贯彻学习英语的目的,为了眼到之处必须全是英文,也是为了更好的装13,怎能忍受MacOS的登陆界面仍然显示中文?
+
+- Change MacOS Language
+#+begin_src
+sudo "/System/Library/CoreServices/Language Chooser.app/Contents/MacOS/Language Chooser"
+#+end_src

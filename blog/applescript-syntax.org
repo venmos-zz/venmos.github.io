@@ -1,0 +1,31 @@
+#+TITLE:       AppleScript Syntax Vim
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-04
+#+URI:         /blog/%y/%m/%d/applescript-syntax-vim
+#+KEYWORDS:    applescript syntax vim
+#+TAGS:        vim,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: applescript syntax vim
+
+偶然从网上发现了一本电子版的AppleScript教程,读了一半湿性大发,决定写一个拖动图片到指定文件夹后即自动触发转换图片格式的AppleScript.
+
+于是掏出我的Vim认真的码起了代码,码了数分钟之后突然感觉哪里不对.盯着屏幕看了半天,恍然大悟,没有代码高亮,囧! 想了想上一次学AppleScript的时候都是数年前的事了,那时候啥也不会,耐着性子读了半天就放弃了,当然那时候代码高亮对我来说都是浮云,所以也没太在意…
+
+立刻请出Google大神求指导,片刻之后就寻到了一份AppleScript高亮配色:
+
+AppleScript高亮配色: [[http://www.fastnlight.com/syntax/applescript.vim]]
+
+然后在Vim中添加一个AppleScript的文件类型:
+
+#+begin_src 
+vim ~/.vim/ftdetect/applescript.vim
+在其中声明AppleScript文件所套用的高亮配色:
+#+end_src
+
+#+begin_src 
+au BufRead,BufNewFile *.applescript set filetype=applescript
+#+end_src
+
+保存重启Vim,在打开AppleScript,养眼的高亮就来了!

@@ -1,0 +1,36 @@
+#+TITLE:       Multiple-Cursors 为 Emacs 带来多重选举功能
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2014-03-21
+#+URI:         /blog/%y/%m/%d/emacs-plugin-multiple-curosors
+#+KEYWORDS:    emacs, multiple-cursors, 多重选举
+#+TAGS:        emacs,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, multiple-cursors, 多重选举
+
+演示视频 [[http://player.youku.com/player.php/sid/XNjg1MzA5MTIw/v.swf]]
+
+仓库 [[https://github.com/magnars/multiple-cursors.el]]
+
+Start out with:
+
+#+begin_src
+(require 'multiple-cursors)
+#+end_src
+
+Then you have to set up your keybindings - multiple-cursors doesn't presume to know how you'd like them laid out. Here are some examples:
+
+When you have an active region that spans multiple lines, the following will add a cursor to each line:
+
+#+begin_src
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+#+end_src
+
+When you want to add multiple cursors not based on continuous lines, but based on keywords in the buffer, use:
+
+#+begin_src
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+#+end_src

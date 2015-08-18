@@ -1,0 +1,18 @@
+#+TITLE:       酷毙了的 Instagram 屏保
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-23
+#+URI:         /blog/%y/%m/%d/instagram-osx-screen
+#+KEYWORDS:    instagram, 屏保
+#+TAGS:        osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: instagram, 屏保
+
+从 [[http://www.mac52ipod.cn/][苹果Fans]] 看见有介绍一款酷毙了的Instagram屏幕保护程序.
+
+Screenstagram会自动抓取Instagram上的热门照片,并且无需账户,然后在Mac待机时在屏幕上显示出由几十个方格组成的照片墙,每一刻都会有几个方格在滚动照片.
+
+[[http://f.cl.ly/items/03130c3D0B372h100X43/1329217147_8213da4c.png]]
+
+下载地址见 [[http://www.mac52ipod.cn/post/mac-instagram-screen-saver-screenstagram.php][苹果Fans]] .

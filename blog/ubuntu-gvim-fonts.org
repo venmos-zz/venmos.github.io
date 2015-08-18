@@ -1,0 +1,28 @@
+#+TITLE:       Ubuntu 下的 Gvim 字体设置
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-08-13
+#+URI:         /blog/%y/%m/%d/ubuntu-gvim-fonts
+#+KEYWORDS:    ubuntu, gvim, 字体设置
+#+TAGS:        linux, vim,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: ubuntu, gvim, 字体设置
+
+今天同事的订购的戴尔笔记本到货了，预装的是Ubuntu系统（原因你懂的），趁着他下午去开会的功夫，我先捣鼓了一会（自从Ubuntu 9版本后我就在没用过Ubuntu Desktop版本）。 轻车熟路，很快的就apt-get完了Vim、Gvim、Git、Tmux、Zsh等我常用的软件，并从Github上拉下了配置。使用了一会，觉得这些软件和在MacOS X下感觉差不多，Terminal感觉比MacOS X的好用，但是快捷键相当不顺手。
+
+奇怪的是终端下的Vim的字体设置无问题，但是GVim的字体显示启动时提示出错，找不到字体，而且自定义了一个超级难看的字体，而且在.gvimrc中无论如何设置都不会正确读取。 稍微研究了下，原来终端下的Vim是直接套用了终端定义的字体，所以没问题。而GVim与MacVim的字体设置规则不同，所以才会出错。
+
+MacOS X下的.gvimrc的字体设置规则是：
+
+#+begin_src 
+set guifont=Monospace:12
+#+end_src
+
+而Ubuntu下的.gvimrc字体设置规则是：
+
+#+begin_src 
+set guifont=Monospace\ 12
+#+end_src
+
+按照Ubuntu的设置规则设置后，就正确调用字体文件了。另外如果你不知道字体的准确名称，可以从GVim的图形菜单中点取字体设置，选择好你喜欢的字体后在GVim中用set guifont命令就可查看字体的正确名称。 需要注意的是在字体名称的末尾需要加一个\符号，然后在加一个空格输入字体大小，否则就会出错:)

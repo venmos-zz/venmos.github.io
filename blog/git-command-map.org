@@ -1,0 +1,14 @@
+#+TITLE:       发现一张 Git 命令图
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2012-04-16
+#+URI:         /blog/%y/%m/%d/git-command-map
+#+KEYWORDS:    git, 命令, 图
+#+TAGS:        git,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: git, 命令, 图
+
+偶然发现一张很”明白”的Git命令导图,但是没有标注作者,看图片上的User,这张图的作者应该是”Zahuifan”?
+
+[[http://pic002.cnblogs.com/img/1-2-3/201007/2010072023345292.png]]

@@ -1,0 +1,15 @@
+#+TITLE:       Emacs 自动识别文件编码
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-03
+#+URI:         /blog/%y/%m/%d/emacs-auto-file-code
+#+KEYWORDS:    emacs, 自动识别, 文件, 编码
+#+TAGS:        emacs
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: emacs, 自动识别, 文件, 编码
+
+
+使用unicad就可以让Emacs在打开文件时自动识别文件编码并自动切换。
+
+unicad项目地址：https://code.google.com/p/unicad/wiki/FAQ_Chinese
