@@ -45,18 +45,21 @@ Redsocks 是 Linux 下的一个全局代理软件，配合 iptables 可以将所
 </li>
 <li>MEOW <a href="https://github.com/renzhn/MEOW">https://github.com/renzhn/MEOW</a>
 </li>
-
-<li>安装 Redsocks 与 iptables
-</li>
 </ul>
+
+
+<p>
+安装 Redsocks 与 iptables:
+</p>
+
 <pre class="example">
 sudo apt-get install redsocks iptables
 </pre>
 
-<ol class="org-ol">
-<li>Redsocks 配置
-</li>
-</ol>
+<p>
+Redsocks 配置:
+</p>
+
 <pre class="example">
 #/etc/redsocks.conf
 
@@ -79,10 +82,10 @@ redsocks {
 }
 </pre>
 
-<ol class="org-ol">
-<li>iptables 配置
-</li>
-</ol>
+<p>
+iptables 配置:
+</p>
+
 <pre class="example">
 #/bin/bash 
 
@@ -107,10 +110,9 @@ sudo iptables -t nat -A REDSOCKS -p tcp --dport 22 -j REDIRECT --to-ports 12345
 sudo iptables -t nat -A REDSOCKS -p tcp --dport 8264 -j REDIRECT --to-ports 12345
 </pre>
 
-<ol class="org-ol">
-<li>重启 Redsocks
-</li>
-</ol>
+<p>
+重启 Redsocks:
+</p>
 <pre class="example">
 sudo /etc/init.d/redsocks restart
 </pre>
@@ -119,9 +121,10 @@ sudo /etc/init.d/redsocks restart
 FAQ
 </p>
 
-<p>
-A. iptables 配置重启会失效，可保存在系统启动脚本之中或建立一个 Shell 脚本，方便每次执行。
-</p>
+<ol class="org-ol">
+<li>iptables 配置重启会失效，可保存在系统启动脚本之中或建立一个 Shell 脚本，方便每次执行。
+</li>
+</ol>
 
 </div>
 </div>
