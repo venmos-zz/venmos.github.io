@@ -1,0 +1,25 @@
+#+TITLE:       设置 Bash 与 Apt 代理
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-20 Thu
+#+URI:         /blog/%y/%m/%d/linux-bash-and-apt-use-proxy
+#+KEYWORDS:    linux, debian, bash, apt, proxy
+#+TAGS:        linux,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Apt and Bash use Proxy
+
+Bash 设置代理
+#+begin_src
+# add to ~/.bashrc
+http_proxy=http://users:password@address:port
+export http_proxy
+#+end_src
+
+Apt 设置代理
+#+begin_src
+# add to /etc/apt/apt.conf
+Acquire::http::Proxy “http://address:port”;
+#+end_src
+
+
