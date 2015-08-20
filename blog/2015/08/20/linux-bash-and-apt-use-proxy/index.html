@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en-us">
   <head>
-    <title>./venmos&#39;s index - Time Machine</title>
+    <title>设置 Bash 与 Apt 代理 - Time Machine</title>
     <meta charset="utf-8" />
     <meta name="author" content="venmos" />
-    <meta name="description" content="venmos index" />
-    <meta name="keywords" content="Lisp, Emacs, OSX, Linux" />
+    <meta name="description" content="Apt and Bash use Proxy" />
+    <meta name="keywords" content="linux, debian, bash, apt, proxy" />
     <link rel="stylesheet" href="/media/css/main.css" type="text/css">
     <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
   </head>
@@ -30,75 +30,51 @@
 
 <div>
 <div class="post">
-<h1>./venmos&#39;s index</h1>
-
-<div class="figure">
-<p><img src="http://venmos.com/BB.jpg" alt="BB.jpg" />
+<h1>设置 Bash 与 Apt 代理</h1>
+<p>
+Bash 设置代理
 </p>
-</div>
+<pre class="example">
+# add to ~/.bashrc
+http_proxy=http://users:password@address:port
+export http_proxy
+</pre>
 
 <p>
-Kuroi Mato <a href="http://venmos.com">./venmos</a>
+Apt 设置代理
 </p>
-
-<p>
-Maccon, Emacscon, Lolicon, ACG. False geek, Looks like a quiet guy. Love open source, Loves photography and outdoor sports. Favorite programming language is Ruby and Lisp.
-</p>
-
-<ul class="org-ul">
-<li>Website
-</li>
-</ul>
-
-<p>
-Blog <a href="http://venmos.com/blog">venmos.com/blog</a>
-</p>
-
-<p>
-Wiki <a href="https://github.com/venmos/wiki/wiki/index">github.com/venmos/wiki</a>
-</p>
-
-<ul class="org-ul">
-<li>Git
-</li>
-</ul>
-
-<p>
-Github <a href="https://github.com/venmos">github.com/venmos</a>
-</p>
-
-<p>
-Gitcafe <a href="https://gitcafe.com/venmos">gitcafe.com/venmos</a>
-</p>
-
-<ul class="org-ul">
-<li>Social Networking
-</li>
-</ul>
-
-<p>
-Twitter <a href="https://twitter.com/venmos">@venmos</a>
-</p>
-
-<p>
-Weibo <a href="https://weibo.com/venmos">@venmos</a>
-</p>
-
-<p>
-Email <a href="mailto:venmos@fuck.gfw.es">venmos@fuck.gfw.es</a> &gt;&gt; F0081E37
-</p>
-
-<p>
-Journal
-</p>
-
-<p>
-My blog has been deleted, now a new blog in <a href="http://blog.segmentfault.com/venmos">Segmentfault</a>.
-</p>
+<pre class="example">
+# add to /etc/apt/apt.conf
+Acquire::http::Proxy “http://address:port”;
+</pre>
 
 </div>
 </div>
     <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-08-20</span>
+        <span title="last modification date" class="post-info">2015-08-20</span>
+        <span title="tags" class="post-info"><a href="/tags/linux/">linux</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2015/08/20/linux-bash-and-apt-use-proxy";
+          var disqus_url = "http://venmos.com/blog/2015/08/20/linux-bash-and-apt-use-proxy";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
       <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
