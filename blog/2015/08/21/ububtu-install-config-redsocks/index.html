@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>Ububtu 安装配置 Redsocks - Time Machine</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="venmos" />
+    <meta name="description" content="Ubuntu 配置全局代理." />
+    <meta name="keywords" content="ubuntu, 全局代理, socks, shadowsocks, redsocks," />
+    <link rel="stylesheet" href="/media/css/main.css" type="text/css">
+    <link rel="stylesheet" href="/media/css/prettify.css" type="text/css">
+  </head>
+  <body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="/">Time Machine</a></h1>
+        <p>A website framework for hackers.</p>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/tags/">Tags</a></li>
+          <li><a href="/about/">About</a></li>
+          <li><a href="https://github.com/venmos">GitHub</a></li>
+          <li><a href="/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="venmos.com">
+        </form>
+      </header>
+    </div>
+
+<div>
+<div class="post">
+<h1>Ububtu 安装配置 Redsocks</h1>
+<p>
+Redsocks 是 Linux 下的一个全局代理软件，配合 iptables 可以将所有网络流量转向 HTTP 或 Socks5 代理，实现全局代理。
+</p>
+
+<p>
+建议配合 Shadowsocks 服务器与 Cow 和 MEOW 配合使用。Cow &amp; MEOW 是智能分流的 HTTP 代理软件，上端支持 HTTPS, Socks 和 Shadowsocks 代理服务。
+通过 Redscoks 将本机全部流量导向 Cow &amp; MEOW 进行智能分流，可不影响国内外网速。
+</p>
+
+<ul class="org-ul">
+<li>Cow <a href="https://github.com/cyfdecyf/cow">https://github.com/cyfdecyf/cow</a>
+</li>
+<li>MEOW <a href="https://github.com/renzhn/MEOW">https://github.com/renzhn/MEOW</a>
+</li>
+
+<li>安装 Redsocks 与 iptables
+</li>
+</ul>
+<pre class="example">
+sudo apt-get install redsocks iptables
+</pre>
+
+<ol class="org-ol">
+<li>Redsocks 配置
+</li>
+</ol>
+<pre class="example">
+#/etc/redsocks.conf
+
+base {
+        log_debug = off;
+        log_info = on;
+        log = "syslog:daemon";
+        daemon = on;
+        user = redsocks;
+        group = redsocks;
+        redirector = iptables;
+}
+
+redsocks {
+        local_ip = 127.0.0.1;
+        local_port = 12345;
+        ip = 代理服务器地址;
+        port = 代理服务器端口;
+        type = http-connect;
+}
+</pre>
+
+<ol class="org-ol">
+<li>iptables 配置
+</li>
+</ol>
+<pre class="example">
+#/bin/bash 
+
+# 建立一个 REDSOCKS 列表
+sudo iptables -t nat -N REDSOCKS
+sudo iptables -t nat -A OUTPUT -j REDSOCKS
+sudo iptables -t nat -I REDSOCKS -m owner --uid-owner redsocks -j RETURN
+# 内网地址不转发
+sudo iptables -t nat -A REDSOCKS -d 0.0.0.0/8 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 10.0.0.0/8 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 169.254.0.0/16 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 172.16.0.0/12 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 192.168.0.0/16 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 224.0.0.0/4 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 240.0.0.0/4 -j RETURN
+# 端口转发
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 80 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 443 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 993 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 465 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 22 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 8264 -j REDIRECT --to-ports 12345
+</pre>
+
+<ol class="org-ol">
+<li>重启 Redsocks
+</li>
+</ol>
+<pre class="example">
+sudo /etc/init.d/redsocks restart
+</pre>
+
+<p>
+FAQ
+</p>
+
+<p>
+A. iptables 配置重启会失效，可保存在系统启动脚本之中或建立一个 Shell 脚本，方便每次执行。
+</p>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2015-08-21</span>
+        <span title="last modification date" class="post-info">2015-08-21</span>
+        <span title="tags" class="post-info"><a href="/tags/linux/">linux</a> <a href="/tags/gfw/">gfw</a></span>
+        <span title="author" class="post-info">venmos</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2015/08/21/ububtu-install-config-redsocks";
+          var disqus_url = "http://venmos.com/blog/2015/08/21/ububtu-install-config-redsocks";
+          var disqus_shortname = 'venomblog';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-66388727-2']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+      </script>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x (<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:venmos &lt;at&gt; fuck &lt;dot&gt; gfw &lt;dot&gt; es">venmos</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+  </body>
+</html>

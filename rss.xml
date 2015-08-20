@@ -4,10 +4,17 @@
     <title>Time Machine</title>
     <link>http://venmos.com/</link>
     <description>A website framework for hackers.</description>
-    <pubDate>Thu, 20 Aug 2015 22:27:02 CST</pubDate>
-    <lastBuildDate>Thu, 20 Aug 2015 22:27:02 CST</lastBuildDate>
+    <pubDate>Fri, 21 Aug 2015 01:32:27 CST</pubDate>
+    <lastBuildDate>Fri, 21 Aug 2015 01:32:27 CST</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Ububtu 安装配置 Redsocks</title>
+      <link>http://venmos.com/blog/2015/08/21/ububtu-install-config-redsocks</link>
+      <description>Ubuntu 配置全局代理.</description>
+      <pubDate>2015-08-21</pubDate>
+      <guid>http://venmos.com/blog/2015/08/21/ububtu-install-config-redsocks</guid>
+    </item>
     <item>
       <title>设置 Bash 与 Apt 代理</title>
       <link>http://venmos.com/blog/2015/08/20/linux-bash-and-apt-use-proxy</link>
@@ -70,13 +77,6 @@
       <description>被, 洗脑, 爱国</description>
       <pubDate>2015-08-19</pubDate>
       <guid>http://venmos.com/blog/2012/09/21/china-sb</guid>
-    </item>
-    <item>
-      <title>OS X GNU/Linux Windows 清空 DNS 缓存</title>
-      <link>http://venmos.com/blog/2012/05/29/osx-linux-windows-clean-dns-cache</link>
-      <description>osx, windows, linux, 清空, dns缓存</description>
-      <pubDate>2015-08-19</pubDate>
-      <guid>http://venmos.com/blog/2012/05/29/osx-linux-windows-clean-dns-cache</guid>
     </item>
   </channel>
 </rss>
