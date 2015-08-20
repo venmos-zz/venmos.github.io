@@ -17,12 +17,15 @@ Redsocks 是 Linux 下的一个全局代理软件，配合 iptables 可以将所
 - Cow https://github.com/cyfdecyf/cow
 - MEOW [[https://github.com/renzhn/MEOW]]
 
-1. 安装 Redsocks 与 iptables
+
+安装 Redsocks 与 iptables:
+
 #+begin_src
 sudo apt-get install redsocks iptables
 #+end_src
 
-2. Redsocks 配置
+Redsocks 配置:
+
 #+begin_src
 #/etc/redsocks.conf
 
@@ -45,7 +48,8 @@ redsocks {
 }
 #+end_src
 
-3. iptables 配置
+iptables 配置:
+
 #+begin_src
 #/bin/bash 
 
@@ -70,11 +74,11 @@ sudo iptables -t nat -A REDSOCKS -p tcp --dport 22 -j REDIRECT --to-ports 12345
 sudo iptables -t nat -A REDSOCKS -p tcp --dport 8264 -j REDIRECT --to-ports 12345
 #+end_src
 
-4. 重启 Redsocks
+重启 Redsocks:
 #+begin_src
 sudo /etc/init.d/redsocks restart
 #+end_src
 
 FAQ
 
-A. iptables 配置重启会失效，可保存在系统启动脚本之中或建立一个 Shell 脚本，方便每次执行。
+1. iptables 配置重启会失效，可保存在系统启动脚本之中或建立一个 Shell 脚本，方便每次执行。
