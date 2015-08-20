@@ -1,0 +1,80 @@
+#+TITLE:       Ububtu 安装配置 Redsocks
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@fuck.gfw.es
+#+DATE:        2015-08-21 Fri
+#+URI:         /blog/%y/%m/%d/ububtu-install-config-redsocks
+#+KEYWORDS:    ubuntu, 全局代理, socks, shadowsocks, redsocks,
+#+TAGS:        linux, gfw,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: Ubuntu 配置全局代理.
+
+Redsocks 是 Linux 下的一个全局代理软件，配合 iptables 可以将所有网络流量转向 HTTP 或 Socks5 代理，实现全局代理。
+
+建议配合 Shadowsocks 服务器与 Cow 和 MEOW 配合使用。Cow & MEOW 是智能分流的 HTTP 代理软件，上端支持 HTTPS, Socks 和 Shadowsocks 代理服务。
+通过 Redscoks 将本机全部流量导向 Cow & MEOW 进行智能分流，可不影响国内外网速。
+
+- Cow https://github.com/cyfdecyf/cow
+- MEOW [[https://github.com/renzhn/MEOW]]
+
+1. 安装 Redsocks 与 iptables
+#+begin_src
+sudo apt-get install redsocks iptables
+#+end_src
+
+2. Redsocks 配置
+#+begin_src
+#/etc/redsocks.conf
+
+base {
+        log_debug = off;
+        log_info = on;
+        log = "syslog:daemon";
+        daemon = on;
+        user = redsocks;
+        group = redsocks;
+        redirector = iptables;
+}
+
+redsocks {
+        local_ip = 127.0.0.1;
+        local_port = 12345;
+        ip = 代理服务器地址;
+        port = 代理服务器端口;
+        type = http-connect;
+}
+#+end_src
+
+3. iptables 配置
+#+begin_src
+#/bin/bash 
+
+# 建立一个 REDSOCKS 列表
+sudo iptables -t nat -N REDSOCKS
+sudo iptables -t nat -A OUTPUT -j REDSOCKS
+sudo iptables -t nat -I REDSOCKS -m owner --uid-owner redsocks -j RETURN
+# 内网地址不转发
+sudo iptables -t nat -A REDSOCKS -d 0.0.0.0/8 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 10.0.0.0/8 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 169.254.0.0/16 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 172.16.0.0/12 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 192.168.0.0/16 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 224.0.0.0/4 -j RETURN
+sudo iptables -t nat -A REDSOCKS -d 240.0.0.0/4 -j RETURN
+# 端口转发
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 80 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 443 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 993 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 465 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 22 -j REDIRECT --to-ports 12345
+sudo iptables -t nat -A REDSOCKS -p tcp --dport 8264 -j REDIRECT --to-ports 12345
+#+end_src
+
+4. 重启 Redsocks
+#+begin_src
+sudo /etc/init.d/redsocks restart
+#+end_src
+
+FAQ
+
+A. iptables 配置重启会失效，可保存在系统启动脚本之中或建立一个 Shell 脚本，方便每次执行。
