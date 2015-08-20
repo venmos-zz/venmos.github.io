@@ -14,7 +14,7 @@ Ubuntu Mate 是由 Ubuntu Gnome2 源代码派生出来的分支，由一群厌�
 Ubuntu Mate 已经支持树莓派 2，它比树莓派官方的 Debian 拥有更多的软件包，更加易于使用。比如：官方 Debian 不能正确识别 HHKB 键盘，Mate 则可以。官方 Debian 的 Fcitx 有后选词列表变黑框的 BUG，Mate 则没有，甚至 Mate 的默认源里还有 Rime 输入法。
 所以如果你想把树莓派 2 当作一台电脑使用，那么推荐安装 Ubuntu Mate。
 
-- Ubuntu Mate Download: [[hhttps://ubuntu-mate.org/vivid]]
+- Ubuntu Mate Download: [[https://ubuntu-mate.org/vivid]]
 
 将 Ubuntu Mate 镜像写入 MiniSD 卡之后，第一次启动系统会进入安装配置步骤，可以选择系统语言，所在地，创建新的用户密码等等。安装大概需要十几分种，安装完成之后会自动进入桌面。
 
