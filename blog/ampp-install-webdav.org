@@ -16,7 +16,7 @@
 
 干脆将 WebDAV 转移到新租的 Linode VPS 上算了.正好之前配置 WebDAV 和 SSL 的时候都是在 Apache 的官网上胡乱看完胡乱配置成的,这回好好记录下来以便将来翻阅.
 
-** Install WebDAV Apache2
+- Install WebDAV Apache2
 
 - 安装 apache2,php5 及相应的模块
 
@@ -33,7 +33,7 @@ $ sudo a2enmod dav_fssudo
 $ sudo a2enmod dav
 #+END_SRC
 
-** Create shared directory
+- Create shared directory
 
 - 创建需要共享的文件目录
 
@@ -49,7 +49,7 @@ $ sudo htpasswd -c /home/users/passwd.dav users
 $ sudo chmod 640 /home/users/passwd.dav
 #+END_SRC
 
-** Install SSL Apache2
+- Install SSL Apache2
 
 - 配置 Apache2 SSL:
 
@@ -58,7 +58,7 @@ $ sudo a2enmod ssl
 $ sudo openssl req -x509 -newkey rsa:1024 -keyout apache.pem -out apache.pem -nodes -days 999
 #+END_SRC
 
-** Virtual Sites SSL Configurations
+- Virtual Sites SSL Configurations
 
 - 添加配置文件:
 
