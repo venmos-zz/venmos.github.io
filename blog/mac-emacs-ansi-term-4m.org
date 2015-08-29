@@ -1,0 +1,24 @@
+#+TITLE:       OS X Emacs Ansi-term 4m
+#+AUTHOR:      venmos
+#+EMAIL:       venmos@macbook.local
+#+DATE:        2015-08-29 Sat
+#+URI:         /blog/%y/%m/%d/os-x-emacs-ansi-term-4m
+#+KEYWORDS:    osx, emacs, ansi-term, 4m
+#+TAGS:        emacs, osx,
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION: OS X Emacs Ansi-term 4m
+
+I use emacs-mac-ports, easy install to osx.
+
+#+BEGIN_SRC 
+$ brew tap railwaycat/emacsmacport
+$ brew install emacs-mac --with-spacemacs-icon
+#+END_SRC
+
+Emacs-mac-ports support for osx is more perfect. but it also has some small problems. such as ANSI-term will show 4m. u can run the following command is easy to deal with it.
+
+#+BEGIN_SRC
+$ tic -o ~/.terminfo /usr/local/Cellar/emacs-mac/emacs-24.5-z-mac-5.9/share/emacs/24.5/etc/e/eterm-color.ti 
+#+END_SRC
+

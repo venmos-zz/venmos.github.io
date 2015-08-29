@@ -4,7 +4,7 @@
 #+DATE:        2014-11-08
 #+URI:         /blog/%y/%m/%d/kindle-del-js
 #+KEYWORDS:    kindle, 批量, 删除,
-#+TAGS:        code,n
+#+TAGS:        code,
 #+LANGUAGE:    en
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 #+DESCRIPTION: kindle, 批量, 删除,
