@@ -4,10 +4,24 @@
     <title>Time Machine</title>
     <link>http://venmos.com/</link>
     <description>A website framework for hackers.</description>
-    <pubDate>Fri, 21 Aug 2015 01:35:01 CST</pubDate>
-    <lastBuildDate>Fri, 21 Aug 2015 01:35:01 CST</lastBuildDate>
+    <pubDate>Sat, 29 Aug 2015 20:05:36 CST</pubDate>
+    <lastBuildDate>Sat, 29 Aug 2015 20:05:36 CST</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Kindle 批量删除文章</title>
+      <link>http://venmos.com/blog/2014/11/08/kindle-del-js</link>
+      <description>kindle, 批量, 删除,</description>
+      <pubDate>2015-08-29</pubDate>
+      <guid>http://venmos.com/blog/2014/11/08/kindle-del-js</guid>
+    </item>
+    <item>
+      <title>OS X Emacs Ansi-term 4m</title>
+      <link>http://venmos.com/blog/2015/08/29/os-x-emacs-ansi-term-4m</link>
+      <description>OS X Emacs Ansi-term 4m</description>
+      <pubDate>2015-08-29</pubDate>
+      <guid>http://venmos.com/blog/2015/08/29/os-x-emacs-ansi-term-4m</guid>
+    </item>
     <item>
       <title>Ububtu 安装配置 Redsocks</title>
       <link>http://venmos.com/blog/2015/08/21/ububtu-install-config-redsocks</link>
@@ -28,13 +42,6 @@
       <description>树莓派 2 安装配置 Ubuntu Mate.</description>
       <pubDate>2015-08-20</pubDate>
       <guid>http://venmos.com/blog/2015/08/20/raspberry2-install-ubuntu-mate1</guid>
-    </item>
-    <item>
-      <title>在 Ubuntu 上配置 Apache2 的 WebDAV 并添加 SSL</title>
-      <link>http://venmos.com/blog/2012/04/08/ampp-install-webdav-ssl</link>
-      <description>apache2 安装 配置 webdav</description>
-      <pubDate>2015-08-19</pubDate>
-      <guid>http://venmos.com/blog/2012/04/08/ampp-install-webdav-ssl</guid>
     </item>
     <item>
       <title>AppleScript Syntax Vim</title>
@@ -70,13 +77,6 @@
       <description>更换 OSX 核心语言 英文</description>
       <pubDate>2015-08-19</pubDate>
       <guid>http://venmos.com/blog/2012/01/21/change-osx-lang-to-en</guid>
-    </item>
-    <item>
-      <title>被洗脑的爱国者</title>
-      <link>http://venmos.com/blog/2012/09/21/china-sb</link>
-      <description>被, 洗脑, 爱国</description>
-      <pubDate>2015-08-19</pubDate>
-      <guid>http://venmos.com/blog/2012/09/21/china-sb</guid>
     </item>
   </channel>
 </rss>
