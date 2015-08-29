@@ -33,7 +33,7 @@
 <h1>代码高亮测试</h1>
 <div class="org-src-container">
 
-<pre class="src src-python"><span style="color: #666666;">#</span><span style="color: #969896;">!/usr/bin/env python</span>
+<pre class="src src-python"><span style="color: #373C42;">#</span><span style="color: #969896;">!/usr/bin/env python</span>
 
 <span style="color: #b294bb;">import</span> re
 <span style="color: #b294bb;">import</span> urllib2
@@ -171,12 +171,12 @@
     upfile.close()
     downfile.close()
 
-<span style="color: #666666;">#    </span><span style="color: #969896;">up_vbs_wrapper=open('vpnup.vbs','w')</span>
-<span style="color: #666666;">#    </span><span style="color: #969896;">up_vbs_wrapper.write('Set objShell = CreateObject("Wscript.shell")\ncall objShell.Run("vpnup.bat",0,FALSE)')</span>
-<span style="color: #666666;">#    </span><span style="color: #969896;">up_vbs_wrapper.close()</span>
-<span style="color: #666666;">#    </span><span style="color: #969896;">down_vbs_wrapper=open('vpndown.vbs','w')</span>
-<span style="color: #666666;">#    </span><span style="color: #969896;">down_vbs_wrapper.write('Set objShell = CreateObject("Wscript.shell")\ncall objShell.Run("vpndown.bat",0,FALSE)')</span>
-<span style="color: #666666;">#    </span><span style="color: #969896;">down_vbs_wrapper.close()</span>
+<span style="color: #373C42;">#    </span><span style="color: #969896;">up_vbs_wrapper=open('vpnup.vbs','w')</span>
+<span style="color: #373C42;">#    </span><span style="color: #969896;">up_vbs_wrapper.write('Set objShell = CreateObject("Wscript.shell")\ncall objShell.Run("vpnup.bat",0,FALSE)')</span>
+<span style="color: #373C42;">#    </span><span style="color: #969896;">up_vbs_wrapper.close()</span>
+<span style="color: #373C42;">#    </span><span style="color: #969896;">down_vbs_wrapper=open('vpndown.vbs','w')</span>
+<span style="color: #373C42;">#    </span><span style="color: #969896;">down_vbs_wrapper.write('Set objShell = CreateObject("Wscript.shell")\ncall objShell.Run("vpndown.bat",0,FALSE)')</span>
+<span style="color: #373C42;">#    </span><span style="color: #969896;">down_vbs_wrapper.close()</span>
 
     <span style="color: #b294bb;">print</span> <span style="color: #b5bd68;">"For pptp on windows only, run vpnup.bat before dialing to vpn,"</span> \
           <span style="color: #b5bd68;">"and run vpndown.bat after disconnected from the vpn."</span>
@@ -221,7 +221,7 @@
 
 
 <span style="color: #b294bb;">def</span> <span style="color: #81a2be;">fetch_ip_data</span>():
-    <span style="color: #666666;">#</span><span style="color: #969896;">fetch data from apnic</span>
+    <span style="color: #373C42;">#</span><span style="color: #969896;">fetch data from apnic</span>
     <span style="color: #b294bb;">print</span> <span style="color: #b5bd68;">"Fetching data from apnic.net, it might take a few minutes, please wait..."</span>
     <span style="color: #8abeb7;">url</span>=r<span style="color: #b5bd68;">'http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest'</span>
     <span style="color: #8abeb7;">data</span>=urllib2.urlopen(url).read()
@@ -237,7 +237,7 @@
         <span style="color: #8abeb7;">num_ip</span>=<span style="color: #8abeb7;">int</span>(unit_items[4])
 
         <span style="color: #8abeb7;">imask</span>=0xffffffff^(num_ip-1)
-        <span style="color: #666666;">#</span><span style="color: #969896;">convert to string</span>
+        <span style="color: #373C42;">#</span><span style="color: #969896;">convert to string</span>
         <span style="color: #8abeb7;">imask</span>=<span style="color: #8abeb7;">hex</span>(imask)[2:]
         <span style="color: #8abeb7;">mask</span>=[0]*4
         <span style="color: #8abeb7;">mask</span>[0]=imask[0:2]
@@ -245,11 +245,11 @@
         <span style="color: #8abeb7;">mask</span>[2]=imask[4:6]
         <span style="color: #8abeb7;">mask</span>[3]=imask[6:8]
 
-        <span style="color: #666666;">#</span><span style="color: #969896;">convert str to int</span>
+        <span style="color: #373C42;">#</span><span style="color: #969896;">convert str to int</span>
         <span style="color: #8abeb7;">mask</span>=[ <span style="color: #8abeb7;">int</span>(i,16 ) <span style="color: #b294bb;">for</span> i <span style="color: #b294bb;">in</span> mask]
         <span style="color: #8abeb7;">mask</span>=<span style="color: #b5bd68;">"%d.%d.%d.%d"</span>%<span style="color: #8abeb7;">tuple</span>(mask)
 
-        <span style="color: #666666;">#</span><span style="color: #969896;">mask in *nix format</span>
+        <span style="color: #373C42;">#</span><span style="color: #969896;">mask in *nix format</span>
         <span style="color: #8abeb7;">mask2</span>=32-<span style="color: #8abeb7;">int</span>(math.log(num_ip,2))
 
         results.append((starting_ip,mask,mask2))

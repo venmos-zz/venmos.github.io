@@ -4,10 +4,17 @@
     <title>Time Machine</title>
     <link>http://venmos.com/</link>
     <description>A website framework for hackers.</description>
-    <pubDate>Sat, 29 Aug 2015 20:05:36 CST</pubDate>
-    <lastBuildDate>Sat, 29 Aug 2015 20:05:36 CST</lastBuildDate>
+    <pubDate>Sat, 29 Aug 2015 20:18:20 CST</pubDate>
+    <lastBuildDate>Sat, 29 Aug 2015 20:18:20 CST</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>在 Ubuntu 上配置 Apache2 的 WebDAV 并添加 SSL</title>
+      <link>http://venmos.com/blog/2012/04/08/ampp-install-webdav-ssl</link>
+      <description>apache2, 安装, 配置, webdav,</description>
+      <pubDate>2015-08-29</pubDate>
+      <guid>http://venmos.com/blog/2012/04/08/ampp-install-webdav-ssl</guid>
+    </item>
     <item>
       <title>Kindle 批量删除文章</title>
       <link>http://venmos.com/blog/2014/11/08/kindle-del-js</link>
@@ -70,13 +77,6 @@
       <description>更换 Blog 到 Org-Page</description>
       <pubDate>2015-08-19</pubDate>
       <guid>http://venmos.com/blog/change-blog-to-org-pages</guid>
-    </item>
-    <item>
-      <title>更换 OS X 核心语言为英文</title>
-      <link>http://venmos.com/blog/2012/01/21/change-osx-lang-to-en</link>
-      <description>更换 OSX 核心语言 英文</description>
-      <pubDate>2015-08-19</pubDate>
-      <guid>http://venmos.com/blog/2012/01/21/change-osx-lang-to-en</guid>
     </item>
   </channel>
 </rss>
